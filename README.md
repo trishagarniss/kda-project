@@ -16,9 +16,3 @@ Proyek ini dikembangkan sebagai Tugas Akhir/Projek Keamanan Data untuk mendemons
 *   `data/` - Direktori lokal untuk menyimulasikan *cloud storage* (menyimpan *ciphertext* dan file *upload* sementara).
 *   `notebooks/` - Jupyter Notebooks untuk pengujian dan purwarupa fungsi kriptografi.
 
-
-**4. Jalankan Server Web**
-
-```bash
-python frontend/app.py
-```
