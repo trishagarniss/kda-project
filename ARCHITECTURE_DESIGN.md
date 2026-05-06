@@ -85,15 +85,18 @@ Design a horizontal or vertical flowchart diagram showing full pipeline:
 
 **FLOW STEPS:**
 
-1. User Upload File
-2. SHA-256 Hash Generation
-3. Dynamic Key Generation (XOR)
-4. AES-256 Encryption
-5. Ciphertext Chunking (1KB blocks)
-6. Enhanced Merkle Tree Construction
-7. Merkle Root Generation
-8. Blockchain Storage
-9. Verification Process (Reverse Flow)
+1. User Upload File (Pengguna memilih file).
+2. SHA-256 Hash Generation (Mengekstrak Hash\_File dari dokumen asli).
+3. Deduplication Check (PENTING) ➔ Sistem mengecek Hash\_File di Cloud. Jika file sudah ada, cukup update hak milik (STOP). Jika file baru, lanjut ke Step 4.
+4. Dynamic Key Generation (XOR) (Peleburan Hash\_File + Prev\_Block\_Hash).
+5. AES-256-GCM Encryption (Mengubah file asli + Key + Nonce menjadi Ciphertext).
+6. Ciphertext Chunking (Memotong Ciphertext menjadi balok-balok 1KB).
+7. Enhanced Merkle Tree Construction (Melakukan hashing dari bawah ke atas pada setiap balok data).
+8. Merkle Root Generation (Menghasilkan 1 segel utama sepanjang 64 karakter).
+9. Hybrid Storage ➔ Data dipecah dua:
+Public Cloud: Menyimpan Ciphertext \& Nonce.
+Private Blockchain: Menyimpan Merkle Root, Hash\_File, \& Prev\_Hash.
+10. Verification Process (Smart Auditing) (Bukan sekadar Reverse Flow, melainkan: Prediksi Perilaku ➔ Ambil Chunk Acak ➔ Hitung Ulang Root ➔ Cocokkan dengan Blockchain).
 
 
 
@@ -285,8 +288,4 @@ A hybrid between technical documentation + interactive system diagram
 * Understand system in < 1 minute
 * Be impressed visually
 * Trust the system security
-
-
-
-
 
