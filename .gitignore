@@ -7,8 +7,8 @@ venv/
 .env/
 
 # Data
-data/uploads/
-data/encrypted/
+# data/uploads/
+# data/encrypted/
 
 # OS
 .DS_Store
