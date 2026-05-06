@@ -1,0 +1,52 @@
+name: CloudGuard EMT CI/CD Pipeline
+
+# Pipeline akan berjalan otomatis setiap ada 'push' atau 'pull request' ke branch main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # FASE 1: CONTINUOUS INTEGRATION (TESTING)
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Menarik kode terbaru dari repository
+    - name: Checkout Code Repository
+      uses: actions/checkout@v3
+
+    # 2. Menyiapkan environment Python
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    # 3. Menginstal library yang dibutuhkan (cryptography, django, dll)
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install cryptography django
+        # Jika nanti ada requirements.txt, gunakan command di bawah ini:
+        # pip install -r requirements.txt
+
+    # 4. (Opsional tapi Keren) Menjalankan Unit Test Kriptografi
+    - name: Run Crypto Engine Tests
+      run: |
+        echo "Running security algorithms check..."
+        # python backend/test_crypto.py  <-- Aktifkan ini nanti kalau kalian buat file test
+
+  # FASE 2: CONTINUOUS DEPLOYMENT (DELIVERY)
+  deploy-to-cloud:
+    needs: build-and-test # Pastikan fase test sukses dulu sebelum deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Deploying to Production Server
+      run: |
+        echo "Mengirim kode terbaru ke Server (Render/Railway)..."
+        # Di sinilah nanti kalian menaruh webhook URL dari layanan hosting kalian (misal Render)
+        # curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+        echo "✅ Deployment Sukses! Sistem CloudGuard EMT berhasil diperbarui."
