@@ -16,31 +16,3 @@ Proyek ini dikembangkan sebagai Tugas Akhir/Projek Keamanan Data untuk mendemons
 *   `data/` - Direktori lokal untuk menyimulasikan *cloud storage* (menyimpan *ciphertext* dan file *upload* sementara).
 *   `notebooks/` - Jupyter Notebooks untuk pengujian dan purwarupa fungsi kriptografi.
 
-## 🚀 Cara Menjalankan Aplikasi (Local Environment)
-
-Pastikan Python 3.8+ sudah terinstal di sistem Anda (sangat direkomendasikan menggunakan environment Linux/WSL untuk performa optimal).
-
-**1. Clone Repositori & Masuk ke Direktori**
-```bash
-git clone https://github.com/username/KDA-PROJECT.git
-cd KDA-PROJECT
-```
-
-**2. Buat Virtual Environment & Aktivasi**
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-**3. Instal Dependensi**
-
-```bash
-pip install -r requirements.txt
-```
-
-**4. Jalankan Server Web**
-
-```bash
-python frontend/app.py
-```
