@@ -154,6 +154,34 @@ AES Key = SHA256(File) ⊕ Previous Block Hash
 
 
 
+The formula must be displayed using a monospace font (JetBrains Mono) and visually highlighted inside a dedicated code-style container.
+
+
+
+Apply:
+
+\- Slight background contrast (darker panel)
+
+\- Cyan or emerald glow
+
+\- Center alignment
+
+
+
+Example visual emphasis:
+
+\[AES Key = SHA256(File) ⊕ Previous Block Hash]
+
+
+
+Additionally:
+
+\- Animate the XOR operation (optional)
+
+\- Show two inputs merging into one output
+
+
+
 **Add explanation:**
 
 * XOR operation creates unique key per file

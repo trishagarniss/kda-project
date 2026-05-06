@@ -206,7 +206,6 @@ Short bold statement:
 * Link ke About
 * Logo GitHub link ke repo pembuatan
 * Short description
-* Tech stack (Python, Flask, Tailwind)
 * Copyright
 
 

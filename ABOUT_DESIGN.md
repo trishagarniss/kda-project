@@ -210,6 +210,40 @@ PostgreSQL (Supabase) → blockchain metadata
 
 Supabase Storage → ciphertext storage
 
+
+
+Visually separate Database and Storage into two distinct panels:
+
+
+
+LEFT PANEL:
+
+Title: "Relational Database (Blockchain Ledger)"
+
+Content:
+
+\- PostgreSQL (Supabase)
+
+\- Stores: Merkle Root, File Hash, Previous Hash, Metadata
+
+
+
+RIGHT PANEL:
+
+Title: "Cloud Object Storage (Ciphertext Vault)"
+
+Content:
+
+\- Supabase Storage
+
+\- Stores: Encrypted files (Ciphertext) and Nonce
+
+
+
+Add a visual arrow or data flow between them to show hybrid storage architecture.
+
+
+
 psycopg2-binary, supabase-py
 
 

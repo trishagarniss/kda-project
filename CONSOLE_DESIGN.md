@@ -247,6 +247,30 @@ Status: VERIFIED
 
 
 
+* Before triggering the Merkle Root mismatch, display a short terminal-like animation:
+
+
+
+"Injecting bad payload to Supabase Storage..."
+
+
+
+* The text should appear with a typing effect, simulating a real system-level attack on external cloud storage.
+
+
+
+* After the animation completes:
+
+\- Merkle Root turns red
+
+\- Integrity status changes to "COMPROMISED"
+
+\- Blockchain log updates with a tampered entry
+
+
+
+
+
 **🧠 OUTPUT ALERT BOX**
 
 Dynamic alert box:
