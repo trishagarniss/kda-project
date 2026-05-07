@@ -11,6 +11,13 @@ class SecureDocument(models.Model):
     block_index = models.IntegerField(help_text="Posisi blok di dalam rantai Blockchain")
     prev_hash = models.CharField(max_length=64, help_text="Hash dari blok sebelumnya")
     
+    # Audit & Status
+    status_verifikasi = models.CharField(
+        max_length=20, 
+        default="PENDING", 
+        choices=[("VALID", "Valid"), ("CORRUPTED", "Corrupted"), ("PENDING", "Pending")]
+    )
+    
     ciphertext_path = models.CharField(max_length=500, help_text="Lokasi file .bin yang sudah dienkripsi")
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
