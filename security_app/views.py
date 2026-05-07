@@ -5,11 +5,11 @@ from .models import SecureDocument
 
 # Import mesin kriptografi kalian dari folder core_engine
 from .core_engine.crypto_aes import encrypt_file, hash_file, generate_dynamic_key
-from .core_engine.blockchain_sim import Blockchain
+from .core_engine.blockchain_sim import Blockchain, Block
 from .core_engine.merkle_tree import build_merkle_tree, verify_data_integrity
 
 # Inisialisasi Blockchain CloudGuard
-cloudguard_chain = Blockchain()
+# cloudguard_chain = Blockchain()
 
 @csrf_exempt
 def upload_and_secure(request):
@@ -34,29 +34,38 @@ def upload_and_secure(request):
                 "status": "Gagal",
                 "message": "File ini sudah pernah diamankan di dalam sistem CloudGuard EMT!"
             }, status=400)
+            
+        last_doc = SecureDocument.objects.order_by('-block_index').first()
+
+        if last_doc:
+            prev_hash = last_doc.file_hash 
+            next_index = last_doc.block_index + 1
+        else:
+            prev_hash = "0" * 64
+            next_index = 1
         
-        prev_hash = cloudguard_chain.get_last_block().block_hash
+        # 3. Proses Kriptografi
         key = generate_dynamic_key(file_hash, prev_hash)
         
         os.makedirs("media/encrypted_vault", exist_ok=True)
         encrypted_path = f"media/encrypted_vault/{file_name}.bin"
         encrypt_file(temp_path, key, encrypted_path)
         
-        # 3. Hitung Merkle Root Asli
+        # 4. Hitung Merkle Root
         merkle_root = build_merkle_tree(encrypted_path)
         
-        # 4. Catat ke Blockchain
-        new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
+        # Catat ke Blockchain
+        # new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
         
         # 5. Simpan ke Supabase (Merespon: Tambah field baru)
         doc_record = SecureDocument.objects.create(
             file_name=file_name,
             file_size=file_size,
-            file_hash=new_block.file_hash,
-            merkle_root=new_block.merkle_root,
-            block_index=new_block.index,
-            prev_hash=new_block.prev_hash,
-            ciphertext_path=new_block.ciphertext_path,
+            file_hash=file_hash,
+            merkle_root=merkle_root,
+            block_index=next_index,   # Pakai index dari database
+            prev_hash=prev_hash,      # Pakai hash dari database
+            ciphertext_path=encrypted_path,
             status_verifikasi="VALID" 
         )
         
@@ -65,21 +74,21 @@ def upload_and_secure(request):
             
         return JsonResponse({
             "status": "Sukses",
-            "message": "File berhasil diamankan oleh CloudGuard EMT!",
+            "message": "File berhasil diamankan dengan sinkronisasi blockchain permanen!",
             "data": {
                 "database_id": doc_record.id,
                 "file_name": file_name,
                 "file_size_bytes": file_size,
                 "kriptografi": {
-                    "file_hash": new_block.file_hash,
-                    "merkle_root": new_block.merkle_root,
+                    "file_hash": file_hash,
+                    "merkle_root": merkle_root,
                 },
                 "blockchain": {
-                    "block_index": new_block.index,
-                    "prev_hash": new_block.prev_hash,
+                    "block_index": next_index,
+                    "prev_hash": prev_hash,
                 },
                 "penyimpanan": {
-                    "ciphertext_path": new_block.ciphertext_path,
+                    "ciphertext_path": encrypted_path,
                     "status_verifikasi": "VALID"
                 }
             }
@@ -116,3 +125,47 @@ def audit_document(request, doc_id):
                 "status": "Gagal",
                 "message": "Dokumen tidak ditemukan di database."
             }, status=404)
+            
+@csrf_exempt
+def get_all_documents(request):
+    if request.method == 'GET':
+        documents = SecureDocument.objects.all().order_by('-uploaded_at')
+        
+        data_list = []
+        for doc in documents:
+            data_list.append({
+                "id": doc.id,
+                "file_name": doc.file_name,
+                "file_size_bytes": doc.file_size,
+                "block_index": doc.block_index,
+                "status_verifikasi": doc.status_verifikasi,
+                "uploaded_at": doc.uploaded_at.strftime("%Y-%m-%d %H:%M:%S") 
+            })
+            
+        return JsonResponse({
+            "status": "Sukses",
+            "total_data": len(data_list),
+            "data": data_list
+        })
+        
+@csrf_exempt
+def audit_network_integrity(request):
+    if request.method == 'GET':
+        docs = list(SecureDocument.objects.all().order_by('block_index'))
+        
+        is_safe = True
+        
+        if len(docs) > 1:
+            for i in range(1, len(docs)):
+                current_doc = docs[i]
+                previous_doc = docs[i-1]
+                
+                if current_doc.prev_hash != previous_doc.file_hash:
+                    is_safe = False
+                    break
+        
+        return JsonResponse({
+            "status": "Sukses",
+            "network_integrity": "SECURE" if is_safe else "COMPROMISED",
+            "message": "Seluruh urutan blok valid dan tidak termanipulasi." if is_safe else "Peringatan! Rantai blok terputus!"
+        })
