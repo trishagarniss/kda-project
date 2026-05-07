@@ -6,7 +6,7 @@ from .models import SecureDocument
 # Import mesin kriptografi kalian dari folder core_engine
 from .core_engine.crypto_aes import encrypt_file, hash_file, generate_dynamic_key
 from .core_engine.blockchain_sim import Blockchain
-from .core_engine.merkle_tree import build_merkle_tree
+from .core_engine.merkle_tree import build_merkle_tree, verify_data_integrity
 
 # Inisialisasi Blockchain CloudGuard
 cloudguard_chain = Blockchain()
@@ -77,3 +77,33 @@ def upload_and_secure(request):
         })
         
     return JsonResponse({"error": "Harap kirimkan file melalui metode POST dengan key 'document'."}, status=400)
+
+@csrf_exempt
+def audit_document(request, doc_id):
+    if request.method == 'GET':
+        try:
+            # 1. Cari dokumen di database berdasarkan ID
+            doc_record = SecureDocument.objects.get(id=doc_id)
+            
+            # 2. Jalankan mesin audit Merkle Tree
+            audit_result = verify_data_integrity(doc_record.ciphertext_path, doc_record.merkle_root)
+            
+            # 3. Update status verifikasi di database
+            if audit_result['is_valid']:
+                doc_record.status_verifikasi = "VALID"
+            else:
+                doc_record.status_verifikasi = "CORRUPTED"
+            doc_record.save() # Simpan perubahan ke Supabase
+            
+            # 4. Kirim hasil ke Frontend
+            return JsonResponse({
+                "status": "Sukses",
+                "file_name": doc_record.file_name,
+                "audit_detail": audit_result
+            })
+            
+        except SecureDocument.DoesNotExist:
+            return JsonResponse({
+                "status": "Gagal",
+                "message": "Dokumen tidak ditemukan di database."
+            }, status=404)
