@@ -37,7 +37,7 @@ def upload_and_secure(request):
         encrypt_file(temp_path, key, encrypted_path)
         
         # 3. Catat ke Blockchain (Domain Evan)
-        # (Sementara Merkle Root pakai file_hash dulu sampai modul Jimly jadi)
+        # (Sementara Merkle Root pakai file_hash, tunggu modul Jimly jadi)
         merkle_root = file_hash 
         new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
         
