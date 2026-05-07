@@ -26,6 +26,15 @@ def upload_and_secure(request):
                 
         # 2. Proses Kriptografi 
         file_hash = hash_file(temp_path)
+        
+        if SecureDocument.objects.filter(file_hash=file_hash).exists():
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+            return JsonResponse({
+                "status": "Gagal",
+                "message": "File ini sudah pernah diamankan di dalam sistem CloudGuard EMT!"
+            }, status=400)
+        
         prev_hash = cloudguard_chain.get_last_block().block_hash
         key = generate_dynamic_key(file_hash, prev_hash)
         
