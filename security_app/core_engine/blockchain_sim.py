@@ -1,11 +1,11 @@
 import hashlib
 import time
 import json
-
+from typing import List, Dict, Any
 
 # BLOCK STRUCTURE
 class Block:
-    def __init__(self, index, file_hash, merkle_root, prev_hash, ciphertext_path):
+    def __init__(self, index: int, file_hash: str, merkle_root: str, prev_hash: str, ciphertext_path: str):
         self.index = index
         self.timestamp = time.time()
         self.file_hash = file_hash
@@ -14,11 +14,19 @@ class Block:
         self.ciphertext_path = ciphertext_path
         self.block_hash = self.calculate_hash()
 
-    def calculate_hash(self):
-        data = f"{self.index}{self.timestamp}{self.file_hash}{self.merkle_root}{self.prev_hash}{self.ciphertext_path}"
-        return hashlib.sha256(data.encode()).hexdigest()
+    def calculate_hash(self) -> str:
+        block_data = {
+            "index": self.index,
+            "timestamp": self.timestamp,
+            "file_hash": self.file_hash,
+            "merkle_root": self.merkle_root,
+            "prev_hash": self.prev_hash,
+            "ciphertext_path": self.ciphertext_path
+        }
+        data_string = json.dumps(block_data, sort_keys=True)
+        return hashlib.sha256(data_string.encode()).hexdigest()
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         return {
             "index": self.index,
             "timestamp": self.timestamp,
@@ -29,11 +37,10 @@ class Block:
             "block_hash": self.block_hash
         }
 
-
 # BLOCKCHAIN ENGINE
 class Blockchain:
     def __init__(self):
-        self.chain = []
+        self.chain: List[Block] = []
         self.create_genesis_block()
 
     def create_genesis_block(self):
@@ -46,10 +53,10 @@ class Blockchain:
         )
         self.chain.append(genesis_block)
 
-    def get_last_block(self):
+    def get_last_block(self) -> Block:
         return self.chain[-1]
 
-    def add_block(self, file_hash, merkle_root, ciphertext_path):
+    def add_block(self, file_hash: str, merkle_root: str, ciphertext_path: str) -> Block:
         prev_block = self.get_last_block()
 
         new_block = Block(
