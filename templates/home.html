@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+
+{% block title %}CloudGuard EMT - Cyber Security Platform{% endblock %}
+
+{% block content %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    /* Tooltip & Animations CSS */
+    .pipeline-line {
+        position: relative;
+    }
+    .pipeline-line::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, transparent, #06B6D4, transparent);
+        background-size: 200% 100%;
+        animation: flow 2s linear infinite;
+        z-index: -1;
+        opacity: 0.3;
+    }
+    @keyframes flow {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
+    }
+    .pipeline-flow-anim {
+        background-size: 200% 100%;
+        animation: flow 3s linear infinite;
+    }
+    .typed-cursor { color: #10B981 !important; font-size: 1.2em; }
+</style>
+
+<div id="particles-js" class="fixed inset-0 z-[-1] opacity-40 pointer-events-none"></div>
+
+<section class="pt-32 pb-24 text-center relative z-10 w-full overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
+    
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
+    
+    <div class="max-w-5xl mx-auto relative z-10 px-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-mono text-xs mb-8">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            System Integrity Active
+        </div>
+
+        <h1 class="font-display text-5xl md:text-7xl font-bold text-heading leading-tight mb-6 tracking-tight">
+            Secure Your <span class="text-primary drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]">Cloud Data</span><br/>
+            with Intelligent Cryptography
+        </h1>
+        
+        <div class="h-8 mb-10">
+            <p class="text-lg md:text-xl text-body font-mono"><span id="typed-subtitle"></span></p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10" data-aos="fade-up" data-aos-delay="300">
+            <a href="/console/" class="w-full sm:w-auto px-8 py-4 bg-primary text-background font-bold rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:-translate-y-1 transition-all duration-300">
+                Launch Console
+            </a>
+            <a href="/architecture/" class="w-full sm:w-auto px-8 py-4 bg-transparent text-secondary border border-secondary font-bold rounded-xl hover:bg-secondary/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
+                View Architecture
+            </a>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-8 mt-16 text-muted font-mono text-xs" data-aos="fade-in" data-aos-delay="600">
+            <div class="flex items-center gap-2"><span class="text-secondary">✓</span> AES-256 Protected</div>
+            <div class="flex items-center gap-2"><span class="text-secondary">✓</span> SHA-256 Verified</div>
+            <div class="flex items-center gap-2"><span class="text-secondary">✓</span> Blockchain Synced</div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">The Vulnerability Gap</h2>
+        <p class="text-body mt-4 max-w-2xl mx-auto">Standard cloud storage leaves critical attack vectors open.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="group bg-surface p-8 rounded-2xl border border-border transition-all duration-300 hover:border-danger hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] hover:-translate-y-2 cursor-crosshair" data-aos="fade-up" data-aos-delay="100">
+            <svg class="w-8 h-8 text-danger mb-4 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-lg mb-2">Data Breach</h3>
+            <p class="text-body text-sm leading-relaxed">Static encryption keys make data highly vulnerable if the central server is compromised.</p>
+        </div>
+        <div class="group bg-surface p-8 rounded-2xl border border-border transition-all duration-300 hover:border-danger hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] hover:-translate-y-2 cursor-crosshair" data-aos="fade-up" data-aos-delay="200">
+            <svg class="w-8 h-8 text-danger mb-4 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-lg mb-2">Silent Tampering</h3>
+            <p class="text-body text-sm leading-relaxed">Malicious actors can alter database entries without triggering traditional security alerts.</p>
+        </div>
+        <div class="group bg-surface p-8 rounded-2xl border border-border transition-all duration-300 hover:border-danger hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] hover:-translate-y-2 cursor-crosshair" data-aos="fade-up" data-aos-delay="300">
+            <svg class="w-8 h-8 text-danger mb-4 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-lg mb-2">Integrity Failure</h3>
+            <p class="text-body text-sm leading-relaxed">Auditing massive cloud files requires expensive downloads, making constant verification impossible.</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">Core System Power</h2>
+        <p class="text-body mt-4 max-w-2xl mx-auto">Engineered for zero-trust environments.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-2 transition-all duration-300" data-aos="zoom-in" data-aos-delay="100">
+            <div class="mb-5 text-muted group-hover:text-primary group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300 w-fit">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                </svg>
+            </div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Dynamic AES</h3>
+            <p class="text-body text-sm leading-relaxed mb-4 transition-all overflow-hidden">Keys are never stored statically. Generated on-the-fly using Hash XOR logic.</p>
+        </div>
+        
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-2 transition-all duration-300" data-aos="zoom-in" data-aos-delay="200">
+            <div class="mb-5 text-muted group-hover:text-primary group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300 w-fit">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7V5m0 2l-2 2m2-2l2 2m8 9v-2m0 2l-2-2m2 2l2-2"></path>
+                </svg>
+            </div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Enhanced Merkle</h3>
+            <p class="text-body text-sm leading-relaxed mb-4">Files chunked and hierarchically hashed. Validates integrity without downloading the payload.</p>
+        </div>
+
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-2 transition-all duration-300" data-aos="zoom-in" data-aos-delay="300">
+            <div class="mb-5 text-muted group-hover:text-primary group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300 w-fit">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+            </div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Blockchain Ledger</h3>
+            <p class="text-body text-sm leading-relaxed mb-4">Every Merkle Root is securely anchored to an immutable block chain, preventing historic tampering.</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-20" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">System Pipeline</h2>
+        <p class="text-body mt-4 text-sm max-w-2xl mx-auto">End-to-end cryptographic processing workflow. Hover over modules to inspect.</p>
+    </div>
+    
+    <div class="w-full max-w-[1300px] mx-auto px-6 relative" data-aos="fade-in" data-aos-delay="200">
+        
+        <div class="hidden lg:block absolute top-1/2 left-[5%] right-[5%] h-[2px] bg-border/50 -translate-y-1/2 z-0 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-transparent via-secondary to-transparent w-[200%] pipeline-flow-anim opacity-70"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2 lg:gap-0 relative z-10">
+            
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-secondary hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-secondary group-hover:shadow-[0_0_8px_#06B6D4] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 01</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-secondary transition-colors">Upload</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    File ingested into secure memory buffer.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-secondary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-warning hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-warning group-hover:shadow-[0_0_8px_#F59E0B] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 02</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-warning transition-colors">Hash</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    SHA-256 baseline generation.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-warning transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-secondary/50 p-4 rounded-xl hover:border-secondary hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_#06B6D4] group-hover:animate-ping transition-all"></div>
+                    <span class="text-[10px] font-mono text-secondary uppercase tracking-widest">Step 03</span>
+                </div>
+                <h3 class="font-display font-bold text-secondary text-sm transition-colors">XOR Logic</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Dynamic key synthesis via Hash XOR.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-secondary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-secondary hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-secondary group-hover:shadow-[0_0_8px_#06B6D4] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 04</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-secondary transition-colors">AES-256</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Symmetric ciphertext encryption.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-warning transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-warning hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-warning group-hover:shadow-[0_0_8px_#F59E0B] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 05</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-warning transition-colors">Chunking</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Data block splitting for tree structure.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-primary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-primary/50 p-4 rounded-xl hover:border-primary hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#10B981] group-hover:animate-ping transition-all"></div>
+                    <span class="text-[10px] font-mono text-primary uppercase tracking-widest">Step 06</span>
+                </div>
+                <h3 class="font-display font-bold text-primary text-sm transition-colors">Merkle Tree</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Hierarchical root hash validation.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-primary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-primary hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-primary group-hover:shadow-[0_0_8px_#10B981] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 07</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-primary transition-colors">Anchor</h3>
+                <div class="absolute lg:-bottom-20 lg:right-0 lg:left-auto lg:translate-x-0 bottom-full right-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Stored to Cloud Vault & Blockchain Ledger.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-24 text-center relative z-10 overflow-hidden" data-aos="zoom-in">
+    <div class="max-w-4xl mx-auto bg-surface/30 border border-border p-12 rounded-2xl backdrop-blur-sm shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] relative z-10 group">
+        <div class="relative w-fit mx-auto mb-6">
+            <svg class="w-12 h-12 text-primary opacity-80 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+        </div>
+
+        <h2 class="font-display text-3xl md:text-5xl font-bold text-heading leading-tight transition-transform duration-500 group-hover:scale-[1.01]">
+            Even a <span class="text-danger drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(239,68,68,0.8)] transition-all">single bit modification</span><br>
+            will <span class="text-warning drop-shadow-[0_0_15px_rgba(245,158,11,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(245,158,11,0.8)] transition-all">invalidate</span> the integrity chain.
+        </h2>
+        
+        <div class="mt-8 flex justify-center gap-2 opacity-30">
+            <div class="w-16 h-[1px] bg-gradient-to-r from-transparent to-primary"></div>
+            <div class="w-2 h-2 rounded-full border border-primary animate-ping"></div>
+            <div class="w-16 h-[1px] bg-gradient-to-l from-transparent to-primary"></div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+<script>
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    AOS.init({ once: true, offset: 50, duration: 800 });
+
+    new Typed('#typed-subtitle', {
+        strings: [
+            'Dynamic AES Encryption Initialized...',
+            'Enhanced Merkle Tree Verified...',
+            'Blockchain Integrity Active...',
+            'Zero-Trust Architecture Deployed.'
+        ],
+        typeSpeed: 50, backSpeed: 20, backDelay: 2000, loop: true
+    });
+
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 40, density: { enable: true, value_area: 800 } },
+            color: { value: ["#10B981", "#06B6D4"] },
+            opacity: { value: 0.6, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#10B981", opacity: 0.25, width: 1 },
+            move: { enable: true, speed: 1, direction: "none", random: true, out_mode: "out" }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } },
+            modes: { grab: { distance: 180, line_linked: { opacity: 0.7 } } }
+        },
+        retina_detect: true
+    });
+</script>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from supabase import create_client, Client
 from .models import SecureDocument
+from django.shortcuts import render
 
 # Import mesin kriptografi kalian dari folder core_engine
 from .core_engine.crypto_aes import encrypt_file, hash_file, generate_dynamic_key, decrypt_file
@@ -247,3 +248,16 @@ def download_decrypted_file(request, doc_id):
                 "status": "Gagal", 
                 "message": f"Terjadi kesalahan saat dekripsi: {str(e)}"
             }, status=500)
+            
+def home_view(request):
+    return render(request, 'home.html')
+
+def console_view(request):
+    documents = SecureDocument.objects.all().order_by('-uploaded_at')
+    
+    context = {
+        'documents': documents,
+        'total_files': documents.count(),
+        'corrupted_count': documents.filter(status_verifikasi="CORRUPTED").count(),
+    }
+    return render(request, 'console.html', context)
