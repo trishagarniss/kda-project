@@ -174,37 +174,36 @@ def audit_network_integrity(request):
 def download_decrypted_file(request, doc_id):
     if request.method == 'GET':
         try:
-            # 1. Cari data di database
             doc_record = SecureDocument.objects.get(id=doc_id)
             
-            # 2. Cek apakah file fisiknya (yang terenkripsi) masih ada di server
             if not os.path.exists(doc_record.ciphertext_path):
                 return JsonResponse({"status": "Gagal", "message": "File fisik tidak ditemukan di brankas server."}, status=404)
             
-            # 3. RACIK ULANG KUNCI ENKRIPSI (Dynamic Key)
             key = generate_dynamic_key(doc_record.file_hash, doc_record.prev_hash)
             
-            # 4. Siapkan path untuk file hasil dekripsi sementara
             os.makedirs("media/decrypted_vault", exist_ok=True)
             decrypted_path = f"media/decrypted_vault/temp_{doc_record.file_name}"
             
-            # 5. Jalankan mesin dekripsi AES
             decrypt_file(doc_record.ciphertext_path, key, decrypted_path)
             
-            # 6. Baca file yang sudah kembali normal ke dalam memori
             with open(decrypted_path, 'rb') as f:
                 file_data = f.read()
                 
-            # 7. Hapus file sementara tersebut agar server tetap bersih dan aman
             if os.path.exists(decrypted_path):
                 os.remove(decrypted_path)
                 
-            # 8. Kirim file ke pengguna sebagai format Download
             response = HttpResponse(file_data, content_type='application/octet-stream')
             response['Content-Disposition'] = f'attachment; filename="{doc_record.file_name}"'
             return response
             
         except SecureDocument.DoesNotExist:
-            return JsonResponse({"status": "Gagal", "message": "Dokumen tidak ditemukan di database."}, status=404)
+            return JsonResponse({
+                "status": "Gagal", 
+                "message": "Dokumen tidak ditemukan di database."
+            }, status=404)
+            
         except Exception as e:
-            return JsonResponse({"status": "Gagal", "message": f"Terjadi kesalahan saat dekripsi: {str(e)}"}, status=500)
+            return JsonResponse({
+                "status": "Gagal", 
+                "message": f"Terjadi kesalahan saat dekripsi: {str(e)}"
+            }, status=500)
