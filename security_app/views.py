@@ -1,6 +1,8 @@
 import os
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from supabase import create_client, Client
 from .models import SecureDocument
 
 # Import mesin kriptografi kalian dari folder core_engine
@@ -8,7 +10,10 @@ from .core_engine.crypto_aes import encrypt_file, hash_file, generate_dynamic_ke
 from .core_engine.blockchain_sim import Blockchain, Block
 from .core_engine.merkle_tree import build_merkle_tree, verify_data_integrity
 
-# Inisialisasi Blockchain CloudGuard
+# Inisialisasi Supabase Client
+supabase: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+
+# Inisialisasi Blockchain
 # cloudguard_chain = Blockchain()
 
 @csrf_exempt
@@ -47,17 +52,25 @@ def upload_and_secure(request):
         # 3. Proses Kriptografi
         key = generate_dynamic_key(file_hash, prev_hash)
         
-        os.makedirs("media/encrypted_vault", exist_ok=True)
-        encrypted_path = f"media/encrypted_vault/{file_name}.bin"
-        encrypt_file(temp_path, key, encrypted_path)
+        # Simpan file terenkripsi sementara di lokal sblm dilempar ke cloud
+        encrypted_temp_path = f"temp_enc_{file_name}.bin"
+        encrypt_file(temp_path, key, encrypted_temp_path)
         
         # 4. Hitung Merkle Root
-        merkle_root = build_merkle_tree(encrypted_path)
+        merkle_root = build_merkle_tree(encrypted_temp_path)
         
         # Catat ke Blockchain
         # new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
         
-        # 5. Simpan ke Supabase (Merespon: Tambah field baru)
+        # 5. Upload ke Supabase Storage
+        file_name_supa = f"{file_name}.bin"
+        supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
+            path=file_name_supa,
+            file=encrypted_temp_path,
+            file_options={"content-type": "application/octet-stream"}
+        )
+        
+        # 6. Simpan Metadata ke DB
         doc_record = SecureDocument.objects.create(
             file_name=file_name,
             file_size=file_size,
@@ -65,12 +78,15 @@ def upload_and_secure(request):
             merkle_root=merkle_root,
             block_index=next_index,   # Pakai index dari database
             prev_hash=prev_hash,      # Pakai hash dari database
-            ciphertext_path=encrypted_path,
+            ciphertext_path=file_name_supa,
             status_verifikasi="VALID" 
         )
         
         if os.path.exists(temp_path):
             os.remove(temp_path)
+            
+        if os.path.exists(encrypted_temp_path): 
+            os.remove(encrypted_temp_path)
             
         return JsonResponse({
             "status": "Sukses",
@@ -88,7 +104,7 @@ def upload_and_secure(request):
                     "prev_hash": prev_hash,
                 },
                 "penyimpanan": {
-                    "ciphertext_path": encrypted_path,
+                    "ciphertext_path": file_name_supa,
                     "status_verifikasi": "VALID"
                 }
             }
@@ -100,11 +116,24 @@ def upload_and_secure(request):
 def audit_document(request, doc_id):
     if request.method == 'GET':
         try:
-            # 1. Cari dokumen di database berdasarkan ID
             doc_record = SecureDocument.objects.get(id=doc_id)
             
+            # 1. Download file .bin dari Supabase Storage ke temp lokal
+            temp_audit_path = f"temp_audit_{doc_record.file_name}.bin"
+            try:
+                res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc_record.ciphertext_path)
+                with open(temp_audit_path, 'wb+') as f:
+                    f.write(res)
+            except Exception:
+                return JsonResponse({
+                    "status": "Gagal", 
+                    "message": "File fisik tidak ditemukan di Cloud Storage."
+                }, status=404)
+            
             # 2. Jalankan mesin audit Merkle Tree
-            audit_result = verify_data_integrity(doc_record.ciphertext_path, doc_record.merkle_root)
+            audit_result = verify_data_integrity(temp_audit_path, doc_record.merkle_root)
+            
+            if os.path.exists(temp_audit_path): os.remove(temp_audit_path)
             
             # 3. Update status verifikasi di database
             if audit_result['is_valid']:
@@ -176,21 +205,32 @@ def download_decrypted_file(request, doc_id):
         try:
             doc_record = SecureDocument.objects.get(id=doc_id)
             
-            if not os.path.exists(doc_record.ciphertext_path):
-                return JsonResponse({"status": "Gagal", "message": "File fisik tidak ditemukan di brankas server."}, status=404)
+            temp_cipher_path = f"temp_cipher_{doc_record.file_name}.bin"
+            try:
+                res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc_record.ciphertext_path)
+                with open(temp_cipher_path, 'wb+') as f:
+                    f.write(res)
+            except Exception:
+                return JsonResponse({
+                    "status": "Gagal", 
+                    "message": "File fisik tidak ditemukan di Cloud Storage."
+                }, status=404)
             
             key = generate_dynamic_key(doc_record.file_hash, doc_record.prev_hash)
             
             os.makedirs("media/decrypted_vault", exist_ok=True)
             decrypted_path = f"media/decrypted_vault/temp_{doc_record.file_name}"
             
-            decrypt_file(doc_record.ciphertext_path, key, decrypted_path)
+            decrypt_file(temp_cipher_path, key, decrypted_path)
             
             with open(decrypted_path, 'rb') as f:
                 file_data = f.read()
                 
-            if os.path.exists(decrypted_path):
+            if os.path.exists(decrypted_path): 
                 os.remove(decrypted_path)
+                
+            if os.path.exists(temp_cipher_path): 
+                os.remove(temp_cipher_path)
                 
             response = HttpResponse(file_data, content_type='application/octet-stream')
             response['Content-Disposition'] = f'attachment; filename="{doc_record.file_name}"'

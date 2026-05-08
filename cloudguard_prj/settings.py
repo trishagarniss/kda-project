@@ -141,3 +141,8 @@ MEDIA_ROOT = BASE_DIR / 'media' # Lokasi file ciphertext (.bin) disimpan sementa
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Supabase Configuration
+SUPABASE_URL = "https://vnokqhoitviwmqugutmd.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZub2txaG9pdHZpd21xdWd1dG1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwNzM2ODcsImV4cCI6MjA5MzY0OTY4N30.74zMi6DwUoBI6M_PGgtou8aph2EaMMlhU1zKjzPZ_UY"
+SUPABASE_BUCKET = "cloudguard-vault"
