@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}CloudGuard EMT - Cyber Security Platform{% endblock %}
+
+{% block content %}
+<section class="pt-32 pb-24 text-center max-w-4xl mx-auto relative">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 blur-[100px] rounded-full pointer-events-none"></div>
+    
+    <h1 class="font-display text-5xl md:text-7xl font-bold text-heading leading-tight mb-6 tracking-tight relative z-10">
+        Secure Your <span class="text-primary drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]">Cloud Data</span><br/> with Intelligent Cryptography
+    </h1>
+    
+    <p class="text-lg md:text-xl text-body mb-10 max-w-2xl mx-auto leading-relaxed relative z-10">
+        Dynamic AES encryption combined with Enhanced Merkle Tree ensures data confidentiality, integrity, and tamper-proof verification.
+    </p>
+    
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
+        <a href="/console" class="w-full sm:w-auto px-8 py-4 bg-primary text-background font-bold rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:-translate-y-1 transition-all duration-300">
+            Launch Console
+        </a>
+        <a href="/architecture" class="w-full sm:w-auto px-8 py-4 bg-transparent text-secondary border border-secondary font-bold rounded-xl hover:bg-secondary/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
+            View Architecture
+        </a>
+    </div>
+</section>
+
+<section class="py-24 border-t border-border">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-surface p-8 rounded-2xl border border-border">
+            <svg class="w-8 h-8 text-danger mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-xl mb-3">Data Breach Risk</h3>
+            <p class="text-body text-sm leading-relaxed">Standard cloud storage stores encryption keys statically, leaving data highly vulnerable if the server is compromised.</p>
+        </div>
+        <div class="bg-surface p-8 rounded-2xl border border-border">
+            <svg class="w-8 h-8 text-danger mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-xl mb-3">Data Tampering</h3>
+            <p class="text-body text-sm leading-relaxed">Malicious actors can alter database entries or file contents without triggering alerts in conventional systems.</p>
+        </div>
+        <div class="bg-surface p-8 rounded-2xl border border-border">
+            <svg class="w-8 h-8 text-danger mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-xl mb-3">Lack of Verification</h3>
+            <p class="text-body text-sm leading-relaxed">Auditing massive cloud files traditionally requires downloading the entire dataset, which is inefficient and costly.</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 border-t border-border">
+    <div class="text-center mb-16">
+        <h2 class="font-display text-3xl font-bold text-heading">Core System Power</h2>
+        <p class="text-body mt-4">Advanced cryptography engineered for zero-trust environments.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:scale-[1.02] transition-all duration-300">
+            <div class="text-4xl mb-4">🔐</div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Dynamic AES Encryption</h3>
+            <p class="text-body text-sm leading-relaxed mb-4">Encryption keys are never stored. They are dynamically generated on the fly.</p>
+            <div class="bg-[#0B1120] p-3 rounded-lg border border-border font-mono text-xs text-muted">
+                Key = Hash(File) <span class="text-secondary">XOR</span> Hash(PrevBlock)
+            </div>
+        </div>
+        
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:scale-[1.02] transition-all duration-300">
+            <div class="text-4xl mb-4">🌳</div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Enhanced Merkle Tree</h3>
+            <p class="text-body text-sm leading-relaxed mb-4">Validates integrity instantly. Files are chunked and hashed hierarchically.</p>
+            <div class="bg-[#0B1120] p-3 rounded-lg border border-border font-mono text-xs text-muted">
+                Leaves → Nodes → <span class="text-primary">Single Root Hash</span>
+            </div>
+        </div>
+
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:scale-[1.02] transition-all duration-300">
+            <div class="text-4xl mb-4">⛓️</div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Blockchain Ledger</h3>
+            <p class="text-body text-sm leading-relaxed mb-4">Every Merkle Root is securely anchored to an immutable blockchain ledger.</p>
+            <div class="bg-[#0B1120] p-3 rounded-lg border border-border font-mono text-xs text-muted">
+                Block(n) anchors to Prev_Hash(n-1)
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 border-t border-border">
+    <div class="text-center mb-12">
+        <h2 class="font-display text-2xl font-bold text-heading">System Pipeline</h2>
+    </div>
+    
+    <div class="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 md:gap-4 font-mono text-xs md:text-sm">
+        <div class="bg-surface px-4 py-2 border border-border rounded-lg text-heading">Upload</div>
+        <div class="text-muted hidden md:block">→</div>
+        <div class="bg-surface px-4 py-2 border border-border rounded-lg text-heading">Hash</div>
+        <div class="text-muted hidden md:block">→</div>
+        <div class="bg-surface px-4 py-2 border border-secondary rounded-lg text-secondary shadow-[0_0_10px_rgba(6,182,212,0.2)]">XOR</div>
+        <div class="text-muted hidden md:block">→</div>
+        <div class="bg-surface px-4 py-2 border border-border rounded-lg text-heading">AES</div>
+        <div class="text-muted hidden md:block">→</div>
+        <div class="bg-surface px-4 py-2 border border-border rounded-lg text-heading">Chunking</div>
+        <div class="text-muted hidden md:block">→</div>
+        <div class="bg-elevated px-4 py-2 border border-primary rounded-lg text-primary shadow-[0_0_15px_rgba(16,185,129,0.3)] font-bold">Merkle</div>
+        <div class="text-muted hidden md:block">→</div>
+        <div class="bg-surface px-4 py-2 border border-border rounded-lg text-heading">Store</div>
+    </div>
+</section>
+
+<section class="py-24 border-t border-border text-center">
+    <div class="max-w-3xl mx-auto bg-surface/50 border border-border p-12 rounded-2xl backdrop-blur-sm">
+        <svg class="w-12 h-12 text-primary mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-heading">
+            Even a <span class="text-danger drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]">single bit change</span> will <span class="text-warning drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]">invalidate</span> the entire system.
+        </h2>
+    </div>
+</section>
+{% endblock %}
