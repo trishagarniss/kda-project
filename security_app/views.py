@@ -251,3 +251,13 @@ def download_decrypted_file(request, doc_id):
             
 def home_view(request):
     return render(request, 'home.html')
+
+def console_view(request):
+    documents = SecureDocument.objects.all().order_by('-uploaded_at')
+    
+    context = {
+        'documents': documents,
+        'total_files': documents.count(),
+        'corrupted_count': documents.filter(status_verifikasi="CORRUPTED").count(),
+    }
+    return render(request, 'console.html', context)

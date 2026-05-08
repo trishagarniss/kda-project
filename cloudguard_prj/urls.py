@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/security/', include('security_app.urls')),
     
     path('', views.home_view, name='home'),
+    path('console/', views.console_view, name='console'),
 ]

@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     # RUTE UNTUK UI (HTML)
     path('', views.home_view, name='home'), # Halaman utama
+    path('console/', views.console_view, name='console'),
 
     # RUTE UNTUK API (JSON)
     path('upload/', views.upload_and_secure, name='upload_and_secure'),

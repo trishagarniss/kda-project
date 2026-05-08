@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,8 +20,8 @@
                         surface: '#1E293B',
                         elevated: '#273449',
                         border: '#334155',
-                        primary: '#10B981', // Emerald
-                        secondary: '#06B6D4', // Cyan
+                        primary: '#10B981',
+                        secondary: '#06B6D4',
                         warning: '#F59E0B',
                         danger: '#EF4444',
                         heading: '#F8FAFC',
@@ -40,98 +41,176 @@
     <style>
         body {
             background-color: #0B1120;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Efek Noise Global */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Grid Interaktif Global */
+        #global-interactive-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            transition: opacity 0.5s duration;
+            opacity: 0;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.04), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.04), transparent 25%);
+                radial-gradient(600px circle at var(--mx) var(--my), rgba(16, 185, 129, 0.06), transparent 50%),
+                linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-position: 0 0, calc(var(--mx) * -0.01) calc(var(--my) * -0.01), calc(var(--mx) * -0.01) calc(var(--my) * -0.01);
+            -webkit-mask-image: radial-gradient(400px circle at var(--mx) var(--my), black, transparent);
+            mask-image: radial-gradient(400px circle at var(--mx) var(--my), black, transparent);
+        }
+
+        .nav-active {
+            color: #10B981 !important;
         }
     </style>
 </head>
 <body class="text-body font-sans min-h-screen flex flex-col antialiased selection:bg-primary selection:text-background">
 
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border transition-all duration-300 hover:bg-background/90 hover:backdrop-blur-lg">
-        <div class="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="noise"></div>
+    <div id="global-interactive-bg"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
+        <div class="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between"> 
             
-            <a href="/" class="flex items-center gap-3 group">
-                <div class="relative flex items-center justify-center w-10 h-10 rounded-lg bg-surface border border-border group-hover:border-primary/50 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.1)] group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                </div>
-                <span class="font-display font-bold text-xl text-primary tracking-wide">CloudGuard EMT</span>
+            <a href="/" class="flex items-center group">
+                <img src="{% static 'images/Logo_Teks.png' %}" alt="Logo" class="h-11 w-auto transition-transform duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
             </a>
 
             <nav class="hidden md:flex items-center gap-8">
-                <a href="/" class="text-heading font-medium text-sm transition-colors hover:text-primary relative group">
+                <a href="/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/' %}nav-active{% endif %}">
                     Home
-                    <span class="absolute -bottom-7 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_rgba(6,182,212,0.8)]"></span>
+                    {% if request.path == '/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
                 </a>
-                <a href="/console" class="text-body font-medium text-sm transition-colors hover:text-primary">Console</a>
-                <a href="/architecture" class="text-body font-medium text-sm transition-colors hover:text-primary">Architecture</a>
-                <a href="/about" class="text-body font-medium text-sm transition-colors hover:text-primary">About</a>
+                <a href="/console/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/console/' %}nav-active{% endif %}">
+                    Console
+                    {% if request.path == '/console/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
+                </a>
+                <a href="/architecture/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/architecture/' %}nav-active{% endif %}">
+                    Architecture
+                    {% if request.path == '/architecture/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
+                </a>
+                <a href="/about/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/about/' %}nav-active{% endif %}">
+                    About
+                    {% if request.path == '/about/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
+                </a>
             </nav>
 
-            <div class="hidden lg:flex items-center gap-3 bg-surface border border-border px-4 py-2 rounded-full">
-                <span class="relative flex h-2.5 w-2.5">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
-                </span>
-                <span class="font-mono text-xs text-heading">Cloud Security Active</span>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 px-3 py-1 bg-surface/50 border border-border rounded-full">
+                    <span class="relative flex h-1.5 w-1.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-secondary"></span>
+                    </span>
+                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/80">
+                        v1.0.4
+                    </span>
+                </div>
+
+                <a href="https://github.com/trishagarniss/kda-project" target="_blank" class="p-2 text-muted hover:text-heading transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                </a>
             </div>
             
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col items-center w-full">
+    <main class="flex-grow flex flex-col items-center w-full relative z-10">
         <div class="max-w-[1400px] w-full mx-auto px-6">
-            {% block content %}
-            {% endblock %}
+            {% block content %}{% endblock %}
         </div>
     </main>
 
-    <footer class="bg-[#080d1a] border-t border-border pt-16 pb-8 mt-20">
-        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+    <footer class="bg-[#080d1a] border-t border-border pt-16 pb-12 mt-20 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 border-b border-border/50 pb-12">
             
-            <div class="col-span-1 md:col-span-1">
-                <h3 class="font-display font-bold text-lg text-heading mb-4 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    CloudGuard EMT
-                </h3>
-                <p class="text-sm text-muted leading-relaxed">
-                    Hybrid cryptographic cloud security system powered by Dynamic AES and Enhanced Merkle Tree verification.
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="{% static 'images/Logo_Teks.png' %}" alt="Logo" class="h-8 w-auto">
+                </div>
+                <p class="text-sm text-muted leading-relaxed max-w-md">
+                    Hybrid cryptographic security powered by Dynamic AES-256 & Enhanced Merkle Tree.
                 </p>
             </div>
 
             <div>
-                <h4 class="font-display font-bold text-heading mb-4">Platform</h4>
-                <ul class="space-y-3 text-sm">
-                    <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
-                    <li><a href="/console" class="hover:text-primary transition-colors">Console</a></li>
-                    <li><a href="/architecture" class="hover:text-primary transition-colors">Architecture</a></li>
-                    <li><a href="/about" class="hover:text-primary transition-colors">About</a></li>
+                <h4 class="font-display font-bold text-heading mb-4 text-xs uppercase tracking-widest text-primary">Platform</h4>
+                <ul class="flex flex-col gap-3 text-sm font-medium">
+                    <li><a href="/" class="hover:text-secondary transition-colors">Home</a></li>
+                    <li><a href="/console/" class="hover:text-secondary transition-colors">Console</a></li>
+                    <li><a href="/architecture/" class="hover:text-secondary transition-colors">Architecture</a></li>
+                    <li><a href="/about/" class="hover:text-secondary transition-colors">About</a></li>
                 </ul>
             </div>
 
-            <div class="col-span-1 md:col-span-2">
-                <h4 class="font-display font-bold text-heading mb-4">Core Technology</h4>
-                <div class="flex flex-wrap gap-2">
-                    <span class="px-3 py-1 bg-surface border border-border rounded text-xs font-mono hover:border-secondary hover:text-secondary hover:shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all cursor-default">Python</span>
-                    <span class="px-3 py-1 bg-surface border border-border rounded text-xs font-mono hover:border-secondary hover:text-secondary hover:shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all cursor-default">Django</span>
-                    <span class="px-3 py-1 bg-surface border border-border rounded text-xs font-mono hover:border-secondary hover:text-secondary hover:shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all cursor-default">Tailwind CSS</span>
-                    <span class="px-3 py-1 bg-surface border border-border rounded text-xs font-mono hover:border-secondary hover:text-secondary hover:shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all cursor-default">PostgreSQL</span>
-                    <span class="px-3 py-1 bg-surface border border-border rounded text-xs font-mono hover:border-secondary hover:text-secondary hover:shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all cursor-default">Supabase</span>
-                    <span class="px-3 py-1 bg-surface border border-border rounded text-xs font-mono hover:border-primary hover:text-primary hover:shadow-[0_0_10px_rgba(16,185,129,0.3)] transition-all cursor-default text-heading">AES-256</span>
-                    <span class="px-3 py-1 bg-surface border border-border rounded text-xs font-mono hover:border-primary hover:text-primary hover:shadow-[0_0_10px_rgba(16,185,129,0.3)] transition-all cursor-default text-heading">SHA-256</span>
+            <div>
+                <h4 class="font-display font-bold text-heading mb-4 text-xs uppercase tracking-widest text-secondary">Security Protocols</h4>
+                <div class="flex flex-col gap-2 font-mono text-[10px]">
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>AES-256-CBC</span>
+                        <span class="text-primary">ACTIVE</span>
+                    </div>
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>MERKLE TREE</span>
+                        <span class="text-secondary">SYNCED</span>
+                    </div>
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>BLOCKCHAIN</span>
+                        <span class="text-warning">VALIDATED</span>
+                    </div>
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>SUPABASE CLOUD</span>
+                        <span class="text-heading">CONNECTED</span>
+                    </div>
                 </div>
             </div>
 
         </div>
         
-        <div class="max-w-[1400px] mx-auto px-6 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-            <p class="text-xs text-muted font-mono">
-                &copy; 2026 CloudGuard EMT - Proyek Keamanan Data dan Aplikasinya (KDA).
-            </p>
-            <a href="https://github.com/trishagarniss/kda-project" target="_blank" class="text-muted hover:text-heading hover:rotate-6 transition-all">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-center md:text-left">
+                <h2 class="text-heading font-display font-bold text-sm tracking-wide">
+                    © 2026 CloudGuard EMT
+                </h2>
+                <p class="text-[10px] text-muted/50 font-mono mt-1 tracking-wider">
+                    Data Science UNS • Data and Application Security
+                </p>
+            </div>
+            
+            <a href="https://github.com/trishagarniss/kda-project" target="_blank" class="flex items-center gap-3 text-muted hover:text-heading transition-all group">
+                <span class="text-[9px] font-mono tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">RECON_REPOSITORY</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
             </a>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const bg = document.getElementById('global-interactive-bg');
+            if(bg) {
+                bg.style.opacity = '1';
+                bg.style.setProperty('--mx', `${e.clientX}px`);
+                bg.style.setProperty('--my', `${e.clientY}px`);
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            const bg = document.getElementById('global-interactive-bg');
+            if(bg) bg.style.opacity = '0';
+        });
+    </script>
 </body>
 </html>
