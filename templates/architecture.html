@@ -1,0 +1,1021 @@
+{% extends 'base.html' %}
+
+{% block title %}Architecture | CloudGuard EMT{% endblock %}
+
+{% block content %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    /* ── Node Cards ── */
+    .node-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid #334155;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        transition: all 0.25s ease;
+        cursor: default;
+        backdrop-filter: blur(8px);
+    }
+    .node-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(6, 182, 212, 0.6);
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    }
+
+    /* ── Connector arrow ── */
+    .connector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #334155;
+    }
+
+    /* ── Flowing line on horizontal connector ── */
+    .connector svg {
+        transition: color 0.2s;
+    }
+
+    /* ── Stage badge ── */
+    .stage-badge {
+        position: absolute;
+        top: -11px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        white-space: nowrap;
+    }
+
+    /* ── Tooltip ── */
+    .tooltip {
+        position: absolute;
+        bottom: calc(100% + 14px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 180px;
+        background: #273449;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: #94A3B8;
+        line-height: 1.5;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 30;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 6px solid transparent;
+        border-top-color: #273449;
+    }
+    .node-card:hover .tooltip {
+        opacity: 1;
+    }
+
+    /* ── Decision box ── */
+    .decision-box {
+        position: relative;
+        flex-shrink: 0;
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid rgba(51, 65, 85, 0.7);
+        border-radius: 12px;
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+    }
+
+    /* ── Animated pulse ring for active nodes ── */
+    @keyframes ring-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.3); }
+        50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+    }
+    .node-active {
+        animation: ring-pulse 2.5s ease-in-out infinite;
+    }
+
+    /* ── Scrollbar ── */
+    .scroll-container::-webkit-scrollbar { height: 4px; }
+    .scroll-container::-webkit-scrollbar-track { background: transparent; }
+    .scroll-container::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+    .scroll-container::-webkit-scrollbar-thumb:hover { background: #06B6D4; }
+
+    /* ── Data flow animation ── */
+    @keyframes data-flow {
+        0%   { stroke-dashoffset: 40; opacity: 0.8; }
+        100% { stroke-dashoffset: 0;  opacity: 0.3; }
+    }
+</style>
+
+<!-- ─────────────────────────────────────────────
+     HERO
+───────────────────────────────────────────── -->
+<section class="pt-32 pb-16 text-center relative z-10" data-aos="fade-up" data-aos-duration="900">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary font-mono text-xs mb-6">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+        </svg>
+        System Architecture
+    </div>
+    <h1 class="font-display text-4xl md:text-6xl font-bold text-heading mb-5 tracking-tight">
+        End-to-End <span class="text-secondary drop-shadow-[0_0_20px_rgba(6,182,212,0.5)]">Cryptographic</span> Pipeline
+    </h1>
+    <p class="text-body text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+        Seven stages transform a raw file into an immutably secured, blockchain-anchored ciphertext — detectable to the last bit.
+    </p>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     PIPELINE — HORIZONTAL (scroll on small screens)
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up" data-aos-delay="150">
+    <div class="w-full overflow-x-auto scroll-container pb-10">
+        <div class="flex flex-nowrap items-center gap-0 min-w-max px-8 mx-auto w-fit">
+
+            <!-- ── Stage 01: Upload ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 01</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-body">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">Upload</h3>
+                    <p class="text-[10px] text-muted font-mono">Memory Buffer</p>
+                </div>
+                <div class="tooltip">File ingested into secure in-memory buffer. Not written to disk until hashed.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 02: SHA-256 ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 02</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-warning">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">SHA-256</h3>
+                    <p class="text-[10px] text-muted font-mono">Baseline Hash</p>
+                </div>
+                <div class="tooltip">Computes a 256-bit fingerprint of the raw file. Basis for XOR key synthesis.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Deduplication Branch ── -->
+            <div class="decision-box w-64 h-36 shrink-0 flex flex-col">
+                <!-- header -->
+                <div class="px-4 pt-3 pb-2 border-b border-border/50">
+                    <p class="font-mono text-[10px] text-muted uppercase tracking-widest text-center">Deduplication Check</p>
+                </div>
+                <!-- branches -->
+                <div class="flex flex-1 items-center justify-around px-4">
+                    <!-- YES branch -->
+                    <div class="flex flex-col items-center gap-1.5 opacity-60 hover:opacity-100 transition-opacity cursor-default group">
+                        <span class="font-mono text-[9px] font-bold text-secondary uppercase tracking-widest">Duplicate</span>
+                        <div class="px-3 py-1.5 bg-secondary/10 border border-secondary/30 rounded text-[9px] font-mono text-secondary">
+                            Update Ownership
+                        </div>
+                        <div class="flex items-center gap-1 text-[9px] text-muted font-mono">
+                            <svg class="w-3 h-3 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            Return
+                        </div>
+                    </div>
+                    <!-- divider -->
+                    <div class="w-px h-12 bg-border/50"></div>
+                    <!-- NO branch -->
+                    <div class="flex flex-col items-center gap-1.5 group relative">
+                        <span class="font-mono text-[9px] font-bold text-primary uppercase tracking-widest">Unique</span>
+                        <div class="px-3 py-1.5 bg-primary/10 border border-primary/30 rounded text-[9px] font-mono text-primary shadow-[0_0_10px_rgba(16,185,129,0.25)]">
+                            Continue →
+                        </div>
+                        <div class="flex items-center gap-1 text-[9px] text-muted font-mono">
+                            <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            Encrypt
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 03: Dynamic Key ── -->
+            <div class="node-card w-44 h-28 border-primary/40 shadow-[0_0_18px_rgba(16,185,129,0.1)] node-active shrink-0">
+                <div class="stage-badge bg-primary/10 border border-primary/30 text-primary">Stage 03</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-primary text-sm mb-0.5">Dynamic Key</h3>
+                    <p class="text-[10px] text-muted font-mono">XOR Synthesis</p>
+                </div>
+                <div class="tooltip">XORs current file hash with prev-block hash → unique 256-bit AES key. Never reused or stored.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 04: AES-256-GCM ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 04</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-secondary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">AES-256-GCM</h3>
+                    <p class="text-[10px] text-muted font-mono">Ciphertext Gen</p>
+                </div>
+                <div class="tooltip">Encrypts with dynamic XOR key + random 96-bit nonce. GCM mode provides authentication tag.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 05: Chunking ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 05</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-warning">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">Chunking</h3>
+                    <p class="text-[10px] text-muted font-mono">1 KB Block Split</p>
+                </div>
+                <div class="tooltip">Ciphertext sliced into 1 KB blocks. Each block is individually hashed as a leaf node.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 06: Merkle Tree ── -->
+            <div class="node-card w-44 h-28 border-secondary/40 shadow-[0_0_18px_rgba(6,182,212,0.1)] shrink-0"
+                 style="animation: ring-pulse 2.5s ease-in-out infinite; --tw-shadow: 0 0 0 0 rgba(6,182,212,0.3);">
+                <div class="stage-badge bg-secondary/10 border border-secondary/30 text-secondary">Stage 06</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-secondary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7V5m0 2l-2 2m2-2l2 2m8 9v-2m0 2l-2-2m2 2l2-2"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-secondary text-sm mb-0.5">Merkle Tree</h3>
+                    <p class="text-[10px] text-muted font-mono">Root Calc</p>
+                </div>
+                <div class="tooltip">Leaf hashes propagate up in pairwise SHA-256 until a single Merkle Root is derived.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 07: Hybrid Storage ── -->
+            <div class="node-card w-52 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 07</div>
+                <div class="flex items-center gap-3">
+                    <div class="shrink-0 text-primary">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <h3 class="font-bold text-heading text-sm mb-1">Hybrid Storage</h3>
+                        <p class="text-[10px] text-muted font-mono leading-relaxed">DB Ledger +<br>Object Vault</p>
+                    </div>
+                </div>
+                <div class="tooltip">Merkle Root → PostgreSQL ledger. Ciphertext → Supabase object storage. Tamper-proof split storage.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- scroll hint (only on smaller viewports) -->
+    <p class="text-center font-mono text-[10px] text-muted uppercase tracking-widest mt-2 lg:hidden">
+        ← Scroll horizontally • Hover nodes for details →
+    </p>
+    <p class="text-center font-mono text-[10px] text-muted uppercase tracking-widest mt-2 hidden lg:block">
+        Hover any node for details
+    </p>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     STAGE DETAIL CARDS (vertical reference)
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up" data-aos-delay="100">
+    <div class="max-w-[1200px] mx-auto px-6">
+        <div class="mb-12 text-center">
+            <h2 class="font-display text-2xl font-bold text-heading">Stage Reference</h2>
+            <p class="text-body text-sm mt-2">Detailed breakdown of each pipeline stage.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+
+            <!-- S01 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="50">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">01</span>
+                    <h3 class="font-display font-bold text-heading">Upload</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The file is read into a secure memory buffer via Django's <code class="text-secondary bg-secondary/10 px-1 rounded">InMemoryUploadedFile</code>. It is never persisted to disk before hashing.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">multipart/form-data</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Django FileField</span>
+                </div>
+            </div>
+
+            <!-- S02 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">02</span>
+                    <h3 class="font-display font-bold text-heading">SHA-256 Hash</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">A 256-bit digest of the raw file is computed with Python's <code class="text-secondary bg-secondary/10 px-1 rounded">hashlib</code>. Used as a deduplication key and as input to XOR key generation.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">hashlib.sha256</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-warning">64-char hex</span>
+                </div>
+            </div>
+
+            <!-- Dedup -->
+            <div class="bg-surface/60 border border-secondary/20 rounded-xl p-6 hover:border-secondary/40 transition-colors" data-aos="fade-up" data-aos-delay="150">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-secondary bg-secondary/10 border border-secondary/20 px-2 py-0.5 rounded">↔</span>
+                    <h3 class="font-display font-bold text-heading">Deduplication Check</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The SHA-256 fingerprint is queried against the PostgreSQL ledger. If a match is found, only file ownership metadata is updated — no re-encryption occurs.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-secondary">Unique → Encrypt</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Duplicate → Return</span>
+                </div>
+            </div>
+
+            <!-- S03 -->
+            <div class="bg-surface/60 border border-primary/20 rounded-xl p-6 hover:border-primary/40 transition-colors" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">03</span>
+                    <h3 class="font-display font-bold text-heading">Dynamic Key (XOR)</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The AES key is derived by XOR-ing the current file's SHA-256 hash with the previous block's hash. Each file receives a cryptographically unique key — no static secret exists.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-primary/10 border border-primary/20 rounded text-primary">XOR synthesis</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">256-bit key</span>
+                </div>
+            </div>
+
+            <!-- S04 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="250">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">04</span>
+                    <h3 class="font-display font-bold text-heading">AES-256-GCM</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The file is encrypted using AES-256 in GCM mode with a randomly generated 96-bit nonce. GCM produces both ciphertext and a 128-bit authentication tag, ensuring authenticity.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">cryptography lib</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">GCM auth tag</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">96-bit nonce</span>
+                </div>
+            </div>
+
+            <!-- S05 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">05</span>
+                    <h3 class="font-display font-bold text-heading">Chunking</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The encrypted binary is split into 1 KB (1024-byte) chunks. Each chunk is independently SHA-256 hashed to become a leaf node in the Merkle Tree.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">1024-byte blocks</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Leaf hash per chunk</span>
+                </div>
+            </div>
+
+            <!-- S06 -->
+            <div class="bg-surface/60 border border-secondary/20 rounded-xl p-6 hover:border-secondary/40 transition-colors" data-aos="fade-up" data-aos-delay="350">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-secondary bg-secondary/10 border border-secondary/20 px-2 py-0.5 rounded">06</span>
+                    <h3 class="font-display font-bold text-heading">Enhanced Merkle Tree</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">Leaf hashes are combined pairwise (SHA-256 of concatenation) and propagated upward level by level. The final single hash is the Merkle Root — a tamper-proof fingerprint of the entire ciphertext.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-secondary/10 border border-secondary/20 rounded text-secondary">Merkle Root</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Bottom-up build</span>
+                </div>
+            </div>
+
+            <!-- S07 -->
+            <div class="bg-surface/60 border border-primary/20 rounded-xl p-6 md:col-span-2 xl:col-span-2 hover:border-primary/40 transition-colors" data-aos="fade-up" data-aos-delay="400">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">07</span>
+                    <h3 class="font-display font-bold text-heading">Hybrid Storage</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-muted text-[10px] font-mono uppercase tracking-widest mb-2">DB Ledger (PostgreSQL)</p>
+                        <p class="text-body text-xs leading-relaxed">Merkle Root, file hash, prev-block hash, and metadata are written to the Supabase PostgreSQL ledger. This forms the immutable blockchain-style chain of blocks.</p>
+                    </div>
+                    <div>
+                        <p class="text-secondary text-[10px] font-mono uppercase tracking-widest mb-2">Object Vault (Supabase Storage)</p>
+                        <p class="text-body text-xs leading-relaxed">The binary ciphertext (<code class="text-secondary bg-secondary/10 px-0.5 rounded">.bin</code>) — containing the nonce prefix and GCM tag suffix — is stored in the cloud object bucket. Only the Merkle Root is needed to verify it.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     MERKLE TREE VISUAL
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up">
+    <div class="max-w-[900px] mx-auto px-6">
+        <div class="mb-12 text-center">
+            <h2 class="font-display text-2xl font-bold text-heading">Merkle Tree Structure</h2>
+            <p class="text-body text-sm mt-2">Visual example with 4 ciphertext chunks → single root.</p>
+        </div>
+
+        <div class="bg-surface/50 border border-border rounded-2xl p-8 font-mono text-xs overflow-x-auto">
+
+            <!-- Root -->
+            <div class="flex justify-center mb-6">
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-[9px] text-secondary uppercase tracking-widest mb-1">Merkle Root</span>
+                    <div class="px-4 py-2 bg-secondary/10 border border-secondary/40 rounded-lg text-secondary shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                        H(H₁₂ ‖ H₃₄)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 2 connectors -->
+            <div class="flex justify-center mb-1">
+                <svg viewBox="0 0 300 30" class="w-72 h-8 text-border">
+                    <line x1="150" y1="0" x2="75" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="150" y1="0" x2="225" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                </svg>
+            </div>
+
+            <!-- Level 2 nodes -->
+            <div class="flex justify-around mb-1 px-8">
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-[9px] text-muted uppercase tracking-wider mb-1">Internal</span>
+                    <div class="px-3 py-1.5 bg-primary/10 border border-primary/30 rounded text-primary">H(H₁ ‖ H₂)</div>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-[9px] text-muted uppercase tracking-wider mb-1">Internal</span>
+                    <div class="px-3 py-1.5 bg-primary/10 border border-primary/30 rounded text-primary">H(H₃ ‖ H₄)</div>
+                </div>
+            </div>
+
+            <!-- Level 1 connectors -->
+            <div class="flex justify-around px-8 mb-1">
+                <svg viewBox="0 0 200 30" class="w-48 h-7 text-border">
+                    <line x1="100" y1="0" x2="40"  y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="100" y1="0" x2="160" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                </svg>
+                <svg viewBox="0 0 200 30" class="w-48 h-7 text-border">
+                    <line x1="100" y1="0" x2="40"  y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="100" y1="0" x2="160" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                </svg>
+            </div>
+
+            <!-- Leaf nodes -->
+            <div class="flex justify-around px-2">
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₁</div>
+                    <span class="text-[9px] text-muted/60">chunk 1</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₂</div>
+                    <span class="text-[9px] text-muted/60">chunk 2</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₃</div>
+                    <span class="text-[9px] text-muted/60">chunk 3</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₄</div>
+                    <span class="text-[9px] text-muted/60">chunk 4</span>
+                </div>
+            </div>
+
+            <!-- label -->
+            <div class="mt-6 pt-4 border-t border-border/50 flex items-center justify-center gap-2 text-[10px] text-muted">
+                <svg class="w-3 h-3 text-danger" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                Modifying even a single byte in any chunk changes H(leaf) → propagates up → invalidates the Merkle Root
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     LIVE SIMULATOR
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up">
+    <div class="max-w-[900px] mx-auto px-6">
+        <div class="mb-10 text-center">
+            <h2 class="font-display text-2xl font-bold text-heading">Live Pipeline Simulator</h2>
+            <p class="text-body text-sm mt-2 max-w-xl mx-auto">Upload file nyata dan lihat setiap stage berjalan — SHA-256, XOR key, AES-256-GCM, Merkle Tree. Semua diproses di browser, tidak ada data yang dikirim ke server.</p>
+        </div>
+
+        <!-- Simulator card -->
+        <div class="bg-surface/60 border border-border rounded-2xl overflow-hidden">
+
+            <!-- Header bar -->
+            <div class="flex items-center justify-between px-5 py-3 border-b border-border bg-surface/80">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    <span class="font-mono text-[10px] text-muted uppercase tracking-widest">CloudGuard EMT — Pipeline Simulator</span>
+                </div>
+                <span class="font-mono text-[10px] text-muted" id="sim-status-badge">IDLE</span>
+            </div>
+
+            <!-- Pipeline stage indicator -->
+            <div class="px-5 pt-5 pb-3 border-b border-border/50 overflow-x-auto">
+                <div class="flex items-center gap-0 min-w-max" id="sim-stage-row">
+                    <!-- stages injected by JS -->
+                </div>
+            </div>
+
+            <!-- Drop zone -->
+            <div class="px-5 pt-5">
+                <div id="sim-drop" class="border border-dashed border-border rounded-xl p-8 text-center cursor-pointer transition-all duration-200 hover:border-secondary/60 hover:bg-secondary/5"
+                     onclick="document.getElementById('sim-file-input').click()"
+                     ondragover="event.preventDefault();this.classList.add('!border-secondary','!bg-secondary/10')"
+                     ondragleave="this.classList.remove('!border-secondary','!bg-secondary/10')"
+                     ondrop="handleSimDrop(event)">
+                    <svg class="w-8 h-8 text-muted mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    <p class="font-mono text-xs text-muted" id="sim-drop-text">Drag & drop atau klik untuk upload file</p>
+                    <p class="text-[10px] text-muted/50 mt-1">Semua format didukung · File diproses lokal di browser</p>
+                </div>
+                <input type="file" id="sim-file-input" class="hidden" onchange="runSimulation(this.files[0])">
+            </div>
+
+            <!-- Execution log -->
+            <div class="px-5 pt-4 pb-2">
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-2">Execution log</p>
+                <div id="sim-log" class="bg-background rounded-xl p-4 font-mono text-[11px] leading-relaxed min-h-[80px] max-h-[220px] overflow-y-auto border border-border/50">
+                    <span class="text-muted/40">[ waiting for file... ]</span>
+                </div>
+            </div>
+
+            <!-- Results grid (hidden until done) -->
+            <div id="sim-results" class="hidden px-5 pt-3 pb-5">
+                <div class="w-full h-px bg-border/50 mb-5"></div>
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-3">Cryptographic output</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5" id="sim-result-cards"></div>
+
+                <!-- Merkle tree visual -->
+                <div class="w-full h-px bg-border/50 mb-5"></div>
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-4">Merkle tree (computed)</p>
+                <div id="sim-merkle" class="flex flex-col items-center gap-3 mb-5"></div>
+
+                <!-- Tamper section -->
+                <div class="w-full h-px bg-border/50 mb-5"></div>
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-2">Tamper simulation</p>
+                <p class="text-body text-xs mb-3 leading-relaxed">Edit hex ciphertext di bawah — satu karakter pun akan membatalkan Merkle Root dan memicu deteksi.</p>
+
+                <div class="mb-3">
+                    <textarea id="sim-tamper-box"
+                        class="w-full bg-background border border-border rounded-xl p-3 font-mono text-[10px] leading-relaxed text-body focus:outline-none focus:border-secondary/60 transition-colors resize-y"
+                        rows="4" spellcheck="false"></textarea>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <button onclick="simVerify()" class="px-4 py-2 bg-primary/10 border border-primary/30 text-primary text-xs font-mono rounded-lg hover:bg-primary/20 transition-colors">
+                        Verify Integrity
+                    </button>
+                    <button onclick="simTamper()" class="px-4 py-2 bg-warning/10 border border-warning/30 text-warning text-xs font-mono rounded-lg hover:bg-warning/20 transition-colors">
+                        Auto-tamper (1 bit)
+                    </button>
+                    <button onclick="simRestore()" class="px-4 py-2 bg-surface border border-border text-muted text-xs font-mono rounded-lg hover:border-border/80 transition-colors">
+                        Restore Original
+                    </button>
+                    <span id="sim-verify-badge" class="font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted">—</span>
+                </div>
+
+                <div id="sim-verify-detail" class="font-mono text-[10px] leading-relaxed text-muted bg-background rounded-xl p-3 border border-border/50 hidden"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+<script>
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    AOS.init({ once: true, offset: 50, duration: 800 });
+
+    /* ═══════════════════════════════════════
+       SIMULATOR ENGINE
+    ═══════════════════════════════════════ */
+
+    const SIM_STAGES = [
+        { id: 's0', label: 'Upload',   sub: 'Buffer' },
+        { id: 's1', label: 'SHA-256',  sub: 'Hash' },
+        { id: 's2', label: 'Dedup',    sub: 'Check' },
+        { id: 's3', label: 'XOR Key',  sub: 'Dynamic' },
+        { id: 's4', label: 'AES-256',  sub: 'GCM' },
+        { id: 's5', label: 'Chunk',    sub: '1 KB' },
+        { id: 's6', label: 'Merkle',   sub: 'Root' },
+        { id: 's7', label: 'Store',    sub: 'DB+Vault' },
+    ];
+
+    // Build pipeline indicator
+    (function buildStageRow() {
+        const row = document.getElementById('sim-stage-row');
+        SIM_STAGES.forEach((s, i) => {
+            const node = document.createElement('div');
+            node.id = 'sim-node-' + i;
+            node.className = 'flex flex-col items-center justify-center w-16 h-14 rounded-lg border border-border bg-surface/80 text-center transition-all duration-300 shrink-0';
+            node.innerHTML = `<span class="font-bold text-[10px] text-muted transition-colors" id="sim-nlabel-${i}">${s.label}</span><span class="text-[9px] text-muted/50 font-mono">${s.sub}</span>`;
+            row.appendChild(node);
+            if (i < SIM_STAGES.length - 1) {
+                const arrow = document.createElement('div');
+                arrow.id = 'sim-arrow-' + i;
+                arrow.className = 'text-border text-xs px-1 shrink-0 transition-colors duration-300';
+                arrow.textContent = '›';
+                row.appendChild(arrow);
+            }
+        });
+    })();
+
+    function setSimStage(active) {
+        SIM_STAGES.forEach((_, i) => {
+            const node = document.getElementById('sim-node-' + i);
+            const label = document.getElementById('sim-nlabel-' + i);
+            if (i < active) {
+                node.className = node.className.replace(/border-\S+|bg-\S+/g, '').trim();
+                node.classList.add('border-primary/40', 'bg-primary/5');
+                label.classList.add('text-primary');
+                label.classList.remove('text-muted');
+            } else if (i === active) {
+                node.className = node.className.replace(/border-\S+|bg-\S+/g, '').trim();
+                node.classList.add('border-secondary', 'bg-secondary/10');
+                label.classList.add('text-secondary');
+                label.classList.remove('text-muted', 'text-primary');
+            } else {
+                node.className = node.className.replace(/border-\S+|bg-\S+/g, '').trim();
+                node.classList.add('border-border', 'bg-surface/80');
+                label.classList.remove('text-secondary', 'text-primary');
+                label.classList.add('text-muted');
+            }
+            if (i < SIM_STAGES.length - 1) {
+                document.getElementById('sim-arrow-' + i).classList.toggle('text-primary/60', i < active);
+                document.getElementById('sim-arrow-' + i).classList.toggle('text-border', i >= active);
+            }
+        });
+    }
+
+    let simState = { fileHash: '', prevHash: '0'.repeat(64), aesKey: null, cipherHex: '', merkleRoot: '', leafHashes: [], originalCipher: '' };
+
+    function simLog(msg, color = '') {
+        const box = document.getElementById('sim-log');
+        if (box.querySelector('.text-muted\\/40')) box.innerHTML = '';
+        const line = document.createElement('div');
+        const colors = { info: 'text-secondary', success: 'text-primary', warn: 'text-warning', error: 'text-danger', dim: 'text-muted/30' };
+        line.className = colors[color] || 'text-body/70';
+        line.textContent = msg;
+        box.appendChild(line);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    async function sha256hex(buf) {
+        const h = await crypto.subtle.digest('SHA-256', buf);
+        return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function xorHex(h1, h2) {
+        return h1.match(/../g).map((b, i) => (parseInt(b, 16) ^ parseInt(h2.substr(i*2, 2), 16)).toString(16).padStart(2, '0')).join('');
+    }
+
+    function hexToBytes(hex) {
+        const b = new Uint8Array(hex.length / 2);
+        for (let i = 0; i < b.length; i++) b[i] = parseInt(hex.substr(i*2, 2), 16);
+        return b;
+    }
+
+    function bytesToHex(buf) {
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function aesEncrypt(data, keyBytes) {
+        const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']);
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const enc = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, data);
+        const out = new Uint8Array(iv.byteLength + enc.byteLength);
+        out.set(iv); out.set(new Uint8Array(enc), iv.byteLength);
+        return bytesToHex(out.buffer);
+    }
+
+    function chunkHex(hex, chunkBytes = 1024) {
+        const chars = chunkBytes * 2;
+        const chunks = [];
+        for (let i = 0; i < hex.length; i += chars) chunks.push(hex.substr(i, chars));
+        return chunks;
+    }
+
+    async function buildMerkle(chunks) {
+        const leaves = [];
+        for (const c of chunks) {
+            const b = hexToBytes(c);
+            leaves.push(await sha256hex(b));
+        }
+        simState.leafHashes = [...leaves];
+        let level = [...leaves];
+        while (level.length > 1) {
+            const next = [];
+            for (let i = 0; i < level.length; i += 2) {
+                const combined = new TextEncoder().encode(level[i] + (level[i+1] || level[i]));
+                next.push(await sha256hex(combined));
+            }
+            level = next;
+        }
+        return level[0];
+    }
+
+    function renderResultCard(label, value, fullWidth = false, variant = '') {
+        const grid = document.getElementById('sim-result-cards');
+        const card = document.createElement('div');
+        const variantClass = variant === 'ok' ? 'border-primary/30 bg-primary/5' : variant === 'warn' ? 'border-warning/30 bg-warning/5' : '';
+        card.className = `bg-surface border border-border rounded-xl p-4 ${fullWidth ? 'md:col-span-2' : ''} ${variantClass}`;
+        card.innerHTML = `
+            <p class="font-mono text-[9px] text-muted uppercase tracking-widest mb-1">${label}</p>
+            <p class="font-mono text-[10px] ${variant === 'ok' ? 'text-primary' : variant === 'warn' ? 'text-warning' : 'text-body'} break-all leading-relaxed">${value}</p>
+        `;
+        grid.appendChild(card);
+    }
+
+    function renderMerkleViz(leaves, root) {
+        const container = document.getElementById('sim-merkle');
+        container.innerHTML = '';
+
+        const makeNode = (text, isRoot = false, isLeaf = false) => {
+            const d = document.createElement('div');
+            d.className = `px-3 py-1.5 rounded-lg font-mono text-[10px] border ${isRoot ? 'border-primary/40 bg-primary/10 text-primary' : isLeaf ? 'border-border bg-background text-muted' : 'border-secondary/30 bg-secondary/5 text-secondary'} cursor-default hover:brightness-110 transition-all`;
+            d.title = text;
+            d.textContent = (isRoot ? 'Root: ' : '') + text.substring(0, 10) + '…';
+            return d;
+        };
+
+        const makeConnLine = (count) => {
+            const d = document.createElement('div');
+            d.className = 'flex justify-center gap-4';
+            for (let i = 0; i < count; i++) {
+                const line = document.createElement('div');
+                line.className = 'w-px h-3 bg-border/60';
+                d.appendChild(line);
+            }
+            return d;
+        };
+
+        // Root
+        const rootRow = document.createElement('div');
+        rootRow.appendChild(makeNode(root, true));
+        container.appendChild(rootRow);
+
+        const showCount = Math.min(leaves.length, 6);
+
+        if (leaves.length > 1) {
+            container.appendChild(makeConnLine(Math.min(Math.ceil(showCount / 2), 3)));
+            const internalRow = document.createElement('div');
+            internalRow.className = 'flex flex-wrap justify-center gap-2';
+            for (let i = 0; i < showCount; i += 2) {
+                internalRow.appendChild(makeNode(`H(L${i+1}‖L${i+2})`));
+            }
+            container.appendChild(internalRow);
+            container.appendChild(makeConnLine(Math.min(showCount, 6)));
+        }
+
+        const leafRow = document.createElement('div');
+        leafRow.className = 'flex flex-wrap justify-center gap-2';
+        leaves.slice(0, showCount).forEach((h, i) => {
+            leafRow.appendChild(makeNode(h, false, true));
+        });
+        container.appendChild(leafRow);
+
+        if (leaves.length > 6) {
+            const more = document.createElement('p');
+            more.className = 'font-mono text-[9px] text-muted/50 text-center mt-1';
+            more.textContent = `+ ${leaves.length - 6} leaf node lainnya`;
+            container.appendChild(more);
+        }
+
+        const note = document.createElement('div');
+        note.className = 'mt-4 flex items-center gap-2 text-[10px] text-muted font-mono bg-background border border-border/50 rounded-lg px-4 py-2';
+        note.innerHTML = `<svg class="w-3 h-3 text-danger shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+        1 byte berubah → leaf hash berubah → propagasi ke root → deteksi tampering`;
+        container.appendChild(note);
+    }
+
+    function handleSimDrop(ev) {
+        ev.preventDefault();
+        ev.currentTarget.classList.remove('!border-secondary', '!bg-secondary/10');
+        const f = ev.dataTransfer.files[0];
+        if (f) runSimulation(f);
+    }
+
+    async function runSimulation(file) {
+        if (!file) return;
+
+        document.getElementById('sim-log').innerHTML = '';
+        document.getElementById('sim-results').classList.add('hidden');
+        document.getElementById('sim-result-cards').innerHTML = '';
+        document.getElementById('sim-merkle').innerHTML = '';
+        document.getElementById('sim-verify-badge').className = 'font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted';
+        document.getElementById('sim-verify-badge').textContent = '—';
+        document.getElementById('sim-verify-detail').classList.add('hidden');
+        document.getElementById('sim-status-badge').textContent = 'RUNNING';
+        document.getElementById('sim-drop-text').textContent = '✓ ' + file.name + ' — klik untuk ganti';
+
+        const sizeFmt = file.size > 1024*1024 ? (file.size/1024/1024).toFixed(1)+' MB' : (file.size/1024).toFixed(1)+' KB';
+
+        // S0 Upload
+        setSimStage(0);
+        simLog('[ stage 01 ]  file: ' + file.name + ' (' + sizeFmt + ')', 'info');
+        await sleep(250);
+        const buf = await file.arrayBuffer();
+        simLog('             loaded to memory buffer ✓', 'success');
+
+        // S1 SHA-256
+        setSimStage(1);
+        await sleep(200);
+        simLog('[ stage 02 ]  computing SHA-256...', 'info');
+        const fileHash = await sha256hex(buf);
+        simState.fileHash = fileHash;
+        simLog('             ' + fileHash.substring(0, 40) + '...', 'success');
+
+        // S2 Dedup
+        setSimStage(2);
+        await sleep(350);
+        simLog('[ dedup    ]  querying ledger...', 'info');
+        await sleep(300);
+        simLog('             UNIQUE — tidak ada duplikat, lanjut enkripsi', 'success');
+
+        // S3 XOR Key
+        setSimStage(3);
+        await sleep(200);
+        simLog('[ stage 03 ]  generating AES key via XOR synthesis...', 'info');
+        const keyHex = xorHex(fileHash, simState.prevHash);
+        const keyBytes = hexToBytes(keyHex).slice(0, 32);
+        simState.aesKey = keyBytes;
+        simLog('             file_hash  XOR  prev_hash  →  256-bit key', 'dim');
+        simLog('             ' + keyHex.substring(0, 40) + '...', 'success');
+
+        // S4 AES-256-GCM
+        setSimStage(4);
+        await sleep(300);
+        simLog('[ stage 04 ]  encrypting with AES-256-GCM...', 'info');
+        const cipherHex = await aesEncrypt(buf, keyBytes);
+        simState.cipherHex = cipherHex;
+        simState.originalCipher = cipherHex;
+        simLog('             nonce (12B): ' + cipherHex.substring(0, 24) + '...', 'success');
+        simLog('             ciphertext: ' + (cipherHex.length/2/1024).toFixed(1) + ' KB (+ 16B GCM tag)', 'success');
+
+        // S5 Chunk
+        setSimStage(5);
+        await sleep(200);
+        simLog('[ stage 05 ]  splitting into 1 KB blocks...', 'info');
+        const chunks = chunkHex(cipherHex, 1024);
+        simLog('             ' + chunks.length + ' blocks dibuat', 'success');
+
+        // S6 Merkle
+        setSimStage(6);
+        await sleep(250);
+        simLog('[ stage 06 ]  membangun Enhanced Merkle Tree...', 'info');
+        const merkleRoot = await buildMerkle(chunks);
+        simState.merkleRoot = merkleRoot;
+        simLog('             ' + simState.leafHashes.length + ' leaf nodes ✓', 'success');
+        simLog('             root: ' + merkleRoot.substring(0, 40) + '...', 'success');
+
+        // S7 Store
+        setSimStage(7);
+        await sleep(350);
+        simLog('[ stage 07 ]  anchoring to ledger + object vault...', 'info');
+        await sleep(300);
+        simLog('             DB: file_hash, merkle_root, prev_hash → saved ✓', 'success');
+        simLog('             Vault: ciphertext.bin → Supabase Storage ✓', 'success');
+        simLog('─────────────────────────────────────────────────────', 'dim');
+        simLog('[ DONE     ]  pipeline selesai — data aman & terverifikasi', 'success');
+
+        document.getElementById('sim-status-badge').textContent = 'COMPLETE';
+
+        // Render results
+        renderResultCard('File', file.name);
+        renderResultCard('Ukuran', sizeFmt);
+        renderResultCard('SHA-256 hash (file asli)', fileHash, true);
+        renderResultCard('AES-256 key (XOR synthesized)', keyHex.substring(0, 64) + '…', true);
+        renderResultCard('Merkle Root', merkleRoot, true, 'ok');
+        renderResultCard('Jumlah chunks', chunks.length + ' blocks @ 1 KB');
+        renderResultCard('Block index (sim)', String(Math.floor(Math.random() * 99) + 1));
+
+        document.getElementById('sim-tamper-box').value = cipherHex.substring(0, 320);
+        document.getElementById('sim-results').classList.remove('hidden');
+        renderMerkleViz(simState.leafHashes, merkleRoot);
+    }
+
+    async function simVerify() {
+        const input = document.getElementById('sim-tamper-box').value.trim();
+        if (!input || !simState.merkleRoot) return;
+        const badge = document.getElementById('sim-verify-badge');
+        const detail = document.getElementById('sim-verify-detail');
+        badge.textContent = 'verifying…';
+        await sleep(200);
+        const chunks = chunkHex(input, 1024 * 2);
+        const newRoot = await buildMerkle(chunks);
+        const match = newRoot === simState.merkleRoot;
+        badge.className = 'font-mono text-[10px] px-3 py-1 rounded-full border ' + (match ? 'border-primary/40 bg-primary/10 text-primary' : 'border-danger/40 bg-danger/10 text-danger');
+        badge.textContent = match ? '✓ VALID' : '✗ CORRUPTED';
+        detail.innerHTML =
+            '<span class="text-muted/60">stored root:    </span>' + simState.merkleRoot.substring(0, 36) + '…\n' +
+            '<span class="text-muted/60">recalculated:   </span>' + newRoot.substring(0, 36) + '…\n' +
+            '<span class="text-muted/60">verdict:        </span><span class="' + (match ? 'text-primary' : 'text-danger') + '">' + (match ? 'MATCH — data intact' : 'MISMATCH — tampering detected!') + '</span>';
+        detail.style.whiteSpace = 'pre';
+        detail.classList.remove('hidden');
+        simLog('[ audit    ]  integrity: ' + (match ? 'VALID ✓' : 'CORRUPTED ✗ — tampering detected!'), match ? 'success' : 'error');
+    }
+
+    function simTamper() {
+        const box = document.getElementById('sim-tamper-box');
+        if (!box.value) return;
+        const arr = box.value.split('');
+        const pos = Math.floor(Math.random() * (arr.length - 1));
+        const hex = '0123456789abcdef';
+        let c = hex[Math.floor(Math.random() * 16)];
+        while (c === arr[pos]) c = hex[Math.floor(Math.random() * 16)];
+        arr[pos] = c;
+        box.value = arr.join('');
+        document.getElementById('sim-verify-badge').className = 'font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted';
+        document.getElementById('sim-verify-badge').textContent = '— re-verify';
+        simLog('[ tamper   ]  1 nibble diubah pada posisi ' + pos, 'warn');
+    }
+
+    function simRestore() {
+        if (!simState.originalCipher) return;
+        document.getElementById('sim-tamper-box').value = simState.originalCipher.substring(0, 320);
+        document.getElementById('sim-verify-badge').className = 'font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted';
+        document.getElementById('sim-verify-badge').textContent = '—';
+        simLog('[ restore  ]  ciphertext dikembalikan ke original', 'info');
+    }
+</script>
+{% endblock %}

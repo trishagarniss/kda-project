@@ -5,8 +5,8 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 CHUNK_SIZE = 65536 # 64KB
 
 # HASHING (SHA-256)
-def sha256_hash(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
+# def sha256_hash(data: bytes) -> str:
+#     return hashlib.sha256(data).hexdigest()
 
 def hash_file(filepath: str) -> str:
     if not os.path.exists(filepath):
@@ -88,5 +88,5 @@ def decrypt_file(input_path: str, key: bytes, output_path: str) -> str:
 
 
 # HASH CIPHERTEXT 
-def hash_ciphertext(filepath: str) -> str:
-    return hash_file(filepath)
+# def hash_ciphertext(filepath: str) -> str:
+#     return hash_file(filepath)
