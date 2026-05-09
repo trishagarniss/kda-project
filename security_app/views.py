@@ -261,3 +261,9 @@ def console_view(request):
         'corrupted_count': documents.filter(status_verifikasi="CORRUPTED").count(),
     }
     return render(request, 'console.html', context)
+
+def architecture_view(request):
+    return render(request, 'architecture.html')
+
+def about_view(request):
+    return render(request, 'about.html')

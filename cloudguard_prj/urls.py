@@ -24,4 +24,6 @@ urlpatterns = [
     
     path('', views.home_view, name='home'),
     path('console/', views.console_view, name='console'),
+    path('architecture/', views.architecture_view, name='architecture'),
+    path('about/', views.about_view, name='about'),
 ]

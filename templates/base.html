@@ -134,12 +134,25 @@
         </div>
     </main>
 
+<<<<<<< HEAD
+=======
+    <button id="scrollToTopBtn" class="fixed bottom-8 right-8 z-[70] p-3 bg-surface/80 backdrop-blur-md border border-border rounded-full text-muted hover:text-primary hover:border-primary hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all duration-500 translate-y-16 opacity-0 cursor-pointer group pointer-events-none" aria-label="Scroll to top">
+        <svg class="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+
+>>>>>>> 73587eb0ee81c8b5a2825dbf9bab19daa3d19874
     <footer class="bg-[#080d1a] border-t border-border pt-16 pb-12 mt-20 relative z-10">
         <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 border-b border-border/50 pb-12">
             
             <div class="col-span-1 md:col-span-2">
                 <div class="flex items-center gap-3 mb-4">
+<<<<<<< HEAD
                     <img src="{% static 'images/Logo_Teks.png' %}" alt="Logo" class="h-8 w-auto">
+=======
+                    <img src="{% static 'images/Logo_Teks.png' %}" alt="Logo" class="h-20 w-auto">
+>>>>>>> 73587eb0ee81c8b5a2825dbf9bab19daa3d19874
                 </div>
                 <p class="text-sm text-muted leading-relaxed max-w-md">
                     Hybrid cryptographic security powered by Dynamic AES-256 & Enhanced Merkle Tree.
@@ -210,6 +223,25 @@
         document.addEventListener('mouseleave', () => {
             const bg = document.getElementById('global-interactive-bg');
             if(bg) bg.style.opacity = '0';
+        });
+
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                scrollToTopBtn.classList.remove('translate-y-16', 'opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.add('translate-y-0', 'opacity-100');
+            } else {
+                scrollToTopBtn.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.remove('translate-y-0', 'opacity-100');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     </script>
 </body>
