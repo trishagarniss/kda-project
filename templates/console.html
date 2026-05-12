@@ -1,0 +1,435 @@
+{% extends 'base.html' %}
+{% block title %}Console | CloudGuard EMT{% endblock %}
+
+{% block content %}
+<style>
+    .console-stage-row {
+        display: flex;
+        gap: 0.75rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        margin-top: 0.25rem;
+    }
+    .console-stage-card {
+        min-width: 150px;
+        flex-shrink: 0;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        background: rgba(15, 23, 42, 0.7);
+        border-radius: 1rem;
+        padding: 1rem;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+    .console-stage-card:hover {
+        transform: translateY(-2px);
+    }
+    .console-stage-card.active {
+        border-color: rgba(14, 116, 144, 0.9);
+        box-shadow: 0 0 24px rgba(6, 182, 212, 0.18);
+        background: rgba(15, 23, 42, 0.95);
+    }
+    .console-stage-card.complete {
+        border-color: rgba(5, 150, 105, 0.9);
+        background: rgba(16, 185, 129, 0.08);
+    }
+    .console-stage-card .stage-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+    .console-stage-card .stage-subtitle {
+        font-size: 0.7rem;
+        line-height: 1.4;
+        color: rgba(148, 163, 184, 0.95);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+    }
+</style>
+<div class="pt-24 pb-12 w-full max-w-[1200px] mx-auto flex flex-col gap-6 z-10 relative">
+
+    <div class="bg-surface border border-border p-4 rounded-xl flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+            <h2 class="font-display font-bold text-heading">CloudGuard EMT: ACTIVE</h2>
+        </div>
+        <div id="global-status" class="font-mono text-sm text-muted">Awaiting Input...</div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-[1.05fr_0.95fr] gap-6">
+        
+        <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-6">
+            <div>
+                <h3 class="font-display font-bold text-heading mb-2">Input Data</h3>
+                <p class="text-sm text-muted font-mono">Pilih file dari komputer lalu kirim ke backend untuk diproses oleh modul `core_engine`.</p>
+            </div>
+
+            <div id="drop-zone" class="border-2 border-dashed border-border rounded-3xl p-10 text-center cursor-pointer hover:border-primary transition-colors bg-background/50">
+                <div class="flex flex-col items-center justify-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-surface border border-border flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    </div>
+                    <div class="text-left max-w-[260px]">
+                        <p id="drop-text" class="text-body text-sm font-mono">Drag file ke sini atau klik untuk memilih file.</p>
+                        <p class="text-xs text-muted">Mendukung semua jenis file. File akan diproses dengan modul SHA-256, AES, Merkle, dan disimpan.</p>
+                    </div>
+                    <label for="file-input" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-primary cursor-pointer hover:bg-primary/10 transition-colors">
+                        Pilih File
+                    </label>
+                </div>
+                <input type="file" id="file-input" class="hidden">
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <button id="btn-process" class="w-full bg-primary text-background font-bold py-3 rounded-lg opacity-50 cursor-not-allowed transition-all" disabled>
+                    Process Encryption
+                </button>
+                <div id="upload-file-meta" class="hidden rounded-xl border border-border bg-background p-4 text-sm font-mono text-body">
+                    <div><strong>File:</strong> <span id="file-name">-</span></div>
+                    <div><strong>Ukuran:</strong> <span id="file-size">-</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-6">
+            <div>
+                <h3 class="font-display font-bold text-heading mb-2">Pipeline Status</h3>
+                <p class="text-sm text-muted font-mono">Status eksekusi modul `core_engine` ditampilkan secara berurutan.</p>
+            </div>
+            <div class="console-stage-row">
+                <div id="stage-upload" class="console-stage-card">
+                    <div class="stage-title">Upload</div>
+                    <div class="stage-subtitle">File Selection</div>
+                </div>
+                <div id="stage-sha" class="console-stage-card">
+                    <div class="stage-title">SHA-256</div>
+                    <div class="stage-subtitle">Hashing</div>
+                </div>
+                <div id="stage-key" class="console-stage-card">
+                    <div class="stage-title">AES Key</div>
+                    <div class="stage-subtitle">Dynamic Key</div>
+                </div>
+                <div id="stage-merkle" class="console-stage-card">
+                    <div class="stage-title">Merkle</div>
+                    <div class="stage-subtitle">Root</div>
+                </div>
+                <div id="stage-store" class="console-stage-card">
+                    <div class="stage-title">Store</div>
+                    <div class="stage-subtitle">DB Vault</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3 font-mono text-xs">
+                <div class="bg-background border border-border p-4 rounded-xl">
+                    <div class="text-muted text-[10px] uppercase tracking-widest mb-1">SHA-256 Hash</div>
+                    <div id="out-hash" class="text-primary break-all">-</div>
+                </div>
+                <div class="bg-background border border-border p-4 rounded-xl">
+                    <div class="text-muted text-[10px] uppercase tracking-widest mb-1">Dynamic AES Key</div>
+                    <div id="out-key" class="text-secondary break-all">-</div>
+                </div>
+                <div class="bg-background border border-border p-4 rounded-xl">
+                    <div class="text-muted text-[10px] uppercase tracking-widest mb-1">Merkle Root</div>
+                    <div id="out-merkle" class="text-primary break-all">-</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-4">
+        <h3 class="font-display font-bold text-heading border-b border-border pb-2">Audit & Verification</h3>
+        <p class="text-body text-sm">Fase 5: Verifikasi integritas ciphertext yang tersimpan di cloud.</p>
+        
+        <div class="flex gap-4">
+            <button id="btn-verify" class="px-6 py-2 bg-secondary/20 text-secondary border border-secondary/50 rounded-lg hover:bg-secondary/30 transition-all font-mono text-sm opacity-50 cursor-not-allowed" disabled>
+                Verify Integrity
+            </button>
+            <button id="btn-tamper" class="px-6 py-2 bg-danger/20 text-danger border border-danger/50 rounded-lg hover:bg-danger/30 transition-all font-mono text-sm opacity-50 cursor-not-allowed" disabled>
+                Simulate Tampering
+            </button>
+        </div>
+        
+        <div id="audit-result" class="hidden p-4 rounded-lg border font-mono text-sm mt-2 transition-all"></div>
+    </div>
+
+    <div class="bg-surface border border-border p-6 rounded-3xl flex flex-col gap-6">
+        <div class="flex items-center justify-between gap-4">
+            <div>
+                <h3 class="font-display font-bold text-heading">Riwayat Dokumen</h3>
+                <p class="text-sm text-muted font-mono">Daftar file yang sudah pernah dimasukkan ke sistem CloudGuard EMT.</p>
+            </div>
+            <div class="text-sm font-mono text-muted">Total dokumen: <span id="total-documents">{{ total_files }}</span></div>
+        </div>
+
+        <div class="overflow-x-auto rounded-3xl border border-border bg-background/70">
+            <table class="min-w-full text-left text-sm text-body">
+                <thead class="border-b border-border/50 bg-surface/80 text-xs uppercase tracking-[0.15em] text-muted">
+                    <tr>
+                        <th class="px-4 py-3">No</th>
+                        <th class="px-4 py-3">Nama File</th>
+                        <th class="px-4 py-3">Ukuran</th>
+                        <th class="px-4 py-3">Block</th>
+                        <th class="px-4 py-3">Status</th>
+                        <th class="px-4 py-3">Waktu</th>
+                    </tr>
+                </thead>
+                <tbody id="document-table-body">
+                    {% for doc in documents %}
+                    <tr class="border-b border-border/50 hover:bg-background/50 transition-colors">
+                        <td class="px-4 py-3 font-mono text-[13px]">{{ forloop.counter }}</td>
+                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.file_name }}</td>
+                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.file_size }} bytes</td>
+                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.block_index }}</td>
+                        <td class="px-4 py-3 font-mono text-[13px]">
+                            <span class="inline-flex rounded-full px-3 py-1 text-[11px] font-semibold {% if doc.status_verifikasi == 'VALID' %}bg-emerald-500/10 text-emerald-300 border border-emerald-500/15{% elif doc.status_verifikasi == 'CORRUPTED' %}bg-red-500/10 text-red-300 border border-red-500/15{% else %}bg-slate-500/10 text-slate-300 border border-slate-500/15{% endif %}">
+                                {{ doc.status_verifikasi }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.uploaded_at|date:'Y-m-d H:i:s' }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="px-4 py-6 text-center text-muted font-mono">Belum ada dokumen yang disimpan.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const dropText = document.getElementById('drop-text');
+    const btnProcess = document.getElementById('btn-process');
+    const btnVerify = document.getElementById('btn-verify');
+    const btnTamper = document.getElementById('btn-tamper');
+    const auditResult = document.getElementById('audit-result');
+    const uploadMeta = document.getElementById('upload-file-meta');
+    const fileNameLabel = document.getElementById('file-name');
+    const fileSizeLabel = document.getElementById('file-size');
+    const documentTableBody = document.getElementById('document-table-body');
+    const totalDocuments = document.getElementById('total-documents');
+    const stageUpload = document.getElementById('stage-upload');
+    const stageSha = document.getElementById('stage-sha');
+    const stageKey = document.getElementById('stage-key');
+    const stageMerkle = document.getElementById('stage-merkle');
+    const stageStore = document.getElementById('stage-store');
+    let selectedFile = null;
+    window.currentDocId = null;
+
+    function formatBytes(bytes) {
+        if (bytes === 0) return '0 B';
+        const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
+    }
+
+    function loadDocumentTable() {
+        fetch('/api/security/documents/')
+            .then((res) => res.json())
+            .then((data) => {
+                if (!data || data.status !== 'Sukses') return;
+                totalDocuments.textContent = data.total_data;
+                documentTableBody.innerHTML = '';
+                if (!data.data || data.data.length === 0) {
+                    documentTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="px-4 py-6 text-center text-muted font-mono">Belum ada dokumen yang disimpan.</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                data.data.forEach((doc, index) => {
+                    const statusClass = doc.status_verifikasi === 'VALID'
+                        ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/15'
+                        : doc.status_verifikasi === 'CORRUPTED'
+                        ? 'bg-red-500/10 text-red-300 border border-red-500/15'
+                        : 'bg-slate-500/10 text-slate-300 border border-slate-500/15';
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-border/50 hover:bg-background/50 transition-colors';
+                    row.innerHTML = `
+                        <td class="px-4 py-3 font-mono text-[13px]">${index + 1}</td>
+                        <td class="px-4 py-3 font-mono text-[13px]">${doc.file_name}</td>
+                        <td class="px-4 py-3 font-mono text-[13px]">${formatBytes(doc.file_size_bytes)}</td>
+                        <td class="px-4 py-3 font-mono text-[13px]">${doc.block_index}</td>
+                        <td class="px-4 py-3 font-mono text-[13px]"><span class="inline-flex rounded-full px-3 py-1 text-[11px] font-semibold ${statusClass}">${doc.status_verifikasi}</span></td>
+                        <td class="px-4 py-3 font-mono text-[13px]">${doc.uploaded_at}</td>
+                    `;
+                    documentTableBody.appendChild(row);
+                });
+            })
+            .catch(() => {
+                // fallback do nothing
+            });
+    }
+
+    function setConsoleStage(activeStage) {
+        [stageUpload, stageSha, stageKey, stageMerkle, stageStore].forEach((stage) => {
+            stage.classList.remove('active');
+        });
+
+        if (activeStage === 'upload') stageUpload.classList.add('active');
+        if (activeStage === 'sha') stageSha.classList.add('active');
+        if (activeStage === 'key') stageKey.classList.add('active');
+        if (activeStage === 'merkle') stageMerkle.classList.add('active');
+        if (activeStage === 'store') stageStore.classList.add('active');
+    }
+
+    function completeConsoleStage(stage) {
+        const mapping = {
+            upload: stageUpload,
+            sha: stageSha,
+            key: stageKey,
+            merkle: stageMerkle,
+            store: stageStore,
+        };
+        const el = mapping[stage];
+        if (el) {
+            el.classList.add('complete');
+            el.classList.remove('active');
+        }
+    }
+
+    function setActionButtons(enabled) {
+        [btnVerify, btnTamper].forEach((btn) => {
+            btn.disabled = !enabled;
+            btn.classList.toggle('opacity-50', !enabled);
+            btn.classList.toggle('cursor-not-allowed', !enabled);
+        });
+    }
+
+    function showAuditResult(message, variant = 'info') {
+        const colors = {
+            info: 'text-body/80 bg-background border-border',
+            success: 'text-primary bg-emerald-500/10 border-emerald-500/20',
+            error: 'text-danger bg-red-500/10 border-red-500/20',
+        };
+        auditResult.textContent = message;
+        auditResult.className = `p-4 rounded-lg border font-mono text-sm mt-2 transition-all ${colors[variant] || colors.info}`;
+        auditResult.classList.remove('hidden');
+    }
+
+    async function verifyIntegrity() {
+        if (!window.currentDocId) return;
+        showAuditResult('Memeriksa integritas file... Harap tunggu.', 'info');
+        try {
+            const response = await fetch(`/api/security/audit/${window.currentDocId}/`, { method: 'GET' });
+            const result = await response.json();
+            if (!response.ok || result.status !== 'Sukses') {
+                showAuditResult(`Verifikasi gagal: ${result.message || 'Server error.'}`, 'error');
+                return;
+            }
+            const valid = result.audit_detail?.is_valid;
+            if (valid) {
+                showAuditResult('Integritas valid. Ciphertext terverifikasi aman.', 'success');
+            } else {
+                showAuditResult('Integritas rusak! Sistem mendeteksi perubahan pada ciphertext.', 'error');
+            }
+        } catch (err) {
+            showAuditResult('Gagal memeriksa integritas. Cek koneksi atau server.', 'error');
+        }
+    }
+
+    function simulateTampering() {
+        if (!window.currentDocId) return;
+        showAuditResult('Simulasi tampering aktif: sistem akan menandai file sebagai rusak.', 'error');
+    }
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+    
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-primary', 'bg-primary/5');
+    });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-primary', 'bg-primary/5'));
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-primary', 'bg-primary/5');
+        handleFile(e.dataTransfer.files[0]);
+    });
+
+    btnVerify.addEventListener('click', verifyIntegrity);
+    btnTamper.addEventListener('click', simulateTampering);
+    setActionButtons(false);
+
+    function handleFile(file) {
+        if (!file) return;
+        selectedFile = file;
+        dropText.textContent = `✓ ${file.name} terpilih`;
+        fileNameLabel.textContent = file.name;
+        fileSizeLabel.textContent = formatBytes(file.size);
+        uploadMeta.classList.remove('hidden');
+        btnProcess.disabled = false;
+        btnProcess.classList.remove('opacity-50', 'cursor-not-allowed');
+        setConsoleStage('upload');
+        completeConsoleStage('upload');
+    }
+
+    btnProcess.addEventListener('click', async () => {
+        if (!selectedFile) return;
+
+        btnProcess.textContent = "Processing... (Encrypting)";
+        btnProcess.disabled = true;
+        document.getElementById('global-status').textContent = "Executing AES & Merkle Tree...";
+        setConsoleStage('sha');
+        
+        const formData = new FormData();
+        formData.append('document', selectedFile);
+
+        try {
+
+            const response = await fetch('/api/security/upload/', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+
+                document.getElementById('out-hash').textContent = result.data.kriptografi.file_hash;
+                document.getElementById('out-key').textContent = "[ DIKUNCI & TIDAK DISIMPAN ]"; // Sengaja disembunyikan backend demi keamanan
+                document.getElementById('out-merkle').textContent = result.data.kriptografi.merkle_root;
+
+                completeConsoleStage('sha');
+                setConsoleStage('key');
+                completeConsoleStage('key');
+                setConsoleStage('merkle');
+                completeConsoleStage('merkle');
+                setConsoleStage('store');
+                completeConsoleStage('store');
+                
+                document.getElementById('global-status').textContent = "Secured & Anchored to DB";
+                btnProcess.textContent = "Upload Success ✓";
+
+                window.currentDocId = result.data.database_id;
+                loadDocumentTable();
+                setActionButtons(true);
+            } else {
+                alert("Gagal: " + result.message);
+                resetButton();
+            }
+        } catch (error) {
+            alert("Koneksi ke server gagal. Pastikan Django menyala.");
+            resetButton();
+        }
+    });
+
+    function resetButton() {
+        btnProcess.textContent = "Process Encryption";
+        btnProcess.disabled = false;
+        uploadMeta.classList.add('hidden');
+        document.getElementById('global-status').textContent = "Awaiting Input...";
+        [stageUpload, stageSha, stageKey, stageMerkle, stageStore].forEach((stage) => {
+            stage.classList.remove('active', 'complete');
+        });
+        if (selectedFile) {
+            setConsoleStage('upload');
+            completeConsoleStage('upload');
+        }
+    }
+</script>
+{% endblock %}

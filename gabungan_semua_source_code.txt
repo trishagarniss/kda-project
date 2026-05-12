@@ -1,0 +1,4199 @@
+
+==============================
+PATH: ABOUT_DESIGN.md
+==============================
+
+### **ABOUT PAGE**
+
+Design a professional “About” page for a cybersecurity application called CloudGuard EMT (Enhanced Merkle Tree).
+
+
+
+This page should:
+
+* Explain the purpose of the project
+* Showcase the team members and their roles
+* Present the technology stack used
+* Feel like a real startup / research project profile
+
+
+
+**🎨 VISUAL STYLE**
+
+* Style: Modern SaaS + Tech Startup Profile
+* Feel: Clean, structured, professional, trustworthy
+* Avoid playful design → must feel like engineering product page
+
+
+
+**🎨 COLOR SYSTEM**
+
+* Use consistent palette:
+* Background: #0B1120
+* Surface: #1E293B
+* Border: #334155
+* Primary: #10B981
+* Secondary: #06B6D4
+* Danger: #EF4444
+* Text:
+
+&#x09;Heading: #F8FAFC
+
+&#x09;Body: #94A3B8
+
+
+
+**✍️ TYPOGRAPHY**
+
+* Headings: Space Grotesk (bold)
+* Body: Inter
+* Code/Tech labels: JetBrains Mono
+
+
+
+**📐 LAYOUT STRUCTURE**
+
+
+
+**🧭 1. PAGE HEADER**
+
+**Content:**
+
+* Title:
+
+“About CloudGuard EMT”
+
+* Subtitle:
+
+“A hybrid cryptographic system designed to secure cloud data using Dynamic AES Encryption and Enhanced Merkle Tree verification.”
+
+
+
+
+
+📌 2. PROJECT DESCRIPTION (TUJUAN PROYEK)
+
+**Layout:**
+
+Centered card (medium width)
+
+**Content (IMPORTANT – use this text):**
+
+CloudGuard EMT is a cybersecurity system designed to enhance cloud storage security by combining Dynamic AES-256 encryption and Enhanced Merkle Tree (EMT) integrity verification.
+
+**The system ensures:**
+
+* Confidentiality through dynamic key-based encryption
+* Integrity through hierarchical hashing
+* Tamper detection using blockchain-based verification
+
+
+
+Unlike traditional systems, CloudGuard EMT generates a unique encryption key for every file and validates data integrity at a granular level, ensuring that even a single bit modification is detected instantly.
+
+
+
+**👥 3. TEAM MEMBERS SECTION**
+
+**Layout:**
+
+* 4-column grid (desktop)
+* Each member inside a card
+
+
+
+**🎴 CARD DESIGN**
+
+Each card contains:
+
+* Profile image (rounded)
+* Name (heading font)
+* Role (highlight with emerald or cyan)
+* Description (short paragraph)
+
+
+
+👤 TEAM CONTENT
+
+1\. Trisha Garnis W (L0224012)
+
+* Role:
+
+SHA-256 \& Dynamic AES Key Generation
+
+* Description:
+
+Builds the core hashing logic and implements dynamic key generation using XOR operations to ensure unique encryption per file.
+
+2\. Ibrahim Syauqi (L0224018)
+
+* Role:
+
+Interface \& Module Integration
+
+* Description:
+
+Develops the interactive user interface and integrates all backend modules into a cohesive application workflow.
+
+3\. Jimly Syahbatin (L0224033)
+
+* Role:
+
+Merkle Tree Construction \& Verification
+
+* Description:
+
+Designs the hierarchical tree structure and implements integrity validation using Merkle Root comparison.
+
+4\. Evan Hauzal F (L0224041)
+
+* Role:
+
+Encryption/Decryption \& Blockchain Simulation
+
+* Description:
+
+Implements AES-256 encryption/decryption processes and manages blockchain-like metadata storage for verification.
+
+
+
+**🎨 UI DETAILS**
+
+* Hover card:
+
+&#x09;Slight scale up
+
+&#x09;Border glow (emerald)
+
+* Role text:
+
+&#x09;Use JetBrains Mono or semi-bold highlight
+
+* Add subtle divider lines
+
+
+
+**🧰 4. TECH STACK SECTION (SUPER IMPORTANT)**
+
+Layout:
+
+Grid or categorized cards
+
+
+
+🔹 CATEGORY 1: FRONTEND
+
+HTML5, CSS3, Vanilla JavaScript
+
+Tailwind CSS
+
+Django Template Engine
+
+
+
+🔹 CATEGORY 2: BACKEND
+
+Python 3.10+
+
+Django Framework
+
+
+
+🔹 CATEGORY 3: CRYPTOGRAPHY \& INTEGRITY ENGINE
+
+cryptography → AES-256-GCM execution
+
+hashlib → SHA-256 hashing
+
+os.urandom → secure nonce generation
+
+
+
+🔹 CATEGORY 4: DATABASE \& CLOUD
+
+PostgreSQL (Supabase) → blockchain metadata
+
+Supabase Storage → ciphertext storage
+
+
+
+Visually separate Database and Storage into two distinct panels:
+
+
+
+LEFT PANEL:
+
+Title: "Relational Database (Blockchain Ledger)"
+
+Content:
+
+\- PostgreSQL (Supabase)
+
+\- Stores: Merkle Root, File Hash, Previous Hash, Metadata
+
+
+
+RIGHT PANEL:
+
+Title: "Cloud Object Storage (Ciphertext Vault)"
+
+Content:
+
+\- Supabase Storage
+
+\- Stores: Encrypted files (Ciphertext) and Nonce
+
+
+
+Add a visual arrow or data flow between them to show hybrid storage architecture.
+
+
+
+psycopg2-binary, supabase-py
+
+
+
+🔹 CATEGORY 5: DEPLOYMENT
+
+Render / Railway
+
+python-dotenv
+
+Git \& GitHub
+
+
+
+**🎨 UI STYLE**
+
+Each tech:
+
+* Display as badge/tag
+* Monospace font for libraries
+* Hover highlight cyan
+
+
+
+**🧠 5. FINAL STATEMENT (CLOSING SECTION)**
+
+**Content:**
+
+“CloudGuard EMT is not just a storage system — it is a secure cryptographic framework ensuring that data remains confidential, verifiable, and tamper-proof at all times.”
+
+
+
+**Style:**
+
+* Centered text
+* Slight glow
+* Bigger font
+
+
+
+🎯 MICRO INTERACTIONS
+
+* Hover team cards → glow + elevate
+* Tech badges → highlight on hover
+* Smooth fade-in on scroll
+* Optional:
+
+&#x09;typing effect for tech stack
+
+&#x09;subtle grid background
+
+
+
+**🚫 AVOID**
+
+* Informal tone
+* Over-decorated UI
+* Emoji-heavy design
+* Random colors
+
+
+
+🧩 FINAL OUTPUT GOAL
+
+This page should feel like:
+
+A real startup team page + technical project documentation
+
+
+
+Not:
+
+biodata biasa
+
+atau sekadar “anggota kelompok”
+
+
+
+
+==============================
+PATH: ARCHITECTURE_DESIGN.md
+==============================
+
+### **ARCHITECTURE PAGE**
+
+Design a technical architecture page for a cybersecurity system called CloudGuard EMT (Dynamic AES + Enhanced Merkle Tree + Blockchain Verification).
+
+
+
+This page is meant to:
+
+* Educate users about how the system works internally
+* Visually explain cryptographic processes
+* Present a clear workflow diagram (flowchart) of the entire pipeline
+
+
+
+**🎨 VISUAL STYLE**
+
+* Style: Technical diagram + modern SaaS UI
+* Feel: Clean, academic, structured, intelligent
+* Inspiration:
+
+&#x09;System design diagrams (like AWS architecture)
+
+&#x09;Flowchart UI
+
+&#x09;Developer documentation pages (Stripe / Vercel)
+
+
+
+**🎨 COLOR SYSTEM (CONSISTENT)**
+
+Use same palette:
+
+* Background: #0B1120
+* Card/Panel: #1E293B
+* Border: #334155
+* Primary: #10B981 (main flow)
+* Secondary: #06B6D4 (data movement)
+* Warning: #F59E0B
+* Danger: #EF4444
+* Text:
+
+&#x09;Heading: #F8FAFC
+
+&#x09;Body: #94A3B8
+
+
+
+**✍️ TYPOGRAPHY**
+
+* Headings: Space Grotesk (bold)
+* Body: Inter
+* Code/Formula:
+
+&#x09;JetBrains Mono
+
+
+
+**📐 LAYOUT STRUCTURE**
+
+
+
+**🧭 1. PAGE HEADER**
+
+**Content:**
+
+* **Title:**
+
+&#x09;“System Architecture \& Cryptographic Workflow”
+
+* **Subtitle:**
+
+&#x09;Explain:
+
+&#x09;“This section visualizes how CloudGuard EMT processes, encrypts, and verifies data 	integrity using a hybrid cryptographic approach.”
+
+
+
+🔁 2. MAIN FLOWCHART (CORE SECTION – MOST IMPORTANT)
+
+**🔥 MUST BE VISUAL**
+
+Design a horizontal or vertical flowchart diagram showing full pipeline:
+
+
+
+**FLOW STEPS:**
+
+1. User Upload File (Pengguna memilih file).
+2. SHA-256 Hash Generation (Mengekstrak Hash\_File dari dokumen asli).
+3. Deduplication Check (PENTING) ➔ Sistem mengecek Hash\_File di Cloud. Jika file sudah ada, cukup update hak milik (STOP). Jika file baru, lanjut ke Step 4.
+4. Dynamic Key Generation (XOR) (Peleburan Hash\_File + Prev\_Block\_Hash).
+5. AES-256-GCM Encryption (Mengubah file asli + Key + Nonce menjadi Ciphertext).
+6. Ciphertext Chunking (Memotong Ciphertext menjadi balok-balok 1KB).
+7. Enhanced Merkle Tree Construction (Melakukan hashing dari bawah ke atas pada setiap balok data).
+8. Merkle Root Generation (Menghasilkan 1 segel utama sepanjang 64 karakter).
+9. Hybrid Storage ➔ Data dipecah dua:
+Public Cloud: Menyimpan Ciphertext \& Nonce.
+Private Blockchain: Menyimpan Merkle Root, Hash\_File, \& Prev\_Hash.
+10. Verification Process (Smart Auditing) (Bukan sekadar Reverse Flow, melainkan: Prediksi Perilaku ➔ Ambil Chunk Acak ➔ Hitung Ulang Root ➔ Cocokkan dengan Blockchain).
+
+
+
+**🎨 FLOW DESIGN**
+
+Each step should be:
+
+* Inside rounded card
+* Connected with arrows or lines
+* Use colors:
+
+| State      | Color   |
+
+| ---------- | ------- |
+
+| Input      | Cyan    |
+
+| Process    | Emerald |
+
+| Critical   | Amber   |
+
+| Error path | Red     |
+
+
+
+**💡 VISUAL ENHANCEMENTS**
+
+* Animated arrows (flow direction)
+* Glow effect on active nodes
+* Use icons:
+
+File 📄
+
+Hash 🔢
+
+Lock 🔐
+
+Tree 🌳
+
+Chain ⛓️
+
+
+
+**🔐 3. DYNAMIC AES SECTION (DETAILED BREAKDOWN)**
+
+**Layout:**
+
+Card with formula visualization
+
+**Content:**
+
+Show formula clearly:
+
+AES Key = SHA256(File) ⊕ Previous Block Hash
+
+
+
+The formula must be displayed using a monospace font (JetBrains Mono) and visually highlighted inside a dedicated code-style container.
+
+
+
+Apply:
+
+\- Slight background contrast (darker panel)
+
+\- Cyan or emerald glow
+
+\- Center alignment
+
+
+
+Example visual emphasis:
+
+\[AES Key = SHA256(File) ⊕ Previous Block Hash]
+
+
+
+Additionally:
+
+\- Animate the XOR operation (optional)
+
+\- Show two inputs merging into one output
+
+
+
+**Add explanation:**
+
+* XOR operation creates unique key per file
+* Prevents key reuse attack
+
+**Visual:**
+
+* Two input boxes → XOR → output key
+
+
+
+**🌳 4. ENHANCED MERKLE TREE SECTION**
+
+**Layout:**
+
+Split into 2 parts:
+
+
+
+**A. Visual Tree Diagram**
+
+* Bottom: Leaf nodes (chunk hashes)
+* Middle: parent hashes
+* Top: Merkle Root
+
+
+
+**B. Explanation:**
+
+* File → split into chunks
+* Each chunk hashed
+* Combined recursively
+
+**Highlight:**
+
+“Any change in 1 byte will alter the entire Merkle Root”
+
+**Use:**
+
+* Red highlight for “1 byte change”
+* Emerald for “secure state”
+
+
+
+**⛓️ 5. BLOCKCHAIN INTEGRATION**
+
+**Layout:**
+
+Card showing chain blocks
+
+**Visual:**
+
+\[Block N-1] → \[Block N] → \[Block N+1]
+
+
+
+**Each block contains:**
+
+* Previous Hash
+* Merkle Root
+* Timestamp
+
+
+
+**Explanation:**
+
+* Immutable ledger
+* Prevents tampering
+* Enables verification tracking
+
+
+
+**🔍 6. VERIFICATION FLOW (REVERSE PROCESS)**
+
+**Show flow:**
+
+1. Retrieve ciphertext
+2. Recalculate hash
+3. Rebuild Merkle Tree
+4. Compare Merkle Root
+5. Decision:
+
+Match → ✅ Allow decryption
+
+Mismatch → ❌ Block access
+
+
+
+⚠️ 7. SECURITY INSIGHT PANEL
+
+**Big statement:**
+
+“A single bit modification invalidates the entire integrity chain.”
+
+
+
+Style:
+
+* Dark card
+* Red highlight on “single bit”
+* Glow effect
+
+
+
+**🎯 MICRO INTERACTIONS**
+
+* Hover node → show explanation tooltip
+* Click node → expand detail
+* Flow lines animate
+* Tree nodes pulse on recompute
+
+
+
+**🚫 AVOID**
+
+* Overly complex diagrams
+* Too much text
+* Flat boring boxes (must feel alive)
+
+
+
+**🧩 FINAL OUTPUT GOAL**
+
+This page should feel like:
+
+A hybrid between technical documentation + interactive system diagram
+
+
+
+**User should:**
+
+* Understand system in < 1 minute
+* Be impressed visually
+* Trust the system security
+
+
+
+
+==============================
+PATH: CONSOLE_DESIGN.md
+==============================
+
+### **CONSOLE PAGE**
+
+Design a highly interactive cybersecurity control panel (console/workspace) for a system called CloudGuard EMT (Dynamic AES + Enhanced Merkle Tree Blockchain Integrity System).
+
+
+
+This page is the core operational dashboard where users upload files, view encryption pipeline execution, and verify integrity.
+
+
+
+**🎨 VISUAL STYLE**
+
+* Style: Cybersecurity terminal + modern SaaS dashboard hybrid
+* Feel: Hacker console, but clean and enterprise-grade
+* Layout inspiration:
+
+&#x09;GitHub Actions UI (pipeline feel)
+
+&#x09;Vercel dashboard
+
+&#x09;Blockchain explorer UI
+
+&#x09;Cyberpunk terminal (subtle, not noisy)
+
+
+
+
+
+**🎨 COLOR SYSTEM (STRICT)**
+
+Use same palette:
+
+**Background**
+
+* Main: #0B1120
+
+**Panels**
+
+* Cards: #1E293B
+* Borders: #334155
+
+**Accents**
+
+* Primary success / encryption OK: #10B981 (emerald)
+* Secondary / process flow: #06B6D4 (cyan)
+* Warning (integrity issue): #F59E0B
+* Danger (hack / tamper): #EF4444
+
+**Text**
+
+* Title: #F8FAFC
+* Body: #94A3B8
+
+
+
+**✍️ TYPOGRAPHY SYSTEM**
+
+* Headings: Space Grotesk (bold, futuristic)
+* Body: Inter (clean UI text)
+* Code / cryptographic output:
+* JetBrains Mono (VERY IMPORTANT for hashes, keys, nonce, root)
+
+
+
+
+
+📐 LAYOUT STRUCTURE (CORE DASHBOARD)
+
+Split layout into 3 main zones:
+
+**🧭 1. TOP STATUS BAR (SYSTEM OVERVIEW)**
+
+**Layout:**
+
+Horizontal full-width bar
+
+**Content:**
+
+* System Status:
+
+&#x09;“CloudGuard EMT: ACTIVE” (green indicator dot)
+
+* Blockchain Sync Status
+* Last Operation Timestamp
+* Integrity Status:
+
+&#x09;OK / Warning / Compromised
+
+* UI Behavior:
+
+&#x09;Green pulse if secure
+
+&#x09;Red glow if tampered detected
+
+
+
+**📦 2. MAIN WORKSPACE (CENTER AREA)**
+
+Split into 2 columns:
+
+**🟩 LEFT PANEL: FILE UPLOAD + INPUT**
+
+**A. Upload Box (Drag \& Drop Zone)**
+
+* Large dashed border box
+* Text:
+
+&#x09;“Drop file or click to upload”
+
+* Background slightly lighter than main bg
+
+**Interaction:**
+
+* On hover: border turns emerald glow
+* On file drop: animation “processing starts”
+
+
+
+**B. File Metadata Preview**
+
+After upload show:
+
+* File name
+* File size
+* File type
+* SHA-256 hash (mono font)
+
+
+
+**C. Action Button**
+
+* “Process Encryption”
+* Style:
+
+&#x09;Emerald background
+
+&#x09;Glow effect on hover
+
+* Disabled state until file uploaded
+
+
+
+**🟦 RIGHT PANEL: LIVE OUTPUT DASHBOAR**D
+
+This is the MOST IMPORTANT SECTION visually
+
+
+
+**🔐 1. CRYPTO OUTPUT CARDS**
+
+Grid of cards:
+
+**Card 1: SHA-256 Hash**
+
+* Mono font
+* Emerald highlight label
+
+**Card 2: Dynamic AES Key**
+
+* Very long string (truncate with expand button)
+* Cyan highlight
+
+**Card 3: Nonce**
+
+* Smaller but mono styled
+
+
+
+**⚙️ 2. PROCESS PIPELINE VISUALIZER**
+
+Horizontal step tracker:
+
+Upload → SHA-256 → XOR Key Gen → AES Encrypt → Chunking → Merkle Tree → Blockchain Store
+
+**UI Behavior:**
+
+* Each step becomes:
+
+&#x09;Gray = not started
+
+&#x09;Cyan = processing
+
+&#x09;Green = completed
+
+&#x09;Red = failed
+
+* Animated progress line flows left to right
+
+
+
+**🌳 3. MERKLE TREE VISUAL SECTION**
+
+* Show simplified tree visualization
+* Leaf nodes = ciphertext chunks
+* Root node = Merkle Root
+
+**Behavior:**
+
+* If file unchanged → root green
+* If tampered → root turns red + shakes animation
+
+
+
+**⛓️ 4. BLOCKCHAIN LOG SIMULATION**
+
+* Scrollable log panel
+* Each block:
+
+Block #1024
+
+Hash: 9f8a...
+
+PrevHash: 3ab2...
+
+MerkleRoot: a91c...
+
+Status: VERIFIED
+
+**UI Style:**
+
+* Terminal-like
+* Alternating dark rows
+* Verified = green
+* Tampered = red
+
+
+
+**⚠️ 3. SECURITY ACTION PANEL (BOTTOM SECTION)**
+
+**🔍 VERIFY BUTTON**
+
+* “Verify Integrity”
+* Runs recomputation of hash + Merkle root
+
+
+
+**💀 HACK SIMULATION BUTTON (VERY IMPORTANT DEMO FEATURE)**
+
+* Label: “Simulate Data Tampering”
+* Effect:
+
+&#x09;Random bit change in ciphertext
+
+&#x09;Merkle root mismatch
+
+&#x09;Entire system turns red warning state
+
+
+
+* Before triggering the Merkle Root mismatch, display a short terminal-like animation:
+
+
+
+"Injecting bad payload to Supabase Storage..."
+
+
+
+* The text should appear with a typing effect, simulating a real system-level attack on external cloud storage.
+
+
+
+* After the animation completes:
+
+\- Merkle Root turns red
+
+\- Integrity status changes to "COMPROMISED"
+
+\- Blockchain log updates with a tampered entry
+
+
+
+
+
+**🧠 OUTPUT ALERT BOX**
+
+Dynamic alert box:
+
+**Success:**
+
+“Integrity Verified. Data is secure.”
+
+**Failure:**
+
+“WARNING: Data tampering detected. Merkle Root mismatch!”
+
+
+
+**Style:**
+
+* Success = emerald glow
+* Error = red pulse animation
+
+
+
+**🎯 MICRO INTERACTIONS (IMPORTANT FOR WOW FACTOR)**
+
+* Buttons glow on hover
+* Pipeline animates like loading CI/CD system
+* Hash values appear “typing effect”
+* Merkle tree nodes animate on recomputation
+* Blockchain logs scroll like terminal feed
+
+
+
+**🚫 AVOID**
+
+* Too playful UI
+* Over-colorful design
+* Cartoon icons
+* Overloaded animations
+
+
+
+**🧩 FINAL OUTPUT GOAL**
+
+This page should feel like:
+
+
+
+“A real-world cryptographic security operations dashboard used by a cloud security engineer.”
+
+
+
+Not a demo. Not a school project UI.
+
+But a security system control panel.
+
+
+
+
+==============================
+PATH: HOME_DESIGN.md
+==============================
+
+### **HOMEPAGE**
+
+Design a modern, futuristic dark-mode cybersecurity web landing page for an application named “CloudGuard EMT” (Enhanced Merkle Tree).
+
+
+
+**🎨 Theme \& Visual Style**
+
+* Style: Cybersecurity, futuristic, minimal, clean UI
+* Inspiration: Combination of Matrix aesthetic + Vercel UI + modern SaaS dashboard
+* Mood: Secure, high-tech, premium, trustworthy
+* Avoid clutter, focus on clarity and hierarchy
+
+
+
+**🎨 COLOR SYSTEM (STRICT)**
+
+Use the following color palette:
+
+* Background: #0B1120 (very dark blue)
+* Surface/Card: #1E293B
+* Border: #334155
+* Primary (main action / branding): #10B981 (neon emerald)
+* Secondary (accent/glow): #06B6D4 (cyan)
+* Danger: #EF4444 (red)
+* Warning: #F59E0B (amber)
+* Heading text: #F8FAFC
+* Body text: #94A3B8
+
+
+
+**✍️ TYPOGRAPHY**
+
+* Headings: Space Grotesk, bold, futuristic feel
+* Body: Inter, clean and readable
+* Monospace (for code preview): JetBrains Mono
+
+
+
+**📐 LAYOUT STRUCTURE**
+
+**1. NAVBAR (Top Navigation)**
+
+* Sticky top navigation bar
+* Left: Logo text “CloudGuard EMT” (emerald color)
+* Right menu:
+
+&#x09;Home (active, highlighted)
+
+&#x09;Console
+
+&#x09;Architecture
+
+&#x09;About
+
+* Hover effect:
+
+&#x09;Text becomes emerald
+
+&#x09;Smooth transition
+
+
+
+**2. HERO SECTION (Main Highlight)**
+
+**Layout:**
+
+* Centered vertically and horizontally
+* Large bold heading
+* Subheading below
+* CTA buttons
+
+**Content:**
+
+* Heading:
+
+“Secure Your Cloud Data with Intelligent Cryptography”
+
+→ highlight “Cloud Data” or “Cryptography” in emerald
+
+* Subheading:
+
+Explain briefly:
+
+“Dynamic AES encryption combined with Enhanced Merkle Tree ensures data confidentiality, integrity, and tamper-proof verification.”
+
+**CTA Buttons:**
+
+* Primary button:
+
+“Launch Console” (emerald background)
+
+* Secondary button:
+
+“View Architecture” (outline style with cyan border)
+
+**Visual Element (IMPORTANT):**
+
+* Add glowing animated effect or gradient lines
+* **Optional:**
+
+Abstract network / nodes
+
+Matrix-style subtle background
+
+Floating encryption symbols
+
+
+
+3\. PROBLEM SECTION (Why This Matters)
+
+**Layout:**
+
+* 3 columns grid
+* Each in card (surface color)
+
+**Content:**
+
+Explain cloud risks:
+
+1. Data Breach Risk
+2. Data Tampering
+3. Lack of Integrity Verification
+
+**Each card:**
+
+* Icon (minimal, line style)
+* Title (white)
+* Description (gray text)
+
+
+
+4\. FEATURES SECTION (Core System Power)
+
+**Layout:**
+
+3 feature cards (horizontal or grid)
+
+**Features:**
+
+1. 🔐 Dynamic AES Encryption
+
+Explain:
+
+Key generated using file hash + blockchain hash (XOR)
+
+2\. 🌳 Enhanced Merkle Tree
+
+Explain:
+
+File chunking + hierarchical hashing → single root integrity
+
+3\. ⛓️ Blockchain Verification
+
+Explain:
+
+Immutable storage of Merkle root for tamper detection
+
+**Design:**
+
+Card background: surface
+
+Hover:
+
+glow emerald
+
+slight scale up
+
+5. SYSTEM FLOW PREVIEW (Mini Visualization)
+
+**Layout:**
+
+Horizontal pipeline (step indicator)
+
+**Steps:**
+
+Upload → Hash → XOR → AES → Chunking → Merkle → Store
+
+**Style:**
+
+* Each step inside rounded box
+* Connected with lines/arrows
+* Active step glowing (emerald)
+
+
+
+6\. SECURITY STATEMENT (Trust Section)
+
+**Content:**
+
+Short bold statement:
+
+“Even a single bit change will invalidate the entire system.”
+
+* Highlight:
+
+“single bit change” in red
+
+“invalidate” in warning color
+
+
+
+7\. FOOTER
+
+* App name
+* Link ke About
+* Logo GitHub link ke repo pembuatan
+* Short description
+* Copyright
+
+
+
+
+
+💡 MICRO-INTERACTIONS (VERY IMPORTANT)
+
+Hover:
+
+Buttons glow emerald
+
+Cards:
+
+scale slightly on hover
+
+Background:
+
+subtle gradient movement or noise texture
+
+Add neon glow effects sparingly
+
+
+
+🚫 AVOID
+
+* Bright white background
+* Too many colors
+* Overcrowded UI
+* Cartoonish icons
+
+
+
+🎯 OUTPUT EXPECTATION
+
+The result should feel like:
+
+* A professional SaaS cybersecurity product
+* Clean, futuristic, and convincing
+* Suitable for academic demo AND portfolio showcase
+
+
+
+
+==============================
+PATH: main.py
+==============================
+
+def main():
+    print("Hello from kda-project!")
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+==============================
+PATH: manage.py
+==============================
+
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
+import os
+import sys
+
+
+def main():
+    """Run administrative tasks."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cloudguard_prj.settings')
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+==============================
+PATH: README.md
+==============================
+
+# 🛡️ CloudGuard EMT (Enhanced Merkle Tree)
+
+**CloudGuard EMT** adalah purwarupa sistem keamanan data cloud yang mengimplementasikan *Dynamic AES Encryption* untuk kerahasiaan data dan *Enhanced Merkle Tree* (EMT) terintegrasi simulasi *Blockchain* untuk verifikasi integritas data.
+
+Proyek ini dikembangkan sebagai Tugas Akhir/Projek Keamanan Data untuk mendemonstrasikan bagaimana data di lingkungan cloud dapat diamankan dari ancaman modifikasi ilegal dan pencurian kunci enkripsi.
+
+## ✨ Fitur Utama
+*   **Dynamic AES-256 Encryption:** Menghasilkan kunci enkripsi dinamis melalui operasi logika XOR antara *hash* file (SHA-256) dengan *hash* dari blok sebelumnya.
+*   **Integritas dengan Enhanced Merkle Tree:** Memvalidasi *ciphertext* yang tersimpan di cloud untuk memastikan tidak ada perubahan sekecil 1 bit pun yang dilakukan oleh pihak tidak sah.
+*   **Blockchain Metadata Ledger:** Simulasi buku besar (*ledger*) untuk menyimpan *Merkle Root* dan riwayat kunci secara berkesinambungan.
+*   **Hacker Terminal View:** Antarmuka simulasi tambahan untuk mendemonstrasikan bagaimana sistem memblokir akses saat *ciphertext* disusupi/dimanipulasi.
+
+## 🗂️ Struktur Direktori
+*   `backend/` - Berisi *core engine* kriptografi (AES, SHA-256, Merkle Tree, dan Blockchain Simulator).
+*   `frontend/` - Berisi logika *routing* (Flask/FastAPI) dan antarmuka web (HTML/Tailwind).
+*   `data/` - Direktori lokal untuk menyimulasikan *cloud storage* (menyimpan *ciphertext* dan file *upload* sementara).
+*   `notebooks/` - Jupyter Notebooks untuk pengujian dan purwarupa fungsi kriptografi.
+
+
+
+
+==============================
+PATH: requirements.txt
+==============================
+
+# This file was autogenerated by uv via the following command:
+#    uv pip compile pyproject.toml -o requirements.txt
+# --- Framework & Server ---
+Django>=4.2
+gunicorn>=21.2.0
+whitenoise>=6.6.0
+
+# --- Database & Cloud Storage ---
+psycopg2-binary>=2.9.9
+supabase>=2.3.0
+
+# --- Security & Environment ---
+cryptography>=41.0.0
+python-dotenv>=1.0.0
+
+
+==============================
+PATH: .github\workflows\ci-cd.yml
+==============================
+
+name: CloudGuard EMT CI/CD Pipeline
+
+# Pipeline akan berjalan otomatis setiap ada 'push' atau 'pull request' ke branch main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # FASE 1: CONTINUOUS INTEGRATION (TESTING)
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Menarik kode terbaru dari repository
+    - name: Checkout Code Repository
+      uses: actions/checkout@v3
+
+    # 2. Menyiapkan environment Python
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    # 3. Menginstal library yang dibutuhkan (cryptography, django, dll)
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install cryptography django
+        # Jika nanti ada requirements.txt, gunakan command di bawah ini:
+        # pip install -r requirements.txt
+
+    # 4. (Opsional tapi Keren) Menjalankan Unit Test Kriptografi
+    - name: Run Crypto Engine Tests
+      run: |
+        echo "Running security algorithms check..."
+        # python backend/test_crypto.py  <-- Aktifkan ini nanti kalau kalian buat file test
+
+  # FASE 2: CONTINUOUS DEPLOYMENT (DELIVERY)
+  deploy-to-cloud:
+    needs: build-and-test # Pastikan fase test sukses dulu sebelum deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Deploying to Production Server
+      run: |
+        echo "Mengirim kode terbaru ke Server (Render/Railway)..."
+        # Di sinilah nanti kalian menaruh webhook URL dari layanan hosting kalian (misal Render)
+        # curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+        echo "✅ Deployment Sukses! Sistem CloudGuard EMT berhasil diperbarui."
+
+
+==============================
+PATH: cloudguard_prj\asgi.py
+==============================
+
+"""
+ASGI config for cloudguard_prj project.
+
+It exposes the ASGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/6.0/howto/deployment/asgi/
+"""
+
+import os
+
+from django.core.asgi import get_asgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cloudguard_prj.settings')
+
+application = get_asgi_application()
+
+
+
+==============================
+PATH: cloudguard_prj\settings.py
+==============================
+
+"""
+Django settings for cloudguard_prj project.
+
+Generated by 'django-admin startproject' using Django 6.0.5.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/6.0/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/6.0/ref/settings/
+"""
+
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = ['*']
+
+
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'corsheaders',
+    'security_app',
+]
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'cloudguard_prj.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'cloudguard_prj.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
+# KONFIGURASI DATABASE (SUPABASE POSTGRESQL)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'postgres'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+            # 'Encrypt': 'True',
+        }
+    }
+}
+
+# keamanandata2026
+
+# Password validation
+# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/6.0/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'Asia/Jakarta'
+
+USE_I18N = True
+
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/6.0/howto/static-files/
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media' # Lokasi file ciphertext (.bin) disimpan sementara
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Supabase Configuration
+SUPABASE_URL = "https://vnokqhoitviwmqugutmd.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZub2txaG9pdHZpd21xdWd1dG1kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODA3MzY4NywiZXhwIjoyMDkzNjQ5Njg3fQ.TNNxd9fGMbeMML6Ux7-dzgW-Ydjps8pNeTL7qYOYFrA"
+SUPABASE_BUCKET = "cloudguard-vault"
+
+
+==============================
+PATH: cloudguard_prj\urls.py
+==============================
+
+"""
+URL configuration for cloudguard_prj project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from security_app import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/security/', include('security_app.urls')),
+    
+    path('', views.home_view, name='home'),
+    path('console/', views.console_view, name='console'),
+    path('architecture/', views.architecture_view, name='architecture'),
+    path('about/', views.about_view, name='about'),
+]
+
+
+
+==============================
+PATH: cloudguard_prj\wsgi.py
+==============================
+
+"""
+WSGI config for cloudguard_prj project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/6.0/howto/deployment/wsgi/
+"""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cloudguard_prj.settings')
+
+application = get_wsgi_application()
+
+
+
+==============================
+PATH: cloudguard_prj\__init__.py
+==============================
+
+
+
+
+==============================
+PATH: notebooks\prototyping.ipynb
+==============================
+
+{
+ "cells": [],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python (myenv)",
+   "language": "python",
+   "name": "myenv"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
+
+
+
+==============================
+PATH: security_app\models.py
+==============================
+
+from django.db import models
+
+class SecureDocument(models.Model):
+    # Data Asli
+    file_name = models.CharField(max_length=255, help_text="Nama file asli yang diupload")
+    file_size = models.BigIntegerField(null=True, blank=True, help_text="Ukuran file dalam bytes")
+    
+    # Data Kriptografi & Blockchain
+    file_hash = models.CharField(max_length=64, unique=True, help_text="SHA-256 hash dari file asli")
+    merkle_root = models.CharField(max_length=64, help_text="Akar Merkle Tree")
+    block_index = models.IntegerField(help_text="Posisi blok di dalam rantai Blockchain")
+    prev_hash = models.CharField(max_length=64, help_text="Hash dari blok sebelumnya")
+    
+    # Audit & Status
+    status_verifikasi = models.CharField(
+        max_length=20, 
+        default="PENDING", 
+        choices=[("VALID", "Valid"), ("CORRUPTED", "Corrupted"), ("PENDING", "Pending")]
+    )
+    
+    ciphertext_path = models.CharField(max_length=500, help_text="Lokasi file .bin yang sudah dienkripsi")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Block {self.block_index} | {self.file_name}"
+
+
+==============================
+PATH: security_app\urls.py
+==============================
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # RUTE UNTUK UI (HTML)
+    path('', views.home_view, name='home'), # Halaman utama
+    path('console/', views.console_view, name='console'),
+    path("architecture/", views.architecture_view, name='architecture'),
+    path('about/', views.about_view, name='about'),
+
+    # RUTE UNTUK API (JSON)
+    path('upload/', views.upload_and_secure, name='upload_and_secure'),
+    path('audit/<int:doc_id>/', views.audit_document, name='audit_document'),
+    path('documents/', views.get_all_documents, name='get_all_documents'),
+    path('audit-network/', views.audit_network_integrity, name='audit_network'),
+    path('download/<int:doc_id>/', views.download_decrypted_file, name='download_decrypted_file'),
+]
+
+
+==============================
+PATH: security_app\views.py
+==============================
+
+import os
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from supabase import create_client, Client
+from .models import SecureDocument
+from django.shortcuts import render
+
+# Import mesin kriptografi kalian dari folder core_engine
+from .core_engine.crypto_aes import encrypt_file, hash_file, generate_dynamic_key, decrypt_file
+from .core_engine.blockchain_sim import Blockchain, Block
+from .core_engine.merkle_tree import build_merkle_tree, verify_data_integrity
+
+# Inisialisasi Supabase Client
+supabase: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+
+# Inisialisasi Blockchain
+# cloudguard_chain = Blockchain()
+
+@csrf_exempt
+def upload_and_secure(request):
+    if request.method == 'POST' and request.FILES.get('document'):
+        uploaded_file = request.FILES['document']
+        file_name = uploaded_file.name
+        file_size = uploaded_file.size
+        
+        # 1. Simpan sementara
+        temp_path = f"temp_{file_name}"
+        with open(temp_path, 'wb+') as destination:
+            for chunk in uploaded_file.chunks():
+                destination.write(chunk)
+                
+        # 2. Proses Kriptografi 
+        file_hash = hash_file(temp_path)
+        
+        if SecureDocument.objects.filter(file_hash=file_hash).exists():
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+            return JsonResponse({
+                "status": "Gagal",
+                "message": "File ini sudah pernah diamankan di dalam sistem CloudGuard EMT!"
+            }, status=400)
+            
+        last_doc = SecureDocument.objects.order_by('-block_index').first()
+
+        if last_doc:
+            prev_hash = last_doc.file_hash 
+            next_index = last_doc.block_index + 1
+        else:
+            prev_hash = "0" * 64
+            next_index = 1
+        
+        # 3. Proses Kriptografi
+        key = generate_dynamic_key(file_hash, prev_hash)
+        
+        # Simpan file terenkripsi sementara di lokal sblm dilempar ke cloud
+        encrypted_temp_path = f"temp_enc_{file_name}.bin"
+        encrypt_file(temp_path, key, encrypted_temp_path)
+        
+        # 4. Hitung Merkle Root
+        merkle_root = build_merkle_tree(encrypted_temp_path)
+        
+        # Catat ke Blockchain
+        # new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
+        
+        # 5. Upload ke Supabase Storage
+        file_name_supa = f"{file_name}.bin"
+        supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
+            path=file_name_supa,
+            file=encrypted_temp_path,
+            file_options={"content-type": "application/octet-stream"}
+        )
+        
+        # 6. Simpan Metadata ke DB
+        doc_record = SecureDocument.objects.create(
+            file_name=file_name,
+            file_size=file_size,
+            file_hash=file_hash,
+            merkle_root=merkle_root,
+            block_index=next_index,   # Pakai index dari database
+            prev_hash=prev_hash,      # Pakai hash dari database
+            ciphertext_path=file_name_supa,
+            status_verifikasi="VALID" 
+        )
+        
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+            
+        if os.path.exists(encrypted_temp_path): 
+            os.remove(encrypted_temp_path)
+            
+        return JsonResponse({
+            "status": "Sukses",
+            "message": "File berhasil diamankan dengan sinkronisasi blockchain permanen!",
+            "data": {
+                "database_id": doc_record.id,
+                "file_name": file_name,
+                "file_size_bytes": file_size,
+                "kriptografi": {
+                    "file_hash": file_hash,
+                    "merkle_root": merkle_root,
+                },
+                "blockchain": {
+                    "block_index": next_index,
+                    "prev_hash": prev_hash,
+                },
+                "penyimpanan": {
+                    "ciphertext_path": file_name_supa,
+                    "status_verifikasi": "VALID"
+                }
+            }
+        })
+        
+    return JsonResponse({"error": "Harap kirimkan file melalui metode POST dengan key 'document'."}, status=400)
+
+@csrf_exempt
+def audit_document(request, doc_id):
+    if request.method == 'GET':
+        try:
+            doc_record = SecureDocument.objects.get(id=doc_id)
+            
+            # 1. Download file .bin dari Supabase Storage ke temp lokal
+            temp_audit_path = f"temp_audit_{doc_record.file_name}.bin"
+            try:
+                res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc_record.ciphertext_path)
+                with open(temp_audit_path, 'wb+') as f:
+                    f.write(res)
+            except Exception:
+                return JsonResponse({
+                    "status": "Gagal", 
+                    "message": "File fisik tidak ditemukan di Cloud Storage."
+                }, status=404)
+            
+            # 2. Jalankan mesin audit Merkle Tree
+            audit_result = verify_data_integrity(temp_audit_path, doc_record.merkle_root)
+            
+            if os.path.exists(temp_audit_path): os.remove(temp_audit_path)
+            
+            # 3. Update status verifikasi di database
+            if audit_result['is_valid']:
+                doc_record.status_verifikasi = "VALID"
+            else:
+                doc_record.status_verifikasi = "CORRUPTED"
+            doc_record.save() # Simpan perubahan ke Supabase
+            
+            # 4. Kirim hasil ke Frontend
+            return JsonResponse({
+                "status": "Sukses",
+                "file_name": doc_record.file_name,
+                "audit_detail": audit_result
+            })
+            
+        except SecureDocument.DoesNotExist:
+            return JsonResponse({
+                "status": "Gagal",
+                "message": "Dokumen tidak ditemukan di database."
+            }, status=404)
+            
+@csrf_exempt
+def get_all_documents(request):
+    if request.method == 'GET':
+        documents = SecureDocument.objects.all().order_by('-uploaded_at')
+        
+        data_list = []
+        for doc in documents:
+            data_list.append({
+                "id": doc.id,
+                "file_name": doc.file_name,
+                "file_size_bytes": doc.file_size,
+                "block_index": doc.block_index,
+                "status_verifikasi": doc.status_verifikasi,
+                "uploaded_at": doc.uploaded_at.strftime("%Y-%m-%d %H:%M:%S") 
+            })
+            
+        return JsonResponse({
+            "status": "Sukses",
+            "total_data": len(data_list),
+            "data": data_list
+        })
+        
+@csrf_exempt
+def audit_network_integrity(request):
+    if request.method == 'GET':
+        docs = list(SecureDocument.objects.all().order_by('block_index'))
+        
+        is_safe = True
+        
+        if len(docs) > 1:
+            for i in range(1, len(docs)):
+                current_doc = docs[i]
+                previous_doc = docs[i-1]
+                
+                if current_doc.prev_hash != previous_doc.file_hash:
+                    is_safe = False
+                    break
+        
+        return JsonResponse({
+            "status": "Sukses",
+            "network_integrity": "SECURE" if is_safe else "COMPROMISED",
+            "message": "Seluruh urutan blok valid dan tidak termanipulasi." if is_safe else "Peringatan! Rantai blok terputus!"
+        })
+        
+@csrf_exempt
+def download_decrypted_file(request, doc_id):
+    if request.method == 'GET':
+        try:
+            doc_record = SecureDocument.objects.get(id=doc_id)
+            
+            temp_cipher_path = f"temp_cipher_{doc_record.file_name}.bin"
+            try:
+                res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc_record.ciphertext_path)
+                with open(temp_cipher_path, 'wb+') as f:
+                    f.write(res)
+            except Exception:
+                return JsonResponse({
+                    "status": "Gagal", 
+                    "message": "File fisik tidak ditemukan di Cloud Storage."
+                }, status=404)
+            
+            key = generate_dynamic_key(doc_record.file_hash, doc_record.prev_hash)
+            
+            os.makedirs("media/decrypted_vault", exist_ok=True)
+            decrypted_path = f"media/decrypted_vault/temp_{doc_record.file_name}"
+            
+            decrypt_file(temp_cipher_path, key, decrypted_path)
+            
+            with open(decrypted_path, 'rb') as f:
+                file_data = f.read()
+                
+            if os.path.exists(decrypted_path): 
+                os.remove(decrypted_path)
+                
+            if os.path.exists(temp_cipher_path): 
+                os.remove(temp_cipher_path)
+                
+            response = HttpResponse(file_data, content_type='application/octet-stream')
+            response['Content-Disposition'] = f'attachment; filename="{doc_record.file_name}"'
+            return response
+            
+        except SecureDocument.DoesNotExist:
+            return JsonResponse({
+                "status": "Gagal", 
+                "message": "Dokumen tidak ditemukan di database."
+            }, status=404)
+            
+        except Exception as e:
+            return JsonResponse({
+                "status": "Gagal", 
+                "message": f"Terjadi kesalahan saat dekripsi: {str(e)}"
+            }, status=500)
+            
+def home_view(request):
+    return render(request, 'home.html')
+
+def console_view(request):
+    documents = SecureDocument.objects.all().order_by('-uploaded_at')
+    
+    context = {
+        'documents': documents,
+        'total_files': documents.count(),
+        'corrupted_count': documents.filter(status_verifikasi="CORRUPTED").count(),
+    }
+    return render(request, 'console.html', context)
+
+def architecture_view(request):
+    return render(request, 'architecture.html')
+
+def about_view(request):
+    return render(request, 'about.html')
+
+
+
+==============================
+PATH: security_app\core_engine\blockchain_sim.py
+==============================
+
+import hashlib
+import time
+import json
+from typing import List, Dict, Any
+
+# BLOCK STRUCTURE
+class Block:
+    def __init__(self, index: int, file_hash: str, merkle_root: str, prev_hash: str, ciphertext_path: str):
+        self.index = index
+        self.timestamp = time.time()
+        self.file_hash = file_hash
+        self.merkle_root = merkle_root
+        self.prev_hash = prev_hash
+        self.ciphertext_path = ciphertext_path
+        self.block_hash = self.calculate_hash()
+
+    def calculate_hash(self) -> str:
+        block_data = {
+            "index": self.index,
+            "timestamp": self.timestamp,
+            "file_hash": self.file_hash,
+            "merkle_root": self.merkle_root,
+            "prev_hash": self.prev_hash,
+            "ciphertext_path": self.ciphertext_path
+        }
+        data_string = json.dumps(block_data, sort_keys=True)
+        return hashlib.sha256(data_string.encode()).hexdigest()
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "index": self.index,
+            "timestamp": self.timestamp,
+            "file_hash": self.file_hash,
+            "merkle_root": self.merkle_root,
+            "prev_hash": self.prev_hash,
+            "ciphertext_path": self.ciphertext_path,
+            "block_hash": self.block_hash
+        }
+
+# BLOCKCHAIN ENGINE
+class Blockchain:
+    def __init__(self):
+        self.chain: List[Block] = []
+        self.create_genesis_block()
+
+    def create_genesis_block(self):
+        genesis_block = Block(
+            index=0,
+            file_hash="0" * 64,
+            merkle_root="0" * 64,  # Genesis block merkle root
+            prev_hash="0" * 64,
+            ciphertext_path="genesis_vault"
+        )
+        self.chain.append(genesis_block)
+
+    def get_last_block(self) -> Block:
+        return self.chain[-1]
+
+    def add_block(self, file_hash: str, merkle_root: str, ciphertext_path: str) -> Block:
+        prev_block = self.get_last_block()
+
+        new_block = Block(
+            index=len(self.chain),
+            file_hash=file_hash,
+            merkle_root=merkle_root,
+            prev_hash=prev_block.block_hash,
+            ciphertext_path=ciphertext_path
+        )
+
+        self.chain.append(new_block)
+        return new_block
+
+    def is_chain_valid(self):
+        for i in range(1, len(self.chain)):
+            current = self.chain[i]
+            prev = self.chain[i - 1]
+
+            if current.block_hash != current.calculate_hash():
+                return False
+
+            if current.prev_hash != prev.block_hash:
+                return False
+
+        return True
+    
+    def find_block_by_hash(self, file_hash):
+        for block in self.chain:
+            if block.file_hash == file_hash:
+                return block
+        return None
+
+    def print_chain(self):
+        chain_data = [block.to_dict() for block in self.chain]
+        print(json.dumps(chain_data, indent=4))
+
+
+==============================
+PATH: security_app\core_engine\crypto_aes.py
+==============================
+
+import hashlib
+import os
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+CHUNK_SIZE = 65536 # 64KB
+
+# HASHING (SHA-256)
+# def sha256_hash(data: bytes) -> str:
+#     return hashlib.sha256(data).hexdigest()
+
+def hash_file(filepath: str) -> str:
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"File {filepath} tidak ditemukan.")
+        
+    sha256 = hashlib.sha256()
+    with open(filepath, 'rb') as f:
+        while chunk := f.read(CHUNK_SIZE):
+            sha256.update(chunk)
+    return sha256.hexdigest()
+
+# DYNAMIC KEY GENERATION (XOR)
+def xor_hex(hex1: str, hex2: str) -> bytes:
+    # XOR dua string hex dan return bytes (32 byte = 256 bit)
+    b1 = bytes.fromhex(hex1)
+    b2 = bytes.fromhex(hex2)
+    return bytes(a ^ b for a, b in zip(b1, b2))
+
+def generate_dynamic_key(file_hash: str, prev_hash: str) -> bytes:
+    # Generate AES-256 key dari XOR hash file dan prev hash
+    key = xor_hex(file_hash, prev_hash)
+
+    # pastikan 32 byte (AES-256)
+    if len(key) < 32:
+        key = key.ljust(32, b'\0')
+    else:
+        key = key[:32]
+
+    return key
+
+# ENCRYPTION (AES-256-GCM)
+def encrypt_file(input_path: str, key: bytes, output_path: str) -> str:
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"File {input_path} tidak ditemukan.")
+
+    nonce = os.urandom(12)
+    encryptor = Cipher(algorithms.AES(key), modes.GCM(nonce)).encryptor()
+
+    with open(input_path, 'rb') as f_in, open(output_path, 'wb') as f_out:
+        f_out.write(nonce)
+        
+        while chunk := f_in.read(CHUNK_SIZE):
+            f_out.write(encryptor.update(chunk))
+            
+        encryptor.finalize()
+        f_out.write(encryptor.tag)
+
+    return output_path
+
+# DECRYPTION (AES-256-GCM)
+def decrypt_file(input_path: str, key: bytes, output_path: str) -> str:
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"File {input_path} tidak ditemukan.")
+
+    file_size = os.path.getsize(input_path)
+    if file_size < 28:
+        raise ValueError("File corrupted: Terlalu kecil untuk AES-GCM.")
+
+    with open(input_path, 'rb') as f_in:
+        nonce = f_in.read(12)
+        
+        f_in.seek(-16, os.SEEK_END)
+        tag = f_in.read(16)
+        
+        f_in.seek(12)
+        decryptor = Cipher(algorithms.AES(key), modes.GCM(nonce, tag)).decryptor()
+        
+        with open(output_path, 'wb') as f_out:
+            bytes_to_read = file_size - 28
+            while bytes_to_read > 0:
+                chunk = f_in.read(min(CHUNK_SIZE, bytes_to_read))
+                if not chunk: break
+                f_out.write(decryptor.update(chunk))
+                bytes_to_read -= len(chunk)
+                
+            decryptor.finalize() 
+
+    return output_path
+
+
+# HASH CIPHERTEXT 
+# def hash_ciphertext(filepath: str) -> str:
+#     return hash_file(filepath)
+
+
+==============================
+PATH: security_app\core_engine\merkle_tree.py
+==============================
+
+import hashlib
+import os
+
+CHUNK_SIZE = 1024 # memotong ciphertext per 1kb
+
+def sha256_hash(data):
+    # untuk hashing data bytes or string
+    if isinstance(data, str):
+        data = data.encode()
+    return hashlib.sha256(data).hexdigest()
+
+# membentuk merkle tree (fase 3)
+def build_merkle_tree(ciphertext_path):
+    if not os.path.exists(ciphertext_path):
+        raise FileNotFoundError(f"file {ciphertext_path} tidak ditemukan")
+    
+    level = []
+    
+    # chunking
+    with open(ciphertext_path, 'rb') as f:
+        while True:
+            chunk = f.read(CHUNK_SIZE)
+            if not chunk:
+                break
+            level.append(sha256_hash(chunk)) # Langsung di-hash dan dimasukkan ke level
+            
+    if not level:
+        return sha256_hash(b"")
+    
+    # susun bottom up
+    while len(level) > 1:
+        next_level = []
+        for i in range (0, len(level), 2):
+            hash1 = level[i]
+            hash2 = level[i+1] if i + 1 < len(level) else hash1
+
+            # gabung hash
+            combined_hash = sha256_hash(hash1 + hash2)
+            next_level.append(combined_hash)
+        
+        level = next_level
+    
+    return level[0]
+
+# audit cloud & verif (fase 5)
+def verify_data_integrity(ciphertext_path, stored_merkle_root):
+    try:
+        recalculated_root = build_merkle_tree(ciphertext_path)
+    except FileNotFoundError:
+        return {
+            "is_valid": False,
+            "status": "CORRUPTED",
+            "message": "Gagal: Ciphertext tidak ditemukan di public cloud"
+        }
+    
+    # pencocokan data
+    if recalculated_root == stored_merkle_root:
+        return{
+            "is_valid": True,
+            "status": "Valid",
+            "message": "Data identik"
+        }
+    else:
+        return{
+            "is_valid": False,
+            "status": "CORRUPTED",
+            "message": "Data tidak cocok. Ciphertext telah dimodifikasi"
+        }
+
+
+==============================
+PATH: security_app\migrations\0001_initial.py
+==============================
+
+# Generated by Django 6.0.5 on 2026-05-07 01:21
+
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='SecureDocument',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('file_name', models.CharField(help_text='Nama file asli yang diupload', max_length=255)),
+                ('file_hash', models.CharField(help_text='SHA-256 hash dari file asli', max_length=64, unique=True)),
+                ('merkle_root', models.CharField(help_text='Akar Merkle Tree', max_length=64)),
+                ('block_index', models.IntegerField(help_text='Posisi blok di dalam rantai Blockchain')),
+                ('prev_hash', models.CharField(help_text='Hash dari blok sebelumnya', max_length=64)),
+                ('ciphertext_path', models.CharField(help_text='Lokasi file .bin yang sudah dienkripsi', max_length=500)),
+                ('uploaded_at', models.DateTimeField(auto_now_add=True)),
+            ],
+        ),
+    ]
+
+
+
+==============================
+PATH: security_app\migrations\0002_securedocument_file_size_and_more.py
+==============================
+
+# Generated by Django 6.0.5 on 2026-05-07 15:39
+
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('security_app', '0001_initial'),
+    ]
+
+    operations = [
+        migrations.AddField(
+            model_name='securedocument',
+            name='file_size',
+            field=models.BigIntegerField(blank=True, help_text='Ukuran file dalam bytes', null=True),
+        ),
+        migrations.AddField(
+            model_name='securedocument',
+            name='status_verifikasi',
+            field=models.CharField(choices=[('VALID', 'Valid'), ('CORRUPTED', 'Corrupted'), ('PENDING', 'Pending')], default='PENDING', max_length=20),
+        ),
+    ]
+
+
+
+==============================
+PATH: security_app\migrations\__init__.py
+==============================
+
+
+
+
+==============================
+PATH: templates\about.html
+==============================
+
+{% extends 'base.html' %}
+
+{% block title %}About | CloudGuard EMT{% endblock %}
+
+{% block content %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    .tech-badge {
+        @apply px-3 py-1.5 bg-background border border-border rounded text-[10px] font-mono text-body hover:border-secondary hover:text-secondary hover:shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all cursor-default;
+    }
+</style>
+
+<section class="pt-32 pb-16 text-center relative z-10" data-aos="fade-up" data-aos-duration="1000">
+    <h1 class="font-display text-4xl md:text-6xl font-bold text-heading mb-6 tracking-tight">
+        About <span class="text-primary drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]">CloudGuard EMT</span>
+    </h1>
+    <p class="text-body text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+        A hybrid cryptographic system designed to secure cloud data using Dynamic AES Encryption and Enhanced Merkle Tree verification.
+    </p>
+</section>
+
+<section class="py-12 relative z-10" data-aos="fade-up" data-aos-delay="200">
+    <div class="max-w-4xl mx-auto bg-surface/50 border border-border p-8 md:p-12 rounded-2xl backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:border-border/80 transition-colors">
+        <p class="text-body text-sm md:text-base leading-relaxed mb-8">
+            CloudGuard EMT is a cybersecurity system designed to enhance cloud storage security by combining Dynamic AES-256 encryption and Enhanced Merkle Tree (EMT) integrity verification.
+        </p>
+        
+        <h3 class="font-display font-bold text-heading text-lg mb-5">The system ensures:</h3>
+        <ul class="space-y-4 mb-8">
+            <li class="flex items-start gap-3 text-sm md:text-base text-body">
+                <div class="mt-1 bg-primary/20 p-1 rounded border border-primary/30">
+                    <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </div>
+                <span class="leading-relaxed"><strong>Confidentiality</strong> through dynamic key-based encryption</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm md:text-base text-body">
+                <div class="mt-1 bg-primary/20 p-1 rounded border border-primary/30">
+                    <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </div>
+                <span class="leading-relaxed"><strong>Integrity</strong> through hierarchical hashing</span>
+            </li>
+            <li class="flex items-start gap-3 text-sm md:text-base text-body">
+                <div class="mt-1 bg-primary/20 p-1 rounded border border-primary/30">
+                    <svg class="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </div>
+                <span class="leading-relaxed"><strong>Tamper detection</strong> using blockchain-based verification</span>
+            </li>
+        </ul>
+        
+        <div class="w-full h-[1px] bg-border/50 mb-8"></div>
+        
+        <p class="text-body text-sm md:text-base leading-relaxed">
+            Unlike traditional systems, CloudGuard EMT generates a unique encryption key for every file and validates data integrity at a granular level, ensuring that even a single bit modification is detected instantly.
+        </p>
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">Security Engineering Team</h2>
+        <div class="w-16 h-1 bg-primary mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-[1300px] mx-auto px-6">
+        
+        <div class="group bg-surface/80 backdrop-blur-md border border-border p-6 rounded-2xl hover:border-primary hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+            <div class="w-16 h-16 rounded-full bg-background border border-border flex items-center justify-center font-display text-xl font-bold text-muted mb-5 group-hover:text-primary group-hover:border-primary/50 group-hover:shadow-[inset_0_0_15px_rgba(16,185,129,0.2)] transition-all">TW</div>
+            <h3 class="font-display font-bold text-heading text-lg mb-1">Trisha Garnis W</h3>
+            <p class="font-mono text-[10px] text-muted mb-4 tracking-widest">L0224012</p>
+            <div class="inline-block px-3 py-1.5 bg-primary/10 border border-primary/20 rounded mb-5">
+                <span class="font-mono text-[10px] text-primary font-bold uppercase tracking-widest">SHA-256 & AES Eng</span>
+            </div>
+            <div class="w-full h-px bg-border/50 mb-4"></div>
+            <p class="text-body text-xs leading-relaxed">Builds the core hashing logic and implements dynamic key generation using XOR operations to ensure unique encryption per file.</p>
+        </div>
+
+        <div class="group bg-surface/80 backdrop-blur-md border border-border p-6 rounded-2xl hover:border-secondary hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(6,182,212,0.15)] transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+            <div class="w-16 h-16 rounded-full bg-background border border-border flex items-center justify-center font-display text-xl font-bold text-muted mb-5 group-hover:text-secondary group-hover:border-secondary/50 group-hover:shadow-[inset_0_0_15px_rgba(6,182,212,0.2)] transition-all">IS</div>
+            <h3 class="font-display font-bold text-heading text-lg mb-1">Ibrahim Syauqi</h3>
+            <p class="font-mono text-[10px] text-muted mb-4 tracking-widest">L0224018</p>
+            <div class="inline-block px-3 py-1.5 bg-secondary/10 border border-secondary/20 rounded mb-5">
+                <span class="font-mono text-[10px] text-secondary font-bold uppercase tracking-widest">Interface & Integration</span>
+            </div>
+            <div class="w-full h-px bg-border/50 mb-4"></div>
+            <p class="text-body text-xs leading-relaxed">Develops the interactive user interface and integrates all backend modules into a cohesive application workflow.</p>
+        </div>
+
+        <div class="group bg-surface/80 backdrop-blur-md border border-border p-6 rounded-2xl hover:border-primary hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+            <div class="w-16 h-16 rounded-full bg-background border border-border flex items-center justify-center font-display text-xl font-bold text-muted mb-5 group-hover:text-primary group-hover:border-primary/50 group-hover:shadow-[inset_0_0_15px_rgba(16,185,129,0.2)] transition-all">JS</div>
+            <h3 class="font-display font-bold text-heading text-lg mb-1">Jimly Syahbatin</h3>
+            <p class="font-mono text-[10px] text-muted mb-4 tracking-widest">L0224033</p>
+            <div class="inline-block px-3 py-1.5 bg-primary/10 border border-primary/20 rounded mb-5">
+                <span class="font-mono text-[10px] text-primary font-bold uppercase tracking-widest">Merkle Tree Arch</span>
+            </div>
+            <div class="w-full h-px bg-border/50 mb-4"></div>
+            <p class="text-body text-xs leading-relaxed">Designs the hierarchical tree structure and implements integrity validation using Merkle Root comparison.</p>
+        </div>
+
+        <div class="group bg-surface/80 backdrop-blur-md border border-border p-6 rounded-2xl hover:border-secondary hover:-translate-y-2 hover:shadow-[0_0_25px_rgba(6,182,212,0.15)] transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+            <div class="w-16 h-16 rounded-full bg-background border border-border flex items-center justify-center font-display text-xl font-bold text-muted mb-5 group-hover:text-secondary group-hover:border-secondary/50 group-hover:shadow-[inset_0_0_15px_rgba(6,182,212,0.2)] transition-all">EH</div>
+            <h3 class="font-display font-bold text-heading text-lg mb-1">Evan Hauzal F</h3>
+            <p class="font-mono text-[10px] text-muted mb-4 tracking-widest">L0224041</p>
+            <div class="inline-block px-3 py-1.5 bg-secondary/10 border border-secondary/20 rounded mb-5">
+                <span class="font-mono text-[10px] text-secondary font-bold uppercase tracking-widest">Blockchain Sim & AES</span>
+            </div>
+            <div class="w-full h-px bg-border/50 mb-4"></div>
+            <p class="text-body text-xs leading-relaxed">Implements AES-256 encryption/decryption processes and manages blockchain-like metadata storage for verification.</p>
+        </div>
+
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">Technology Architecture</h2>
+        <div class="w-16 h-1 bg-secondary mx-auto mt-4 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+    </div>
+
+    <div class="max-w-[1000px] mx-auto px-6 space-y-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-surface/50 border border-border p-6 rounded-2xl hover:border-border/80 transition-colors">
+                <h4 class="font-mono text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Frontend</h4>
+                <div class="flex flex-wrap gap-2">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">Vanilla JavaScript</span>
+                    <span class="tech-badge">Tailwind CSS</span>
+                    <span class="tech-badge">Django Template Engine</span>
+                </div>
+            </div>
+            <div class="bg-surface/50 border border-border p-6 rounded-2xl hover:border-border/80 transition-colors">
+                <h4 class="font-mono text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Backend</h4>
+                <div class="flex flex-wrap gap-2">
+                    <span class="tech-badge">Python 3.10+</span>
+                    <span class="tech-badge">Django Framework</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface/50 border border-border p-6 rounded-2xl hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="200">
+            <h4 class="font-mono text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Cryptography & Integrity Engine</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col gap-1">
+                    <span class="tech-badge w-fit mb-1">cryptography</span>
+                    <span class="text-[10px] text-body opacity-70">→ AES-256-GCM execution</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="tech-badge w-fit mb-1">hashlib</span>
+                    <span class="text-[10px] text-body opacity-70">→ SHA-256 hashing</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <span class="tech-badge w-fit mb-1">os.urandom</span>
+                    <span class="text-[10px] text-body opacity-70">→ secure nonce generation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative mt-6" data-aos="fade-up" data-aos-delay="300">
+            
+            <div class="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-secondary bg-surface p-2 rounded-full border border-secondary shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8M8 17h8M12 7v10M16 11l4 4-4 4M8 11l-4 4 4 4"></path></svg>
+            </div>
+
+            <div class="bg-surface border border-border p-8 rounded-2xl hover:border-secondary transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    <h4 class="font-display font-bold text-heading group-hover:text-secondary transition-colors">Relational Database <br/><span class="text-xs text-muted font-normal">(Blockchain Ledger)</span></h4>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-badge">PostgreSQL (Supabase)</span>
+                    <span class="tech-badge">psycopg2-binary</span>
+                </div>
+                
+                <ul class="text-xs text-body space-y-3 border-t border-border/50 pt-5 font-mono">
+                    <li class="flex items-start gap-2"><span class="text-secondary opacity-70">▹</span> Stores: Merkle Root</li>
+                    <li class="flex items-start gap-2"><span class="text-secondary opacity-70">▹</span> Stores: File Hash & Prev Hash</li>
+                    <li class="flex items-start gap-2"><span class="text-secondary opacity-70">▹</span> Stores: Metadata</li>
+                </ul>
+            </div>
+
+            <div class="bg-surface border border-border p-8 rounded-2xl hover:border-primary transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                    <h4 class="font-display font-bold text-heading group-hover:text-primary transition-colors">Cloud Object Storage <br/><span class="text-xs text-muted font-normal">(Ciphertext Vault)</span></h4>
+                </div>
+
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-badge">Supabase Storage</span>
+                    <span class="tech-badge">supabase-py</span>
+                </div>
+                
+                <ul class="text-xs text-body space-y-3 border-t border-border/50 pt-5 font-mono">
+                    <li class="flex items-start gap-2"><span class="text-primary opacity-70">▹</span> Stores: Encrypted files (Ciphertext)</li>
+                    <li class="flex items-start gap-2"><span class="text-primary opacity-70">▹</span> Stores: Nonce (Initialization Vector)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-surface/50 border border-border p-6 rounded-2xl hover:border-border/80 transition-colors mt-6" data-aos="fade-up" data-aos-delay="400">
+            <h4 class="font-mono text-[10px] uppercase tracking-[0.2em] text-muted mb-4">Deployment & Environments</h4>
+            <div class="flex flex-wrap gap-2">
+                <span class="tech-badge">Render / Railway</span>
+                <span class="tech-badge">python-dotenv</span>
+                <span class="tech-badge">Git & GitHub</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="py-32 text-center relative z-10" data-aos="zoom-in" data-aos-duration="1000">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="relative inline-block mb-8">
+            <svg class="w-12 h-12 text-primary opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        </div>
+        <h2 class="font-display text-2xl md:text-4xl font-bold text-heading leading-tight tracking-tight">
+            CloudGuard EMT is not just a storage system — <br class="hidden md:block">
+            it is a <span class="text-primary drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]">secure cryptographic framework</span> <br class="hidden md:block">
+            ensuring that data remains confidential, verifiable, <br class="hidden md:block">
+            and <span class="text-secondary drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">tamper-proof</span> at all times.
+        </h2>
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+<script>
+    // Initialize Lenis for Smooth Scroll
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    // Initialize AOS
+    AOS.init({ once: true, offset: 50, duration: 800 });
+</script>
+{% endblock %}
+
+
+==============================
+PATH: templates\architecture.html
+==============================
+
+{% extends 'base.html' %}
+
+{% block title %}Architecture | CloudGuard EMT{% endblock %}
+
+{% block content %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    /* ── Node Cards ── */
+    .node-card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid #334155;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        transition: all 0.25s ease;
+        cursor: default;
+        backdrop-filter: blur(8px);
+    }
+    .node-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(6, 182, 212, 0.6);
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    }
+
+    /* ── Connector arrow ── */
+    .connector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #334155;
+    }
+
+    /* ── Flowing line on horizontal connector ── */
+    .connector svg {
+        transition: color 0.2s;
+    }
+
+    /* ── Stage badge ── */
+    .stage-badge {
+        position: absolute;
+        top: -11px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        white-space: nowrap;
+    }
+
+    /* ── Tooltip ── */
+    .tooltip {
+        position: absolute;
+        bottom: calc(100% + 14px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 180px;
+        background: #273449;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: #94A3B8;
+        line-height: 1.5;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 30;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 6px solid transparent;
+        border-top-color: #273449;
+    }
+    .node-card:hover .tooltip {
+        opacity: 1;
+    }
+
+    /* ── Decision box ── */
+    .decision-box {
+        position: relative;
+        flex-shrink: 0;
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid rgba(51, 65, 85, 0.7);
+        border-radius: 12px;
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+    }
+
+    /* ── Animated pulse ring for active nodes ── */
+    @keyframes ring-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.3); }
+        50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+    }
+    .node-active {
+        animation: ring-pulse 2.5s ease-in-out infinite;
+    }
+
+    /* ── Scrollbar ── */
+    .scroll-container::-webkit-scrollbar { height: 4px; }
+    .scroll-container::-webkit-scrollbar-track { background: transparent; }
+    .scroll-container::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+    .scroll-container::-webkit-scrollbar-thumb:hover { background: #06B6D4; }
+
+    /* ── Data flow animation ── */
+    @keyframes data-flow {
+        0%   { stroke-dashoffset: 40; opacity: 0.8; }
+        100% { stroke-dashoffset: 0;  opacity: 0.3; }
+    }
+</style>
+
+<!-- ─────────────────────────────────────────────
+     HERO
+───────────────────────────────────────────── -->
+<section class="pt-32 pb-16 text-center relative z-10" data-aos="fade-up" data-aos-duration="900">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary font-mono text-xs mb-6">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+        </svg>
+        System Architecture
+    </div>
+    <h1 class="font-display text-4xl md:text-6xl font-bold text-heading mb-5 tracking-tight">
+        End-to-End <span class="text-secondary drop-shadow-[0_0_20px_rgba(6,182,212,0.5)]">Cryptographic</span> Pipeline
+    </h1>
+    <p class="text-body text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+        Seven stages transform a raw file into an immutably secured, blockchain-anchored ciphertext — detectable to the last bit.
+    </p>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     PIPELINE — HORIZONTAL (scroll on small screens)
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up" data-aos-delay="150">
+    <div class="w-full overflow-x-auto scroll-container pb-10">
+        <div class="flex flex-nowrap items-center gap-0 min-w-max px-8 mx-auto w-fit">
+
+            <!-- ── Stage 01: Upload ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 01</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-body">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">Upload</h3>
+                    <p class="text-[10px] text-muted font-mono">Memory Buffer</p>
+                </div>
+                <div class="tooltip">File ingested into secure in-memory buffer. Not written to disk until hashed.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 02: SHA-256 ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 02</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-warning">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">SHA-256</h3>
+                    <p class="text-[10px] text-muted font-mono">Baseline Hash</p>
+                </div>
+                <div class="tooltip">Computes a 256-bit fingerprint of the raw file. Basis for XOR key synthesis.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Deduplication Branch ── -->
+            <div class="decision-box w-64 h-36 shrink-0 flex flex-col">
+                <!-- header -->
+                <div class="px-4 pt-3 pb-2 border-b border-border/50">
+                    <p class="font-mono text-[10px] text-muted uppercase tracking-widest text-center">Deduplication Check</p>
+                </div>
+                <!-- branches -->
+                <div class="flex flex-1 items-center justify-around px-4">
+                    <!-- YES branch -->
+                    <div class="flex flex-col items-center gap-1.5 opacity-60 hover:opacity-100 transition-opacity cursor-default group">
+                        <span class="font-mono text-[9px] font-bold text-secondary uppercase tracking-widest">Duplicate</span>
+                        <div class="px-3 py-1.5 bg-secondary/10 border border-secondary/30 rounded text-[9px] font-mono text-secondary">
+                            Update Ownership
+                        </div>
+                        <div class="flex items-center gap-1 text-[9px] text-muted font-mono">
+                            <svg class="w-3 h-3 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            Return
+                        </div>
+                    </div>
+                    <!-- divider -->
+                    <div class="w-px h-12 bg-border/50"></div>
+                    <!-- NO branch -->
+                    <div class="flex flex-col items-center gap-1.5 group relative">
+                        <span class="font-mono text-[9px] font-bold text-primary uppercase tracking-widest">Unique</span>
+                        <div class="px-3 py-1.5 bg-primary/10 border border-primary/30 rounded text-[9px] font-mono text-primary shadow-[0_0_10px_rgba(16,185,129,0.25)]">
+                            Continue →
+                        </div>
+                        <div class="flex items-center gap-1 text-[9px] text-muted font-mono">
+                            <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            Encrypt
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 03: Dynamic Key ── -->
+            <div class="node-card w-44 h-28 border-primary/40 shadow-[0_0_18px_rgba(16,185,129,0.1)] node-active shrink-0">
+                <div class="stage-badge bg-primary/10 border border-primary/30 text-primary">Stage 03</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-primary text-sm mb-0.5">Dynamic Key</h3>
+                    <p class="text-[10px] text-muted font-mono">XOR Synthesis</p>
+                </div>
+                <div class="tooltip">XORs current file hash with prev-block hash → unique 256-bit AES key. Never reused or stored.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 04: AES-256-GCM ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 04</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-secondary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">AES-256-GCM</h3>
+                    <p class="text-[10px] text-muted font-mono">Ciphertext Gen</p>
+                </div>
+                <div class="tooltip">Encrypts with dynamic XOR key + random 96-bit nonce. GCM mode provides authentication tag.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 05: Chunking ── -->
+            <div class="node-card w-44 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 05</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-warning">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-heading text-sm mb-0.5">Chunking</h3>
+                    <p class="text-[10px] text-muted font-mono">1 KB Block Split</p>
+                </div>
+                <div class="tooltip">Ciphertext sliced into 1 KB blocks. Each block is individually hashed as a leaf node.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 06: Merkle Tree ── -->
+            <div class="node-card w-44 h-28 border-secondary/40 shadow-[0_0_18px_rgba(6,182,212,0.1)] shrink-0"
+                 style="animation: ring-pulse 2.5s ease-in-out infinite; --tw-shadow: 0 0 0 0 rgba(6,182,212,0.3);">
+                <div class="stage-badge bg-secondary/10 border border-secondary/30 text-secondary">Stage 06</div>
+                <div class="text-center">
+                    <div class="flex justify-center mb-2 text-secondary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7V5m0 2l-2 2m2-2l2 2m8 9v-2m0 2l-2-2m2 2l2-2"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-secondary text-sm mb-0.5">Merkle Tree</h3>
+                    <p class="text-[10px] text-muted font-mono">Root Calc</p>
+                </div>
+                <div class="tooltip">Leaf hashes propagate up in pairwise SHA-256 until a single Merkle Root is derived.</div>
+            </div>
+
+            <!-- connector -->
+            <div class="connector w-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- ── Stage 07: Hybrid Storage ── -->
+            <div class="node-card w-52 h-28 shrink-0">
+                <div class="stage-badge bg-surface border border-border text-muted">Stage 07</div>
+                <div class="flex items-center gap-3">
+                    <div class="shrink-0 text-primary">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <h3 class="font-bold text-heading text-sm mb-1">Hybrid Storage</h3>
+                        <p class="text-[10px] text-muted font-mono leading-relaxed">DB Ledger +<br>Object Vault</p>
+                    </div>
+                </div>
+                <div class="tooltip">Merkle Root → PostgreSQL ledger. Ciphertext → Supabase object storage. Tamper-proof split storage.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- scroll hint (only on smaller viewports) -->
+    <p class="text-center font-mono text-[10px] text-muted uppercase tracking-widest mt-2 lg:hidden">
+        ← Scroll horizontally • Hover nodes for details →
+    </p>
+    <p class="text-center font-mono text-[10px] text-muted uppercase tracking-widest mt-2 hidden lg:block">
+        Hover any node for details
+    </p>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     STAGE DETAIL CARDS (vertical reference)
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up" data-aos-delay="100">
+    <div class="max-w-[1200px] mx-auto px-6">
+        <div class="mb-12 text-center">
+            <h2 class="font-display text-2xl font-bold text-heading">Stage Reference</h2>
+            <p class="text-body text-sm mt-2">Detailed breakdown of each pipeline stage.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+
+            <!-- S01 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="50">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">01</span>
+                    <h3 class="font-display font-bold text-heading">Upload</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The file is read into a secure memory buffer via Django's <code class="text-secondary bg-secondary/10 px-1 rounded">InMemoryUploadedFile</code>. It is never persisted to disk before hashing.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">multipart/form-data</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Django FileField</span>
+                </div>
+            </div>
+
+            <!-- S02 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">02</span>
+                    <h3 class="font-display font-bold text-heading">SHA-256 Hash</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">A 256-bit digest of the raw file is computed with Python's <code class="text-secondary bg-secondary/10 px-1 rounded">hashlib</code>. Used as a deduplication key and as input to XOR key generation.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">hashlib.sha256</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-warning">64-char hex</span>
+                </div>
+            </div>
+
+            <!-- Dedup -->
+            <div class="bg-surface/60 border border-secondary/20 rounded-xl p-6 hover:border-secondary/40 transition-colors" data-aos="fade-up" data-aos-delay="150">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-secondary bg-secondary/10 border border-secondary/20 px-2 py-0.5 rounded">↔</span>
+                    <h3 class="font-display font-bold text-heading">Deduplication Check</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The SHA-256 fingerprint is queried against the PostgreSQL ledger. If a match is found, only file ownership metadata is updated — no re-encryption occurs.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-secondary">Unique → Encrypt</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Duplicate → Return</span>
+                </div>
+            </div>
+
+            <!-- S03 -->
+            <div class="bg-surface/60 border border-primary/20 rounded-xl p-6 hover:border-primary/40 transition-colors" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">03</span>
+                    <h3 class="font-display font-bold text-heading">Dynamic Key (XOR)</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The AES key is derived by XOR-ing the current file's SHA-256 hash with the previous block's hash. Each file receives a cryptographically unique key — no static secret exists.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-primary/10 border border-primary/20 rounded text-primary">XOR synthesis</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">256-bit key</span>
+                </div>
+            </div>
+
+            <!-- S04 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="250">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">04</span>
+                    <h3 class="font-display font-bold text-heading">AES-256-GCM</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The file is encrypted using AES-256 in GCM mode with a randomly generated 96-bit nonce. GCM produces both ciphertext and a 128-bit authentication tag, ensuring authenticity.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">cryptography lib</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">GCM auth tag</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">96-bit nonce</span>
+                </div>
+            </div>
+
+            <!-- S05 -->
+            <div class="bg-surface/60 border border-border rounded-xl p-6 hover:border-border/80 transition-colors" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-muted bg-background border border-border px-2 py-0.5 rounded">05</span>
+                    <h3 class="font-display font-bold text-heading">Chunking</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">The encrypted binary is split into 1 KB (1024-byte) chunks. Each chunk is independently SHA-256 hashed to become a leaf node in the Merkle Tree.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">1024-byte blocks</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Leaf hash per chunk</span>
+                </div>
+            </div>
+
+            <!-- S06 -->
+            <div class="bg-surface/60 border border-secondary/20 rounded-xl p-6 hover:border-secondary/40 transition-colors" data-aos="fade-up" data-aos-delay="350">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-secondary bg-secondary/10 border border-secondary/20 px-2 py-0.5 rounded">06</span>
+                    <h3 class="font-display font-bold text-heading">Enhanced Merkle Tree</h3>
+                </div>
+                <p class="text-body text-xs leading-relaxed mb-4">Leaf hashes are combined pairwise (SHA-256 of concatenation) and propagated upward level by level. The final single hash is the Merkle Root — a tamper-proof fingerprint of the entire ciphertext.</p>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-secondary/10 border border-secondary/20 rounded text-secondary">Merkle Root</span>
+                    <span class="text-[9px] font-mono px-2 py-0.5 bg-background border border-border rounded text-muted">Bottom-up build</span>
+                </div>
+            </div>
+
+            <!-- S07 -->
+            <div class="bg-surface/60 border border-primary/20 rounded-xl p-6 md:col-span-2 xl:col-span-2 hover:border-primary/40 transition-colors" data-aos="fade-up" data-aos-delay="400">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-[10px] text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">07</span>
+                    <h3 class="font-display font-bold text-heading">Hybrid Storage</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-muted text-[10px] font-mono uppercase tracking-widest mb-2">DB Ledger (PostgreSQL)</p>
+                        <p class="text-body text-xs leading-relaxed">Merkle Root, file hash, prev-block hash, and metadata are written to the Supabase PostgreSQL ledger. This forms the immutable blockchain-style chain of blocks.</p>
+                    </div>
+                    <div>
+                        <p class="text-secondary text-[10px] font-mono uppercase tracking-widest mb-2">Object Vault (Supabase Storage)</p>
+                        <p class="text-body text-xs leading-relaxed">The binary ciphertext (<code class="text-secondary bg-secondary/10 px-0.5 rounded">.bin</code>) — containing the nonce prefix and GCM tag suffix — is stored in the cloud object bucket. Only the Merkle Root is needed to verify it.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     MERKLE TREE VISUAL
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up">
+    <div class="max-w-[900px] mx-auto px-6">
+        <div class="mb-12 text-center">
+            <h2 class="font-display text-2xl font-bold text-heading">Merkle Tree Structure</h2>
+            <p class="text-body text-sm mt-2">Visual example with 4 ciphertext chunks → single root.</p>
+        </div>
+
+        <div class="bg-surface/50 border border-border rounded-2xl p-8 font-mono text-xs overflow-x-auto">
+
+            <!-- Root -->
+            <div class="flex justify-center mb-6">
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-[9px] text-secondary uppercase tracking-widest mb-1">Merkle Root</span>
+                    <div class="px-4 py-2 bg-secondary/10 border border-secondary/40 rounded-lg text-secondary shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                        H(H₁₂ ‖ H₃₄)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 2 connectors -->
+            <div class="flex justify-center mb-1">
+                <svg viewBox="0 0 300 30" class="w-72 h-8 text-border">
+                    <line x1="150" y1="0" x2="75" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="150" y1="0" x2="225" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                </svg>
+            </div>
+
+            <!-- Level 2 nodes -->
+            <div class="flex justify-around mb-1 px-8">
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-[9px] text-muted uppercase tracking-wider mb-1">Internal</span>
+                    <div class="px-3 py-1.5 bg-primary/10 border border-primary/30 rounded text-primary">H(H₁ ‖ H₂)</div>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <span class="text-[9px] text-muted uppercase tracking-wider mb-1">Internal</span>
+                    <div class="px-3 py-1.5 bg-primary/10 border border-primary/30 rounded text-primary">H(H₃ ‖ H₄)</div>
+                </div>
+            </div>
+
+            <!-- Level 1 connectors -->
+            <div class="flex justify-around px-8 mb-1">
+                <svg viewBox="0 0 200 30" class="w-48 h-7 text-border">
+                    <line x1="100" y1="0" x2="40"  y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="100" y1="0" x2="160" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                </svg>
+                <svg viewBox="0 0 200 30" class="w-48 h-7 text-border">
+                    <line x1="100" y1="0" x2="40"  y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <line x1="100" y1="0" x2="160" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3"/>
+                </svg>
+            </div>
+
+            <!-- Leaf nodes -->
+            <div class="flex justify-around px-2">
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₁</div>
+                    <span class="text-[9px] text-muted/60">chunk 1</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₂</div>
+                    <span class="text-[9px] text-muted/60">chunk 2</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₃</div>
+                    <span class="text-[9px] text-muted/60">chunk 3</span>
+                </div>
+                <div class="flex flex-col items-center gap-1">
+                    <div class="px-2.5 py-1.5 bg-background border border-border rounded text-muted text-[10px]">H₄</div>
+                    <span class="text-[9px] text-muted/60">chunk 4</span>
+                </div>
+            </div>
+
+            <!-- label -->
+            <div class="mt-6 pt-4 border-t border-border/50 flex items-center justify-center gap-2 text-[10px] text-muted">
+                <svg class="w-3 h-3 text-danger" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                Modifying even a single byte in any chunk changes H(leaf) → propagates up → invalidates the Merkle Root
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─────────────────────────────────────────────
+     LIVE SIMULATOR
+───────────────────────────────────────────── -->
+<section class="py-16 relative z-10" data-aos="fade-up">
+    <div class="max-w-[900px] mx-auto px-6">
+        <div class="mb-10 text-center">
+            <h2 class="font-display text-2xl font-bold text-heading">Live Pipeline Simulator</h2>
+            <p class="text-body text-sm mt-2 max-w-xl mx-auto">Upload file nyata dan lihat setiap stage berjalan — SHA-256, XOR key, AES-256-GCM, Merkle Tree. Semua diproses di browser, tidak ada data yang dikirim ke server.</p>
+        </div>
+
+        <!-- Simulator card -->
+        <div class="bg-surface/60 border border-border rounded-2xl overflow-hidden">
+
+            <!-- Header bar -->
+            <div class="flex items-center justify-between px-5 py-3 border-b border-border bg-surface/80">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    <span class="font-mono text-[10px] text-muted uppercase tracking-widest">CloudGuard EMT — Pipeline Simulator</span>
+                </div>
+                <span class="font-mono text-[10px] text-muted" id="sim-status-badge">IDLE</span>
+            </div>
+
+            <!-- Pipeline stage indicator -->
+            <div class="px-5 pt-5 pb-3 border-b border-border/50 overflow-x-auto">
+                <div class="flex items-center gap-0 min-w-max" id="sim-stage-row">
+                    <!-- stages injected by JS -->
+                </div>
+            </div>
+
+            <!-- Drop zone -->
+            <div class="px-5 pt-5">
+                <div id="sim-drop" class="border border-dashed border-border rounded-xl p-8 text-center cursor-pointer transition-all duration-200 hover:border-secondary/60 hover:bg-secondary/5"
+                     onclick="document.getElementById('sim-file-input').click()"
+                     ondragover="event.preventDefault();this.classList.add('!border-secondary','!bg-secondary/10')"
+                     ondragleave="this.classList.remove('!border-secondary','!bg-secondary/10')"
+                     ondrop="handleSimDrop(event)">
+                    <svg class="w-8 h-8 text-muted mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    <p class="font-mono text-xs text-muted" id="sim-drop-text">Drag & drop atau klik untuk upload file</p>
+                    <p class="text-[10px] text-muted/50 mt-1">Semua format didukung · File diproses lokal di browser</p>
+                </div>
+                <input type="file" id="sim-file-input" class="hidden" onchange="runSimulation(this.files[0])">
+            </div>
+
+            <!-- Execution log -->
+            <div class="px-5 pt-4 pb-2">
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-2">Execution log</p>
+                <div id="sim-log" class="bg-background rounded-xl p-4 font-mono text-[11px] leading-relaxed min-h-[80px] max-h-[220px] overflow-y-auto border border-border/50">
+                    <span class="text-muted/40">[ waiting for file... ]</span>
+                </div>
+            </div>
+
+            <!-- Results grid (hidden until done) -->
+            <div id="sim-results" class="hidden px-5 pt-3 pb-5">
+                <div class="w-full h-px bg-border/50 mb-5"></div>
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-3">Cryptographic output</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5" id="sim-result-cards"></div>
+
+                <!-- Merkle tree visual -->
+                <div class="w-full h-px bg-border/50 mb-5"></div>
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-4">Merkle tree (computed)</p>
+                <div id="sim-merkle" class="flex flex-col items-center gap-3 mb-5"></div>
+
+                <!-- Tamper section -->
+                <div class="w-full h-px bg-border/50 mb-5"></div>
+                <p class="font-mono text-[10px] text-muted uppercase tracking-widest mb-2">Tamper simulation</p>
+                <p class="text-body text-xs mb-3 leading-relaxed">Edit hex ciphertext di bawah — satu karakter pun akan membatalkan Merkle Root dan memicu deteksi.</p>
+
+                <div class="mb-3">
+                    <textarea id="sim-tamper-box"
+                        class="w-full bg-background border border-border rounded-xl p-3 font-mono text-[10px] leading-relaxed text-body focus:outline-none focus:border-secondary/60 transition-colors resize-y"
+                        rows="4" spellcheck="false"></textarea>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <button onclick="simVerify()" class="px-4 py-2 bg-primary/10 border border-primary/30 text-primary text-xs font-mono rounded-lg hover:bg-primary/20 transition-colors">
+                        Verify Integrity
+                    </button>
+                    <button onclick="simTamper()" class="px-4 py-2 bg-warning/10 border border-warning/30 text-warning text-xs font-mono rounded-lg hover:bg-warning/20 transition-colors">
+                        Auto-tamper (1 bit)
+                    </button>
+                    <button onclick="simRestore()" class="px-4 py-2 bg-surface border border-border text-muted text-xs font-mono rounded-lg hover:border-border/80 transition-colors">
+                        Restore Original
+                    </button>
+                    <span id="sim-verify-badge" class="font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted">—</span>
+                </div>
+
+                <div id="sim-verify-detail" class="font-mono text-[10px] leading-relaxed text-muted bg-background rounded-xl p-3 border border-border/50 hidden"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+<script>
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    AOS.init({ once: true, offset: 50, duration: 800 });
+
+    /* ═══════════════════════════════════════
+       SIMULATOR ENGINE
+    ═══════════════════════════════════════ */
+
+    const SIM_STAGES = [
+        { id: 's0', label: 'Upload',   sub: 'Buffer' },
+        { id: 's1', label: 'SHA-256',  sub: 'Hash' },
+        { id: 's2', label: 'Dedup',    sub: 'Check' },
+        { id: 's3', label: 'XOR Key',  sub: 'Dynamic' },
+        { id: 's4', label: 'AES-256',  sub: 'GCM' },
+        { id: 's5', label: 'Chunk',    sub: '1 KB' },
+        { id: 's6', label: 'Merkle',   sub: 'Root' },
+        { id: 's7', label: 'Store',    sub: 'DB+Vault' },
+    ];
+
+    // Build pipeline indicator
+    (function buildStageRow() {
+        const row = document.getElementById('sim-stage-row');
+        SIM_STAGES.forEach((s, i) => {
+            const node = document.createElement('div');
+            node.id = 'sim-node-' + i;
+            node.className = 'flex flex-col items-center justify-center w-16 h-14 rounded-lg border border-border bg-surface/80 text-center transition-all duration-300 shrink-0';
+            node.innerHTML = `<span class="font-bold text-[10px] text-muted transition-colors" id="sim-nlabel-${i}">${s.label}</span><span class="text-[9px] text-muted/50 font-mono">${s.sub}</span>`;
+            row.appendChild(node);
+            if (i < SIM_STAGES.length - 1) {
+                const arrow = document.createElement('div');
+                arrow.id = 'sim-arrow-' + i;
+                arrow.className = 'text-border text-xs px-1 shrink-0 transition-colors duration-300';
+                arrow.textContent = '›';
+                row.appendChild(arrow);
+            }
+        });
+    })();
+
+    function setSimStage(active) {
+        SIM_STAGES.forEach((_, i) => {
+            const node = document.getElementById('sim-node-' + i);
+            const label = document.getElementById('sim-nlabel-' + i);
+            if (i < active) {
+                node.className = node.className.replace(/border-\S+|bg-\S+/g, '').trim();
+                node.classList.add('border-primary/40', 'bg-primary/5');
+                label.classList.add('text-primary');
+                label.classList.remove('text-muted');
+            } else if (i === active) {
+                node.className = node.className.replace(/border-\S+|bg-\S+/g, '').trim();
+                node.classList.add('border-secondary', 'bg-secondary/10');
+                label.classList.add('text-secondary');
+                label.classList.remove('text-muted', 'text-primary');
+            } else {
+                node.className = node.className.replace(/border-\S+|bg-\S+/g, '').trim();
+                node.classList.add('border-border', 'bg-surface/80');
+                label.classList.remove('text-secondary', 'text-primary');
+                label.classList.add('text-muted');
+            }
+            if (i < SIM_STAGES.length - 1) {
+                document.getElementById('sim-arrow-' + i).classList.toggle('text-primary/60', i < active);
+                document.getElementById('sim-arrow-' + i).classList.toggle('text-border', i >= active);
+            }
+        });
+    }
+
+    let simState = { fileHash: '', prevHash: '0'.repeat(64), aesKey: null, cipherHex: '', merkleRoot: '', leafHashes: [], originalCipher: '' };
+
+    function simLog(msg, color = '') {
+        const box = document.getElementById('sim-log');
+        if (box.querySelector('.text-muted\\/40')) box.innerHTML = '';
+        const line = document.createElement('div');
+        const colors = { info: 'text-secondary', success: 'text-primary', warn: 'text-warning', error: 'text-danger', dim: 'text-muted/30' };
+        line.className = colors[color] || 'text-body/70';
+        line.textContent = msg;
+        box.appendChild(line);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    async function sha256hex(buf) {
+        const h = await crypto.subtle.digest('SHA-256', buf);
+        return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function xorHex(h1, h2) {
+        return h1.match(/../g).map((b, i) => (parseInt(b, 16) ^ parseInt(h2.substr(i*2, 2), 16)).toString(16).padStart(2, '0')).join('');
+    }
+
+    function hexToBytes(hex) {
+        const b = new Uint8Array(hex.length / 2);
+        for (let i = 0; i < b.length; i++) b[i] = parseInt(hex.substr(i*2, 2), 16);
+        return b;
+    }
+
+    function bytesToHex(buf) {
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function aesEncrypt(data, keyBytes) {
+        const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']);
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const enc = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, data);
+        const out = new Uint8Array(iv.byteLength + enc.byteLength);
+        out.set(iv); out.set(new Uint8Array(enc), iv.byteLength);
+        return bytesToHex(out.buffer);
+    }
+
+    function chunkHex(hex, chunkBytes = 1024) {
+        const chars = chunkBytes * 2;
+        const chunks = [];
+        for (let i = 0; i < hex.length; i += chars) chunks.push(hex.substr(i, chars));
+        return chunks;
+    }
+
+    async function buildMerkle(chunks) {
+        const leaves = [];
+        for (const c of chunks) {
+            const b = hexToBytes(c);
+            leaves.push(await sha256hex(b));
+        }
+        simState.leafHashes = [...leaves];
+        let level = [...leaves];
+        while (level.length > 1) {
+            const next = [];
+            for (let i = 0; i < level.length; i += 2) {
+                const combined = new TextEncoder().encode(level[i] + (level[i+1] || level[i]));
+                next.push(await sha256hex(combined));
+            }
+            level = next;
+        }
+        return level[0];
+    }
+
+    function renderResultCard(label, value, fullWidth = false, variant = '') {
+        const grid = document.getElementById('sim-result-cards');
+        const card = document.createElement('div');
+        const variantClass = variant === 'ok' ? 'border-primary/30 bg-primary/5' : variant === 'warn' ? 'border-warning/30 bg-warning/5' : '';
+        card.className = `bg-surface border border-border rounded-xl p-4 ${fullWidth ? 'md:col-span-2' : ''} ${variantClass}`;
+        card.innerHTML = `
+            <p class="font-mono text-[9px] text-muted uppercase tracking-widest mb-1">${label}</p>
+            <p class="font-mono text-[10px] ${variant === 'ok' ? 'text-primary' : variant === 'warn' ? 'text-warning' : 'text-body'} break-all leading-relaxed">${value}</p>
+        `;
+        grid.appendChild(card);
+    }
+
+    function renderMerkleViz(leaves, root) {
+        const container = document.getElementById('sim-merkle');
+        container.innerHTML = '';
+
+        const makeNode = (text, isRoot = false, isLeaf = false) => {
+            const d = document.createElement('div');
+            d.className = `px-3 py-1.5 rounded-lg font-mono text-[10px] border ${isRoot ? 'border-primary/40 bg-primary/10 text-primary' : isLeaf ? 'border-border bg-background text-muted' : 'border-secondary/30 bg-secondary/5 text-secondary'} cursor-default hover:brightness-110 transition-all`;
+            d.title = text;
+            d.textContent = (isRoot ? 'Root: ' : '') + text.substring(0, 10) + '…';
+            return d;
+        };
+
+        const makeConnLine = (count) => {
+            const d = document.createElement('div');
+            d.className = 'flex justify-center gap-4';
+            for (let i = 0; i < count; i++) {
+                const line = document.createElement('div');
+                line.className = 'w-px h-3 bg-border/60';
+                d.appendChild(line);
+            }
+            return d;
+        };
+
+        // Root
+        const rootRow = document.createElement('div');
+        rootRow.appendChild(makeNode(root, true));
+        container.appendChild(rootRow);
+
+        const showCount = Math.min(leaves.length, 6);
+
+        if (leaves.length > 1) {
+            container.appendChild(makeConnLine(Math.min(Math.ceil(showCount / 2), 3)));
+            const internalRow = document.createElement('div');
+            internalRow.className = 'flex flex-wrap justify-center gap-2';
+            for (let i = 0; i < showCount; i += 2) {
+                internalRow.appendChild(makeNode(`H(L${i+1}‖L${i+2})`));
+            }
+            container.appendChild(internalRow);
+            container.appendChild(makeConnLine(Math.min(showCount, 6)));
+        }
+
+        const leafRow = document.createElement('div');
+        leafRow.className = 'flex flex-wrap justify-center gap-2';
+        leaves.slice(0, showCount).forEach((h, i) => {
+            leafRow.appendChild(makeNode(h, false, true));
+        });
+        container.appendChild(leafRow);
+
+        if (leaves.length > 6) {
+            const more = document.createElement('p');
+            more.className = 'font-mono text-[9px] text-muted/50 text-center mt-1';
+            more.textContent = `+ ${leaves.length - 6} leaf node lainnya`;
+            container.appendChild(more);
+        }
+
+        const note = document.createElement('div');
+        note.className = 'mt-4 flex items-center gap-2 text-[10px] text-muted font-mono bg-background border border-border/50 rounded-lg px-4 py-2';
+        note.innerHTML = `<svg class="w-3 h-3 text-danger shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+        1 byte berubah → leaf hash berubah → propagasi ke root → deteksi tampering`;
+        container.appendChild(note);
+    }
+
+    function handleSimDrop(ev) {
+        ev.preventDefault();
+        ev.currentTarget.classList.remove('!border-secondary', '!bg-secondary/10');
+        const f = ev.dataTransfer.files[0];
+        if (f) runSimulation(f);
+    }
+
+    async function runSimulation(file) {
+        if (!file) return;
+
+        document.getElementById('sim-log').innerHTML = '';
+        document.getElementById('sim-results').classList.add('hidden');
+        document.getElementById('sim-result-cards').innerHTML = '';
+        document.getElementById('sim-merkle').innerHTML = '';
+        document.getElementById('sim-verify-badge').className = 'font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted';
+        document.getElementById('sim-verify-badge').textContent = '—';
+        document.getElementById('sim-verify-detail').classList.add('hidden');
+        document.getElementById('sim-status-badge').textContent = 'RUNNING';
+        document.getElementById('sim-drop-text').textContent = '✓ ' + file.name + ' — klik untuk ganti';
+
+        const sizeFmt = file.size > 1024*1024 ? (file.size/1024/1024).toFixed(1)+' MB' : (file.size/1024).toFixed(1)+' KB';
+
+        // S0 Upload
+        setSimStage(0);
+        simLog('[ stage 01 ]  file: ' + file.name + ' (' + sizeFmt + ')', 'info');
+        await sleep(250);
+        const buf = await file.arrayBuffer();
+        simLog('             loaded to memory buffer ✓', 'success');
+
+        // S1 SHA-256
+        setSimStage(1);
+        await sleep(200);
+        simLog('[ stage 02 ]  computing SHA-256...', 'info');
+        const fileHash = await sha256hex(buf);
+        simState.fileHash = fileHash;
+        simLog('             ' + fileHash.substring(0, 40) + '...', 'success');
+
+        // S2 Dedup
+        setSimStage(2);
+        await sleep(350);
+        simLog('[ dedup    ]  querying ledger...', 'info');
+        await sleep(300);
+        simLog('             UNIQUE — tidak ada duplikat, lanjut enkripsi', 'success');
+
+        // S3 XOR Key
+        setSimStage(3);
+        await sleep(200);
+        simLog('[ stage 03 ]  generating AES key via XOR synthesis...', 'info');
+        const keyHex = xorHex(fileHash, simState.prevHash);
+        const keyBytes = hexToBytes(keyHex).slice(0, 32);
+        simState.aesKey = keyBytes;
+        simLog('             file_hash  XOR  prev_hash  →  256-bit key', 'dim');
+        simLog('             ' + keyHex.substring(0, 40) + '...', 'success');
+
+        // S4 AES-256-GCM
+        setSimStage(4);
+        await sleep(300);
+        simLog('[ stage 04 ]  encrypting with AES-256-GCM...', 'info');
+        const cipherHex = await aesEncrypt(buf, keyBytes);
+        simState.cipherHex = cipherHex;
+        simState.originalCipher = cipherHex;
+        simLog('             nonce (12B): ' + cipherHex.substring(0, 24) + '...', 'success');
+        simLog('             ciphertext: ' + (cipherHex.length/2/1024).toFixed(1) + ' KB (+ 16B GCM tag)', 'success');
+
+        // S5 Chunk
+        setSimStage(5);
+        await sleep(200);
+        simLog('[ stage 05 ]  splitting into 1 KB blocks...', 'info');
+        const chunks = chunkHex(cipherHex, 1024);
+        simLog('             ' + chunks.length + ' blocks dibuat', 'success');
+
+        // S6 Merkle
+        setSimStage(6);
+        await sleep(250);
+        simLog('[ stage 06 ]  membangun Enhanced Merkle Tree...', 'info');
+        const merkleRoot = await buildMerkle(chunks);
+        simState.merkleRoot = merkleRoot;
+        simLog('             ' + simState.leafHashes.length + ' leaf nodes ✓', 'success');
+        simLog('             root: ' + merkleRoot.substring(0, 40) + '...', 'success');
+
+        // S7 Store
+        setSimStage(7);
+        await sleep(350);
+        simLog('[ stage 07 ]  anchoring to ledger + object vault...', 'info');
+        await sleep(300);
+        simLog('             DB: file_hash, merkle_root, prev_hash → saved ✓', 'success');
+        simLog('             Vault: ciphertext.bin → Supabase Storage ✓', 'success');
+        simLog('─────────────────────────────────────────────────────', 'dim');
+        simLog('[ DONE     ]  pipeline selesai — data aman & terverifikasi', 'success');
+
+        document.getElementById('sim-status-badge').textContent = 'COMPLETE';
+
+        // Render results
+        renderResultCard('File', file.name);
+        renderResultCard('Ukuran', sizeFmt);
+        renderResultCard('SHA-256 hash (file asli)', fileHash, true);
+        renderResultCard('AES-256 key (XOR synthesized)', keyHex.substring(0, 64) + '…', true);
+        renderResultCard('Merkle Root', merkleRoot, true, 'ok');
+        renderResultCard('Jumlah chunks', chunks.length + ' blocks @ 1 KB');
+        renderResultCard('Block index (sim)', String(Math.floor(Math.random() * 99) + 1));
+
+        document.getElementById('sim-tamper-box').value = cipherHex.substring(0, 320);
+        document.getElementById('sim-results').classList.remove('hidden');
+        renderMerkleViz(simState.leafHashes, merkleRoot);
+    }
+
+    async function simVerify() {
+        const input = document.getElementById('sim-tamper-box').value.trim();
+        if (!input || !simState.merkleRoot) return;
+        const badge = document.getElementById('sim-verify-badge');
+        const detail = document.getElementById('sim-verify-detail');
+        badge.textContent = 'verifying…';
+        await sleep(200);
+        const chunks = chunkHex(input, 1024 * 2);
+        const newRoot = await buildMerkle(chunks);
+        const match = newRoot === simState.merkleRoot;
+        badge.className = 'font-mono text-[10px] px-3 py-1 rounded-full border ' + (match ? 'border-primary/40 bg-primary/10 text-primary' : 'border-danger/40 bg-danger/10 text-danger');
+        badge.textContent = match ? '✓ VALID' : '✗ CORRUPTED';
+        detail.innerHTML =
+            '<span class="text-muted/60">stored root:    </span>' + simState.merkleRoot.substring(0, 36) + '…\n' +
+            '<span class="text-muted/60">recalculated:   </span>' + newRoot.substring(0, 36) + '…\n' +
+            '<span class="text-muted/60">verdict:        </span><span class="' + (match ? 'text-primary' : 'text-danger') + '">' + (match ? 'MATCH — data intact' : 'MISMATCH — tampering detected!') + '</span>';
+        detail.style.whiteSpace = 'pre';
+        detail.classList.remove('hidden');
+        simLog('[ audit    ]  integrity: ' + (match ? 'VALID ✓' : 'CORRUPTED ✗ — tampering detected!'), match ? 'success' : 'error');
+    }
+
+    function simTamper() {
+        const box = document.getElementById('sim-tamper-box');
+        if (!box.value) return;
+        const arr = box.value.split('');
+        const pos = Math.floor(Math.random() * (arr.length - 1));
+        const hex = '0123456789abcdef';
+        let c = hex[Math.floor(Math.random() * 16)];
+        while (c === arr[pos]) c = hex[Math.floor(Math.random() * 16)];
+        arr[pos] = c;
+        box.value = arr.join('');
+        document.getElementById('sim-verify-badge').className = 'font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted';
+        document.getElementById('sim-verify-badge').textContent = '— re-verify';
+        simLog('[ tamper   ]  1 nibble diubah pada posisi ' + pos, 'warn');
+    }
+
+    function simRestore() {
+        if (!simState.originalCipher) return;
+        document.getElementById('sim-tamper-box').value = simState.originalCipher.substring(0, 320);
+        document.getElementById('sim-verify-badge').className = 'font-mono text-[10px] px-3 py-1 rounded-full border border-border text-muted';
+        document.getElementById('sim-verify-badge').textContent = '—';
+        simLog('[ restore  ]  ciphertext dikembalikan ke original', 'info');
+    }
+</script>
+{% endblock %}
+
+
+==============================
+PATH: templates\base.html
+==============================
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CloudGuard EMT{% endblock %}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0B1120',
+                        surface: '#1E293B',
+                        elevated: '#273449',
+                        border: '#334155',
+                        primary: '#10B981',
+                        secondary: '#06B6D4',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                        heading: '#F8FAFC',
+                        body: '#94A3B8',
+                        muted: '#64748B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0B1120;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Efek Noise Global */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Grid Interaktif Global */
+        #global-interactive-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            transition: opacity 0.5s duration;
+            opacity: 0;
+            background-image: 
+                radial-gradient(600px circle at var(--mx) var(--my), rgba(16, 185, 129, 0.06), transparent 50%),
+                linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-position: 0 0, calc(var(--mx) * -0.01) calc(var(--my) * -0.01), calc(var(--mx) * -0.01) calc(var(--my) * -0.01);
+            -webkit-mask-image: radial-gradient(400px circle at var(--mx) var(--my), black, transparent);
+            mask-image: radial-gradient(400px circle at var(--mx) var(--my), black, transparent);
+        }
+
+        .nav-active {
+            color: #10B981 !important;
+        }
+    </style>
+</head>
+<body class="text-body font-sans min-h-screen flex flex-col antialiased selection:bg-primary selection:text-background">
+
+    <div class="noise"></div>
+    <div id="global-interactive-bg"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
+        <div class="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between"> 
+            
+            <a href="/" class="flex items-center group">
+                <img src="{% static 'images/Logo_Teks.png' %}" alt="Logo" class="h-11 w-auto transition-transform duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/' %}nav-active{% endif %}">
+                    Home
+                    {% if request.path == '/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
+                </a>
+                <a href="/console/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/console/' %}nav-active{% endif %}">
+                    Console
+                    {% if request.path == '/console/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
+                </a>
+                <a href="/architecture/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/architecture/' %}nav-active{% endif %}">
+                    Architecture
+                    {% if request.path == '/architecture/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
+                </a>
+                <a href="/about/" class="text-xs uppercase tracking-widest font-medium transition-all hover:text-primary relative group {% if request.path == '/about/' %}nav-active{% endif %}">
+                    About
+                    {% if request.path == '/about/' %}<span class="absolute -bottom-6 left-0 w-full h-[2px] bg-secondary shadow-[0_0_10px_#06B6D4]"></span>{% endif %}
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 px-3 py-1 bg-surface/50 border border-border rounded-full">
+                    <span class="relative flex h-1.5 w-1.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-secondary"></span>
+                    </span>
+                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/80">
+                        v1.0.4
+                    </span>
+                </div>
+
+                <a href="https://github.com/trishagarniss/kda-project" target="_blank" class="p-2 text-muted hover:text-heading transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                </a>
+            </div>
+            
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center w-full relative z-10">
+        <div class="max-w-[1400px] w-full mx-auto px-6">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+<<<<<<< HEAD
+=======
+    <button id="scrollToTopBtn" class="fixed bottom-8 right-8 z-[70] p-3 bg-surface/80 backdrop-blur-md border border-border rounded-full text-muted hover:text-primary hover:border-primary hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all duration-500 translate-y-16 opacity-0 cursor-pointer group pointer-events-none" aria-label="Scroll to top">
+        <svg class="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+
+>>>>>>> 73587eb0ee81c8b5a2825dbf9bab19daa3d19874
+    <footer class="bg-[#080d1a] border-t border-border pt-16 pb-12 mt-20 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 border-b border-border/50 pb-12">
+            
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-3 mb-4">
+<<<<<<< HEAD
+                    <img src="{% static 'images/Logo_Teks.png' %}" alt="Logo" class="h-8 w-auto">
+=======
+                    <img src="{% static 'images/Logo_Teks.png' %}" alt="Logo" class="h-20 w-auto">
+>>>>>>> 73587eb0ee81c8b5a2825dbf9bab19daa3d19874
+                </div>
+                <p class="text-sm text-muted leading-relaxed max-w-md">
+                    Hybrid cryptographic security powered by Dynamic AES-256 & Enhanced Merkle Tree.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-display font-bold text-heading mb-4 text-xs uppercase tracking-widest text-primary">Platform</h4>
+                <ul class="flex flex-col gap-3 text-sm font-medium">
+                    <li><a href="/" class="hover:text-secondary transition-colors">Home</a></li>
+                    <li><a href="/console/" class="hover:text-secondary transition-colors">Console</a></li>
+                    <li><a href="/architecture/" class="hover:text-secondary transition-colors">Architecture</a></li>
+                    <li><a href="/about/" class="hover:text-secondary transition-colors">About</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-display font-bold text-heading mb-4 text-xs uppercase tracking-widest text-secondary">Security Protocols</h4>
+                <div class="flex flex-col gap-2 font-mono text-[10px]">
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>AES-256-CBC</span>
+                        <span class="text-primary">ACTIVE</span>
+                    </div>
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>MERKLE TREE</span>
+                        <span class="text-secondary">SYNCED</span>
+                    </div>
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>BLOCKCHAIN</span>
+                        <span class="text-warning">VALIDATED</span>
+                    </div>
+                    <div class="flex justify-between border-b border-border/30 pb-1">
+                        <span>SUPABASE CLOUD</span>
+                        <span class="text-heading">CONNECTED</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-center md:text-left">
+                <h2 class="text-heading font-display font-bold text-sm tracking-wide">
+                    © 2026 CloudGuard EMT
+                </h2>
+                <p class="text-[10px] text-muted/50 font-mono mt-1 tracking-wider">
+                    Data Science UNS • Data and Application Security
+                </p>
+            </div>
+            
+            <a href="https://github.com/trishagarniss/kda-project" target="_blank" class="flex items-center gap-3 text-muted hover:text-heading transition-all group">
+                <span class="text-[9px] font-mono tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">RECON_REPOSITORY</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const bg = document.getElementById('global-interactive-bg');
+            if(bg) {
+                bg.style.opacity = '1';
+                bg.style.setProperty('--mx', `${e.clientX}px`);
+                bg.style.setProperty('--my', `${e.clientY}px`);
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            const bg = document.getElementById('global-interactive-bg');
+            if(bg) bg.style.opacity = '0';
+        });
+
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                scrollToTopBtn.classList.remove('translate-y-16', 'opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.add('translate-y-0', 'opacity-100');
+            } else {
+                scrollToTopBtn.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.remove('translate-y-0', 'opacity-100');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+==============================
+PATH: templates\console.html
+==============================
+
+
+
+
+==============================
+PATH: templates\home.html
+==============================
+
+{% extends 'base.html' %}
+
+{% block title %}CloudGuard EMT - Cyber Security Platform{% endblock %}
+
+{% block content %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    /* Tooltip & Animations CSS */
+    .pipeline-line {
+        position: relative;
+    }
+    .pipeline-line::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, transparent, #06B6D4, transparent);
+        background-size: 200% 100%;
+        animation: flow 2s linear infinite;
+        z-index: -1;
+        opacity: 0.3;
+    }
+    @keyframes flow {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
+    }
+    .pipeline-flow-anim {
+        background-size: 200% 100%;
+        animation: flow 3s linear infinite;
+    }
+    .typed-cursor { color: #10B981 !important; font-size: 1.2em; }
+</style>
+
+<div id="particles-js" class="fixed inset-0 z-[-1] opacity-40 pointer-events-none"></div>
+
+<section class="pt-32 pb-24 text-center relative z-10 w-full overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
+    
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none z-0"></div>
+    
+    <div class="max-w-5xl mx-auto relative z-10 px-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-mono text-xs mb-8">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            System Integrity Active
+        </div>
+
+        <h1 class="font-display text-5xl md:text-7xl font-bold text-heading leading-tight mb-6 tracking-tight">
+            Secure Your <span class="text-primary drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]">Cloud Data</span><br/>
+            with Intelligent Cryptography
+        </h1>
+        
+        <div class="h-8 mb-10">
+            <p class="text-lg md:text-xl text-body font-mono"><span id="typed-subtitle"></span></p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10" data-aos="fade-up" data-aos-delay="300">
+            <a href="/console/" class="w-full sm:w-auto px-8 py-4 bg-primary text-background font-bold rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:-translate-y-1 transition-all duration-300">
+                Launch Console
+            </a>
+            <a href="/architecture/" class="w-full sm:w-auto px-8 py-4 bg-transparent text-secondary border border-secondary font-bold rounded-xl hover:bg-secondary/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
+                View Architecture
+            </a>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-8 mt-16 text-muted font-mono text-xs" data-aos="fade-in" data-aos-delay="600">
+            <div class="flex items-center gap-2"><span class="text-secondary">✓</span> AES-256 Protected</div>
+            <div class="flex items-center gap-2"><span class="text-secondary">✓</span> SHA-256 Verified</div>
+            <div class="flex items-center gap-2"><span class="text-secondary">✓</span> Blockchain Synced</div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">The Vulnerability Gap</h2>
+        <p class="text-body mt-4 max-w-2xl mx-auto">Standard cloud storage leaves critical attack vectors open.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="group bg-surface p-8 rounded-2xl border border-border transition-all duration-300 hover:border-danger hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] hover:-translate-y-2 cursor-crosshair" data-aos="fade-up" data-aos-delay="100">
+            <svg class="w-8 h-8 text-danger mb-4 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-lg mb-2">Data Breach</h3>
+            <p class="text-body text-sm leading-relaxed">Static encryption keys make data highly vulnerable if the central server is compromised.</p>
+        </div>
+        <div class="group bg-surface p-8 rounded-2xl border border-border transition-all duration-300 hover:border-danger hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] hover:-translate-y-2 cursor-crosshair" data-aos="fade-up" data-aos-delay="200">
+            <svg class="w-8 h-8 text-danger mb-4 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-lg mb-2">Silent Tampering</h3>
+            <p class="text-body text-sm leading-relaxed">Malicious actors can alter database entries without triggering traditional security alerts.</p>
+        </div>
+        <div class="group bg-surface p-8 rounded-2xl border border-border transition-all duration-300 hover:border-danger hover:shadow-[0_0_25px_rgba(239,68,68,0.15)] hover:-translate-y-2 cursor-crosshair" data-aos="fade-up" data-aos-delay="300">
+            <svg class="w-8 h-8 text-danger mb-4 opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <h3 class="font-display font-bold text-heading text-lg mb-2">Integrity Failure</h3>
+            <p class="text-body text-sm leading-relaxed">Auditing massive cloud files requires expensive downloads, making constant verification impossible.</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">Core System Power</h2>
+        <p class="text-body mt-4 max-w-2xl mx-auto">Engineered for zero-trust environments.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-2 transition-all duration-300" data-aos="zoom-in" data-aos-delay="100">
+            <div class="mb-5 text-muted group-hover:text-primary group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300 w-fit">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                </svg>
+            </div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Dynamic AES</h3>
+            <p class="text-body text-sm leading-relaxed mb-4 transition-all overflow-hidden">Keys are never stored statically. Generated on-the-fly using Hash XOR logic.</p>
+        </div>
+        
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-2 transition-all duration-300" data-aos="zoom-in" data-aos-delay="200">
+            <div class="mb-5 text-muted group-hover:text-primary group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300 w-fit">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7V5m0 2l-2 2m2-2l2 2m8 9v-2m0 2l-2-2m2 2l2-2"></path>
+                </svg>
+            </div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Enhanced Merkle</h3>
+            <p class="text-body text-sm leading-relaxed mb-4">Files chunked and hierarchically hashed. Validates integrity without downloading the payload.</p>
+        </div>
+
+        <div class="group bg-surface p-8 rounded-2xl border border-border hover:border-primary hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] hover:-translate-y-2 transition-all duration-300" data-aos="zoom-in" data-aos-delay="300">
+            <div class="mb-5 text-muted group-hover:text-primary group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)] transition-all duration-300 w-fit">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+            </div>
+            <h3 class="font-display font-bold text-heading text-xl mb-3 group-hover:text-primary transition-colors">Blockchain Ledger</h3>
+            <p class="text-body text-sm leading-relaxed mb-4">Every Merkle Root is securely anchored to an immutable block chain, preventing historic tampering.</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 relative z-10">
+    <div class="text-center mb-20" data-aos="fade-up">
+        <h2 class="font-display text-3xl font-bold text-heading">System Pipeline</h2>
+        <p class="text-body mt-4 text-sm max-w-2xl mx-auto">End-to-end cryptographic processing workflow. Hover over modules to inspect.</p>
+    </div>
+    
+    <div class="w-full max-w-[1300px] mx-auto px-6 relative" data-aos="fade-in" data-aos-delay="200">
+        
+        <div class="hidden lg:block absolute top-1/2 left-[5%] right-[5%] h-[2px] bg-border/50 -translate-y-1/2 z-0 overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-transparent via-secondary to-transparent w-[200%] pipeline-flow-anim opacity-70"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2 lg:gap-0 relative z-10">
+            
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-secondary hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-secondary group-hover:shadow-[0_0_8px_#06B6D4] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 01</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-secondary transition-colors">Upload</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    File ingested into secure memory buffer.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-secondary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-warning hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-warning group-hover:shadow-[0_0_8px_#F59E0B] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 02</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-warning transition-colors">Hash</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    SHA-256 baseline generation.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-warning transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-secondary/50 p-4 rounded-xl hover:border-secondary hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_#06B6D4] group-hover:animate-ping transition-all"></div>
+                    <span class="text-[10px] font-mono text-secondary uppercase tracking-widest">Step 03</span>
+                </div>
+                <h3 class="font-display font-bold text-secondary text-sm transition-colors">XOR Logic</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Dynamic key synthesis via Hash XOR.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-secondary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-secondary hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-secondary group-hover:shadow-[0_0_8px_#06B6D4] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 04</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-secondary transition-colors">AES-256</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Symmetric ciphertext encryption.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-warning transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-warning hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-warning group-hover:shadow-[0_0_8px_#F59E0B] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 05</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-warning transition-colors">Chunking</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Data block splitting for tree structure.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-primary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-primary/50 p-4 rounded-xl hover:border-primary hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#10B981] group-hover:animate-ping transition-all"></div>
+                    <span class="text-[10px] font-mono text-primary uppercase tracking-widest">Step 06</span>
+                </div>
+                <h3 class="font-display font-bold text-primary text-sm transition-colors">Merkle Tree</h3>
+                <div class="absolute lg:-bottom-20 lg:left-1/2 lg:-translate-x-1/2 bottom-full left-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Hierarchical root hash validation.
+                </div>
+            </div>
+
+            <div class="flex justify-center py-2 lg:py-0 lg:w-8 shrink-0 text-muted/80 group-hover:text-primary transition-colors">
+                <svg class="w-6 h-6 lg:-rotate-0 rotate-90 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            </div>
+
+            <div class="group relative flex-1 bg-surface/90 backdrop-blur-md border border-border p-4 rounded-xl hover:border-primary hover:-translate-y-1 transition-all duration-300 cursor-crosshair">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="w-2 h-2 rounded-full bg-border group-hover:bg-primary group-hover:shadow-[0_0_8px_#10B981] transition-all"></div>
+                    <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Step 07</span>
+                </div>
+                <h3 class="font-display font-bold text-heading text-sm group-hover:text-primary transition-colors">Anchor</h3>
+                <div class="absolute lg:-bottom-20 lg:right-0 lg:left-auto lg:translate-x-0 bottom-full right-0 mb-4 lg:mb-0 w-48 bg-elevated border border-border p-3 rounded-lg text-xs text-body opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20">
+                    Stored to Cloud Vault & Blockchain Ledger.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-24 text-center relative z-10 overflow-hidden" data-aos="zoom-in">
+    <div class="max-w-4xl mx-auto bg-surface/30 border border-border p-12 rounded-2xl backdrop-blur-sm shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] relative z-10 group">
+        <div class="relative w-fit mx-auto mb-6">
+            <svg class="w-12 h-12 text-primary opacity-80 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+        </div>
+
+        <h2 class="font-display text-3xl md:text-5xl font-bold text-heading leading-tight transition-transform duration-500 group-hover:scale-[1.01]">
+            Even a <span class="text-danger drop-shadow-[0_0_15px_rgba(239,68,68,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(239,68,68,0.8)] transition-all">single bit modification</span><br>
+            will <span class="text-warning drop-shadow-[0_0_15px_rgba(245,158,11,0.6)] group-hover:drop-shadow-[0_0_25px_rgba(245,158,11,0.8)] transition-all">invalidate</span> the integrity chain.
+        </h2>
+        
+        <div class="mt-8 flex justify-center gap-2 opacity-30">
+            <div class="w-16 h-[1px] bg-gradient-to-r from-transparent to-primary"></div>
+            <div class="w-2 h-2 rounded-full border border-primary animate-ping"></div>
+            <div class="w-16 h-[1px] bg-gradient-to-l from-transparent to-primary"></div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+<script>
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    AOS.init({ once: true, offset: 50, duration: 800 });
+
+    new Typed('#typed-subtitle', {
+        strings: [
+            'Dynamic AES Encryption Initialized...',
+            'Enhanced Merkle Tree Verified...',
+            'Blockchain Integrity Active...',
+            'Zero-Trust Architecture Deployed.'
+        ],
+        typeSpeed: 50, backSpeed: 20, backDelay: 2000, loop: true
+    });
+
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 40, density: { enable: true, value_area: 800 } },
+            color: { value: ["#10B981", "#06B6D4"] },
+            opacity: { value: 0.6, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#10B981", opacity: 0.25, width: 1 },
+            move: { enable: true, speed: 1, direction: "none", random: true, out_mode: "out" }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } },
+            modes: { grab: { distance: 180, line_linked: { opacity: 0.7 } } }
+        },
+        retina_detect: true
+    });
+</script>
+{% endblock %}
+
