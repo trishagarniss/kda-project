@@ -86,7 +86,6 @@ def decrypt_file(input_path: str, key: bytes, output_path: str) -> str:
 
     return output_path
 
-
 # HASH CIPHERTEXT 
 # def hash_ciphertext(filepath: str) -> str:
 #     return hash_file(filepath)
