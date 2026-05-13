@@ -6,7 +6,7 @@ from supabase import create_client, Client
 from .models import SecureDocument
 from django.shortcuts import render
 
-# Import mesin kriptografi kalian dari folder core_engine
+# Import mesin kriptografi dari folder core_engine
 from .core_engine.crypto_aes import encrypt_file, hash_file, generate_dynamic_key, decrypt_file
 from .core_engine.blockchain_sim import Blockchain, Block
 from .core_engine.merkle_tree import build_merkle_tree, verify_data_integrity
