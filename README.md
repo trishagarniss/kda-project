@@ -7,7 +7,8 @@ Proyek ini dikembangkan sebagai Tugas Akhir mata kuliah **Keamanan Data dan Apli
 ## ✨ Fitur Utama
 * **End-to-End Dynamic AES-256-GCM:** Menghasilkan kunci enkripsi unik per dokumen secara dinamis melalui operasi logika XOR antara nilai *hash* SHA-256 dari dokumen saat ini dengan *hash* dokumen sebelumnya (*Forward Secrecy*).
 * **Tamper-Proof Integrity (Merkle Tree):** Memecah *ciphertext* menjadi *chunks* dan membangun *Merkle Tree*. Sistem akan langsung memblokir akses dan membunyikan peringatan jika 1 *bit* data di *cloud* terdeteksi diubah oleh pihak luar.
-* **Hybrid Storage Architecture:** * **Ledger Database:** Metadata, *hash chain*, dan *Merkle Root* disimpan dengan aman di **PostgreSQL (Supabase Database)**.
+* **Hybrid Storage Architecture:**
+* * **Ledger Database:** Metadata, *hash chain*, dan *Merkle Root* disimpan dengan aman di **PostgreSQL (Supabase Database)**.
   * **Vault Storage:** *Ciphertext* berwujud biner (`.bin`) disimpan terpisah di **Supabase Storage**.
 * **Interactive Security Console:** Antarmuka bergaya *cyber-terminal* untuk mendemonstrasikan jalur eksekusi kriptografi (Upload ➔ Hash ➔ Dynamic Key ➔ Merkle ➔ Store) secara visual dan interaktif.
 
