@@ -3,433 +3,766 @@
 
 {% block content %}
 <style>
-    .console-stage-row {
+    /* ── Stage Pipeline ─────────────────────────────── */
+    .pipeline-wrap {
         display: flex;
-        gap: 0.75rem;
+        gap: 0;
+        align-items: center;
         overflow-x: auto;
-        padding-bottom: 0.5rem;
-        margin-top: 0.25rem;
+        padding-bottom: 4px;
     }
-    .console-stage-card {
-        min-width: 150px;
+    .stage-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
         flex-shrink: 0;
-        border: 1px solid rgba(148, 163, 184, 0.25);
-        background: rgba(15, 23, 42, 0.7);
-        border-radius: 1rem;
-        padding: 1rem;
-        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        min-width: 72px;
     }
-    .console-stage-card:hover {
-        transform: translateY(-2px);
+    .stage-dot {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid rgba(148,163,184,0.3);
+        background: rgba(15,23,42,0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: all 0.35s ease;
+        position: relative;
+        z-index: 1;
     }
-    .console-stage-card.active {
-        border-color: rgba(14, 116, 144, 0.9);
-        box-shadow: 0 0 24px rgba(6, 182, 212, 0.18);
-        background: rgba(15, 23, 42, 0.95);
-    }
-    .console-stage-card.complete {
-        border-color: rgba(5, 150, 105, 0.9);
-        background: rgba(16, 185, 129, 0.08);
-    }
-    .console-stage-card .stage-title {
-        font-size: 0.85rem;
+    .stage-label {
+        font-size: 0.6rem;
         font-weight: 700;
-        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(148,163,184,0.6);
+        text-align: center;
+        transition: color 0.3s;
     }
-    .console-stage-card .stage-subtitle {
-        font-size: 0.7rem;
-        line-height: 1.4;
-        color: rgba(148, 163, 184, 0.95);
+    .stage-connector {
+        flex: 1;
+        height: 2px;
+        background: rgba(148,163,184,0.15);
+        min-width: 20px;
+        margin-bottom: 22px;
+        transition: background 0.3s;
+        position: relative;
+    }
+    .stage-connector.done {
+        background: rgba(16,185,129,0.6);
+    }
+
+    .stage-node.active .stage-dot {
+        border-color: rgba(6,182,212,0.9);
+        background: rgba(6,182,212,0.15);
+        box-shadow: 0 0 16px rgba(6,182,212,0.4);
+    }
+    .stage-node.active .stage-label { color: rgba(6,182,212,0.9); }
+    .stage-node.complete .stage-dot {
+        border-color: rgba(16,185,129,0.9);
+        background: rgba(16,185,129,0.15);
+    }
+    .stage-node.complete .stage-label { color: rgba(16,185,129,0.9); }
+
+    /* ── Crypto Info Grid ───────────────────────────── */
+    .crypto-field {
+        background: rgba(15,23,42,0.6);
+        border: 1px solid rgba(148,163,184,0.12);
+        border-radius: 10px;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        transition: border-color 0.3s;
+    }
+    .crypto-field.has-value {
+        border-color: rgba(6,182,212,0.25);
+    }
+    .crypto-field-label {
+        font-size: 0.6rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.15em;
+        color: rgba(148,163,184,0.55);
     }
-</style>
-<div class="pt-24 pb-12 w-full max-w-[1200px] mx-auto flex flex-col gap-6 z-10 relative">
+    .crypto-field-value {
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        font-size: 0.72rem;
+        color: rgba(148,163,184,0.5);
+        word-break: break-all;
+        line-height: 1.5;
+        transition: color 0.3s;
+    }
+    .crypto-field-value.primary { color: rgba(6,182,212,0.9); }
+    .crypto-field-value.secondary { color: rgba(139,92,246,0.9); }
+    .crypto-field-value.emerald { color: rgba(52,211,153,0.9); }
+    .crypto-field-value.amber { color: rgba(251,191,36,0.9); }
 
-    <div class="bg-surface border border-border p-4 rounded-xl flex justify-between items-center">
+    /* ── Table Actions ──────────────────────────────── */
+    .row-action-btn {
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 999px;
+        transition: all 0.2s;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+    .btn-verify-row {
+        border: 1px solid rgba(6,182,212,0.4);
+        color: rgba(6,182,212,0.9);
+        background: rgba(6,182,212,0.06);
+    }
+    .btn-verify-row:hover { background: rgba(6,182,212,0.15); }
+    .btn-tamper-row {
+        border: 1px solid rgba(239,68,68,0.4);
+        color: rgba(239,68,68,0.9);
+        background: rgba(239,68,68,0.06);
+    }
+    .btn-tamper-row:hover { background: rgba(239,68,68,0.15); }
+
+    /* ── Toast Notification ─────────────────────────── */
+    #toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        font-family: monospace;
+        max-width: 360px;
+        transform: translateY(80px);
+        opacity: 0;
+        transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        pointer-events: none;
+    }
+    #toast.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    #toast.success { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); color: #6ee7b7; }
+    #toast.error   { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; }
+    #toast.info    { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3); color: #67e8f9; }
+
+    /* ── Tamper Modal ───────────────────────────────── */
+    #tamper-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(0,0,0,0.7);
+        backdrop-filter: blur(4px);
+        align-items: center;
+        justify-content: center;
+    }
+    #tamper-modal.open { display: flex; }
+    .modal-box {
+        background: #0f172a;
+        border: 1px solid rgba(239,68,68,0.35);
+        border-radius: 16px;
+        padding: 28px;
+        max-width: 420px;
+        width: 90%;
+        box-shadow: 0 0 60px rgba(239,68,68,0.15);
+    }
+
+    /* upload zone active */
+    .drop-hover {
+        border-color: rgba(6,182,212,0.7) !important;
+        background: rgba(6,182,212,0.04) !important;
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.2); border-radius: 4px; }
+</style>
+
+<div class="pt-24 pb-16 w-full max-w-[1200px] mx-auto flex flex-col gap-6 z-10 relative px-4">
+
+    <!-- Header Bar -->
+    <div class="bg-surface border border-border p-3 px-5 rounded-xl flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
-            <h2 class="font-display font-bold text-heading">CloudGuard EMT: ACTIVE</h2>
+            <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+            </span>
+            <h2 class="font-display font-bold text-heading text-sm tracking-wide">CloudGuard EMT — ACTIVE</h2>
         </div>
-        <div id="global-status" class="font-mono text-sm text-muted">Awaiting Input...</div>
+        <div id="global-status" class="font-mono text-xs text-muted">Awaiting input...</div>
     </div>
 
-    <div class="grid grid-cols-1 xl:grid-cols-[1.05fr_0.95fr] gap-6">
-        
-        <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-6">
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_1fr] gap-6">
+
+        <!-- LEFT: Upload Panel -->
+        <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-5">
             <div>
-                <h3 class="font-display font-bold text-heading mb-2">Input Data</h3>
-                <p class="text-sm text-muted font-mono">Pilih file dari komputer lalu kirim ke backend untuk diproses oleh modul `core_engine`.</p>
+                <h3 class="font-display font-bold text-heading text-base mb-1">Input File</h3>
+                <p class="text-xs text-muted font-mono">Pilih file → enkripsi AES-256-GCM + Merkle Tree + simpan ke vault.</p>
             </div>
 
-            <div id="drop-zone" class="border-2 border-dashed border-border rounded-3xl p-10 text-center cursor-pointer hover:border-primary transition-colors bg-background/50">
-                <div class="flex flex-col items-center justify-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-surface border border-border flex items-center justify-center">
-                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            <!-- Drop Zone -->
+            <div id="drop-zone" class="border-2 border-dashed border-border rounded-2xl cursor-pointer transition-all bg-background/40 hover:border-primary/50 flex flex-col">
+                <!-- Upload prompt area -->
+                <div class="flex flex-col items-center gap-3 p-10">
+                    <div id="dz-icon" class="w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
                     </div>
-                    <div class="text-left max-w-[260px]">
-                        <p id="drop-text" class="text-body text-sm font-mono">Drag file ke sini atau klik untuk memilih file.</p>
-                        <p class="text-xs text-muted">Mendukung semua jenis file. File akan diproses dengan modul SHA-256, AES, Merkle, dan disimpan.</p>
+                    <div class="text-center">
+                        <p id="drop-text" class="text-sm text-muted font-mono mb-1">Drag file ke sini atau klik untuk memilih</p>
+                        <p class="text-xs text-muted/60 font-mono">Semua jenis file didukung</p>
                     </div>
-                    <label for="file-input" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-primary cursor-pointer hover:bg-primary/10 transition-colors">
-                        Pilih File
+                    <label for="file-input" class="text-xs text-primary border border-primary/30 px-5 py-2 rounded-full cursor-pointer hover:bg-primary/10 transition-colors font-mono">
+                        Browse File
                     </label>
                 </div>
+
+                <!-- Divider -->
+                <div class="border-t border-border/40 mx-4"></div>
+
+                <!-- Pipeline steps info -->
+                <div class="p-4 grid grid-cols-2 gap-2">
+                    <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-background/50">
+                        <svg class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
+                        <div>
+                            <div class="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">SHA-256</div>
+                            <div class="text-[11px] text-muted/70 font-mono leading-relaxed">Hash file asli sebelum enkripsi</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-background/50">
+                        <svg class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                        <div>
+                            <div class="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">Dynamic Key</div>
+                            <div class="text-[11px] text-muted/70 font-mono leading-relaxed">AES key = hash ⊕ prev_hash</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-background/50">
+                        <svg class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        <div>
+                            <div class="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">AES-256-GCM</div>
+                            <div class="text-[11px] text-muted/70 font-mono leading-relaxed">Enkripsi stream per 64 KB</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-background/50">
+                        <svg class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h3m0 0V4m0 3v3m0 0h3m-3 0H4m13-3h3m0 0V4m0 3v3m0 0h-3m3 0h-3M12 4v3m0 0v3m0-3H9m3 0h3m-3 6v3m0 3v-3m0 0h3m-3 0H9"/></svg>
+                        <div>
+                            <div class="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">Merkle Tree</div>
+                            <div class="text-[11px] text-muted/70 font-mono leading-relaxed">Root dari chunks 1 KB ciphertext</div>
+                        </div>
+                    </div>
+                </div>
+
                 <input type="file" id="file-input" class="hidden">
             </div>
 
-            <div class="flex flex-col gap-3">
-                <button id="btn-process" class="w-full bg-primary text-background font-bold py-3 rounded-lg opacity-50 cursor-not-allowed transition-all" disabled>
-                    Process Encryption
-                </button>
-                <div id="upload-file-meta" class="hidden rounded-xl border border-border bg-background p-4 text-sm font-mono text-body">
-                    <div><strong>File:</strong> <span id="file-name">-</span></div>
-                    <div><strong>Ukuran:</strong> <span id="file-size">-</span></div>
+            <!-- File Meta (hidden until selected) -->
+            <div id="file-meta-bar" class="hidden flex items-center justify-between bg-background border border-border rounded-lg px-4 py-3 text-xs font-mono">
+                <div class="flex items-center gap-2 min-w-0">
+                    <svg class="w-4 h-4 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span id="file-name" class="text-body truncate">-</span>
                 </div>
+                <span id="file-size" class="text-muted ml-3 flex-shrink-0">-</span>
             </div>
+
+            <button id="btn-process" class="w-full bg-primary text-background font-bold py-3 rounded-lg text-sm opacity-40 cursor-not-allowed transition-all" disabled>
+                <span id="btn-process-text">Process & Encrypt</span>
+            </button>
         </div>
 
-        <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-6">
+        <!-- RIGHT: Pipeline + Crypto Output -->
+        <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-5">
             <div>
-                <h3 class="font-display font-bold text-heading mb-2">Pipeline Status</h3>
-                <p class="text-sm text-muted font-mono">Status eksekusi modul `core_engine` ditampilkan secara berurutan.</p>
+                <h3 class="font-display font-bold text-heading text-base mb-1">Pipeline & Crypto Output</h3>
+                <p class="text-xs text-muted font-mono">Status eksekusi modul <code>core_engine</code> secara real-time.</p>
             </div>
-            <div class="console-stage-row">
-                <div id="stage-upload" class="console-stage-card">
-                    <div class="stage-title">Upload</div>
-                    <div class="stage-subtitle">File Selection</div>
+
+            <!-- Pipeline Nodes -->
+            <div class="pipeline-wrap">
+                <div id="s-upload" class="stage-node">
+                    <div class="stage-dot">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    </div>
+                    <div class="stage-label">Upload</div>
                 </div>
-                <div id="stage-sha" class="console-stage-card">
-                    <div class="stage-title">SHA-256</div>
-                    <div class="stage-subtitle">Hashing</div>
+                <div class="stage-connector" id="c1"></div>
+                <div id="s-sha" class="stage-node">
+                    <div class="stage-dot">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
+                    </div>
+                    <div class="stage-label">SHA-256</div>
                 </div>
-                <div id="stage-key" class="console-stage-card">
-                    <div class="stage-title">AES Key</div>
-                    <div class="stage-subtitle">Dynamic Key</div>
+                <div class="stage-connector" id="c2"></div>
+                <div id="s-aes" class="stage-node">
+                    <div class="stage-dot">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                    </div>
+                    <div class="stage-label">AES Key</div>
                 </div>
-                <div id="stage-merkle" class="console-stage-card">
-                    <div class="stage-title">Merkle</div>
-                    <div class="stage-subtitle">Root</div>
+                <div class="stage-connector" id="c3"></div>
+                <div id="s-enc" class="stage-node">
+                    <div class="stage-dot">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    </div>
+                    <div class="stage-label">Encrypt</div>
                 </div>
-                <div id="stage-store" class="console-stage-card">
-                    <div class="stage-title">Store</div>
-                    <div class="stage-subtitle">DB Vault</div>
+                <div class="stage-connector" id="c4"></div>
+                <div id="s-merkle" class="stage-node">
+                    <div class="stage-dot">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h3m0 0V4m0 3v3m0 0h3m-3 0H4m13-3h3m0 0V4m0 3v3m0 0h-3m3 0h-3M12 4v3m0 0v3m0-3H9m3 0h3m-3 6v3m0 3v-3m0 0h3m-3 0H9"/></svg>
+                    </div>
+                    <div class="stage-label">Merkle</div>
+                </div>
+                <div class="stage-connector" id="c5"></div>
+                <div id="s-store" class="stage-node">
+                    <div class="stage-dot">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                    </div>
+                    <div class="stage-label">Vault</div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 gap-3 font-mono text-xs">
-                <div class="bg-background border border-border p-4 rounded-xl">
-                    <div class="text-muted text-[10px] uppercase tracking-widest mb-1">SHA-256 Hash</div>
-                    <div id="out-hash" class="text-primary break-all">-</div>
+            <!-- Crypto Fields Grid -->
+            <div class="grid grid-cols-2 gap-2">
+                <div class="crypto-field col-span-2" id="cf-hash">
+                    <div class="crypto-field-label">SHA-256 Hash (File Asli)</div>
+                    <div class="crypto-field-value" id="out-hash">—</div>
                 </div>
-                <div class="bg-background border border-border p-4 rounded-xl">
-                    <div class="text-muted text-[10px] uppercase tracking-widest mb-1">Dynamic AES Key</div>
-                    <div id="out-key" class="text-secondary break-all">-</div>
+                <div class="crypto-field col-span-2" id="cf-prevhash">
+                    <div class="crypto-field-label">Prev Block Hash (Referensi XOR)</div>
+                    <div class="crypto-field-value secondary" id="out-prevhash">—</div>
                 </div>
-                <div class="bg-background border border-border p-4 rounded-xl">
-                    <div class="text-muted text-[10px] uppercase tracking-widest mb-1">Merkle Root</div>
-                    <div id="out-merkle" class="text-primary break-all">-</div>
+                <div class="crypto-field col-span-2" id="cf-key">
+                    <div class="crypto-field-label">AES-256 Key = SHA256(file) ⊕ SHA256(prev)</div>
+                    <div class="crypto-field-value amber" id="out-key">—</div>
+                </div>
+                <div class="crypto-field col-span-2" id="cf-merkle">
+                    <div class="crypto-field-label">Merkle Root (Integritas Ciphertext)</div>
+                    <div class="crypto-field-value emerald" id="out-merkle">—</div>
+                </div>
+                <div class="crypto-field" id="cf-chunks">
+                    <div class="crypto-field-label">Jumlah Chunks</div>
+                    <div class="crypto-field-value primary" id="out-chunks">—</div>
+                </div>
+                <div class="crypto-field" id="cf-block">
+                    <div class="crypto-field-label">Block Index</div>
+                    <div class="crypto-field-value primary" id="out-block">—</div>
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!-- Document History Table -->
     <div class="bg-surface border border-border p-6 rounded-xl flex flex-col gap-4">
-        <h3 class="font-display font-bold text-heading border-b border-border pb-2">Audit & Verification</h3>
-        <p class="text-body text-sm">Fase 5: Verifikasi integritas ciphertext yang tersimpan di cloud.</p>
-        
-        <div class="flex gap-4">
-            <button id="btn-verify" class="px-6 py-2 bg-secondary/20 text-secondary border border-secondary/50 rounded-lg hover:bg-secondary/30 transition-all font-mono text-sm opacity-50 cursor-not-allowed" disabled>
-                Verify Integrity
-            </button>
-            <button id="btn-tamper" class="px-6 py-2 bg-danger/20 text-danger border border-danger/50 rounded-lg hover:bg-danger/30 transition-all font-mono text-sm opacity-50 cursor-not-allowed" disabled>
-                Simulate Tampering
-            </button>
-        </div>
-        
-        <div id="audit-result" class="hidden p-4 rounded-lg border font-mono text-sm mt-2 transition-all"></div>
-    </div>
-
-    <div class="bg-surface border border-border p-6 rounded-3xl flex flex-col gap-6">
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center justify-between">
             <div>
-                <h3 class="font-display font-bold text-heading">Riwayat Dokumen</h3>
-                <p class="text-sm text-muted font-mono">Daftar file yang sudah pernah dimasukkan ke sistem CloudGuard EMT.</p>
+                <h3 class="font-display font-bold text-heading text-base">Riwayat Dokumen</h3>
+                <p class="text-xs text-muted font-mono mt-0.5">Klik <span class="text-primary">Verify</span> untuk cek integritas • <span class="text-red-400">Tamper</span> untuk simulasi serangan</p>
             </div>
-            <div class="text-sm font-mono text-muted">Total dokumen: <span id="total-documents">{{ total_files }}</span></div>
+            <div class="text-xs font-mono text-muted bg-background border border-border px-3 py-1.5 rounded-lg">
+                <span id="total-documents">{{ total_files }}</span> dokumen
+                {% if corrupted_count > 0 %}
+                · <span class="text-red-400">{{ corrupted_count }} corrupted</span>
+                {% endif %}
+            </div>
         </div>
 
-        <div class="overflow-x-auto rounded-3xl border border-border bg-background/70">
-            <table class="min-w-full text-left text-sm text-body">
-                <thead class="border-b border-border/50 bg-surface/80 text-xs uppercase tracking-[0.15em] text-muted">
-                    <tr>
-                        <th class="px-4 py-3">No</th>
-                        <th class="px-4 py-3">Nama File</th>
-                        <th class="px-4 py-3">Ukuran</th>
-                        <th class="px-4 py-3">Block</th>
-                        <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3">Waktu</th>
+        <div class="overflow-x-auto rounded-xl border border-border">
+            <table class="min-w-full text-left text-sm">
+                <thead>
+                    <tr class="border-b border-border/50 bg-background/60">
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">#</th>
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">File</th>
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Ukuran</th>
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Block</th>
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Status</th>
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Waktu</th>
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="document-table-body">
                     {% for doc in documents %}
-                    <tr class="border-b border-border/50 hover:bg-background/50 transition-colors">
-                        <td class="px-4 py-3 font-mono text-[13px]">{{ forloop.counter }}</td>
-                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.file_name }}</td>
-                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.file_size }} bytes</td>
-                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.block_index }}</td>
-                        <td class="px-4 py-3 font-mono text-[13px]">
-                            <span class="inline-flex rounded-full px-3 py-1 text-[11px] font-semibold {% if doc.status_verifikasi == 'VALID' %}bg-emerald-500/10 text-emerald-300 border border-emerald-500/15{% elif doc.status_verifikasi == 'CORRUPTED' %}bg-red-500/10 text-red-300 border border-red-500/15{% else %}bg-slate-500/10 text-slate-300 border border-slate-500/15{% endif %}">
+                    <tr class="border-b border-border/30 hover:bg-background/40 transition-colors" id="row-{{ doc.id }}">
+                        <td class="px-4 py-3 font-mono text-xs text-muted">{{ forloop.counter }}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-body max-w-[180px] truncate">{{ doc.file_name }}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-muted">{{ doc.file_size }} B</td>
+                        <td class="px-4 py-3 font-mono text-xs text-muted">{{ doc.block_index }}</td>
+                        <td class="px-4 py-3 font-mono text-xs">
+                            <span id="badge-{{ doc.id }}" class="inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold
+                                {% if doc.status_verifikasi == 'VALID' %}bg-emerald-500/10 text-emerald-300 border border-emerald-500/20
+                                {% elif doc.status_verifikasi == 'CORRUPTED' %}bg-red-500/10 text-red-300 border border-red-500/20
+                                {% else %}bg-slate-500/10 text-slate-400 border border-slate-500/15{% endif %}">
                                 {{ doc.status_verifikasi }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 font-mono text-[13px]">{{ doc.uploaded_at|date:'Y-m-d H:i:s' }}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-muted">{{ doc.uploaded_at|date:'d/m/y H:i' }}</td>
+                        <td class="px-4 py-3">
+                            <div class="flex gap-1.5">
+                                <button onclick="verifyRow({{ doc.id }})" class="row-action-btn btn-verify-row">Verify</button>
+                                <button onclick="openTamperModal({{ doc.id }}, '{{ doc.file_name }}')" class="row-action-btn btn-tamper-row">Tamper</button>
+                            </div>
+                        </td>
                     </tr>
                     {% empty %}
-                    <tr>
-                        <td colspan="6" class="px-4 py-6 text-center text-muted font-mono">Belum ada dokumen yang disimpan.</td>
+                    <tr id="empty-row">
+                        <td colspan="7" class="px-4 py-8 text-center text-xs text-muted font-mono">Belum ada dokumen yang disimpan.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+</div>
 
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Tamper Modal -->
+<div id="tamper-modal">
+    <div class="modal-box">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-red-500/15 border border-red-500/25 flex items-center justify-center text-lg">⚠️</div>
+            <div>
+                <div class="font-bold text-sm text-body">Simulasi Tampering</div>
+                <div class="text-xs text-muted font-mono">Tindakan ini tidak bisa dibatalkan</div>
+            </div>
+        </div>
+        <p class="text-xs text-muted font-mono mb-1">File target:</p>
+        <div class="bg-background border border-red-500/20 rounded-lg px-3 py-2 mb-4 font-mono text-xs text-red-300" id="tamper-file-name">-</div>
+        <p class="text-xs text-muted font-mono mb-5 leading-relaxed">
+            Sistem akan mensimulasikan modifikasi ciphertext di cloud. 
+            Status file akan berubah menjadi <span class="text-red-400 font-bold">CORRUPTED</span> dan Merkle Tree tidak akan cocok saat diverifikasi.
+        </p>
+        <div class="flex gap-3">
+            <button id="tamper-cancel-btn" class="flex-1 py-2 rounded-lg border border-border text-muted text-xs font-mono hover:border-slate-500 transition-colors">Batal</button>
+            <button id="tamper-confirm-btn" class="flex-1 py-2 rounded-lg bg-red-500/15 border border-red-500/40 text-red-300 text-xs font-bold font-mono hover:bg-red-500/25 transition-colors">Konfirmasi Tamper</button>
+        </div>
+    </div>
 </div>
 
 <script>
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
-    const dropText = document.getElementById('drop-text');
-    const btnProcess = document.getElementById('btn-process');
-    const btnVerify = document.getElementById('btn-verify');
-    const btnTamper = document.getElementById('btn-tamper');
-    const auditResult = document.getElementById('audit-result');
-    const uploadMeta = document.getElementById('upload-file-meta');
-    const fileNameLabel = document.getElementById('file-name');
-    const fileSizeLabel = document.getElementById('file-size');
-    const documentTableBody = document.getElementById('document-table-body');
-    const totalDocuments = document.getElementById('total-documents');
-    const stageUpload = document.getElementById('stage-upload');
-    const stageSha = document.getElementById('stage-sha');
-    const stageKey = document.getElementById('stage-key');
-    const stageMerkle = document.getElementById('stage-merkle');
-    const stageStore = document.getElementById('stage-store');
-    let selectedFile = null;
-    window.currentDocId = null;
+// ─── State ────────────────────────────────────────────────────────────────────
+let selectedFile = null;
+let pendingTamperId = null;
+const MERKLE_CHUNK_SIZE = 1024; // matches merkle_tree.py
 
-    function formatBytes(bytes) {
-        if (bytes === 0) return '0 B';
-        const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(1024));
-        return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
-    }
+// ─── DOM refs ─────────────────────────────────────────────────────────────────
+const dropZone       = document.getElementById('drop-zone');
+const fileInput      = document.getElementById('file-input');
+const dropText       = document.getElementById('drop-text');
+const btnProcess     = document.getElementById('btn-process');
+const btnProcessText = document.getElementById('btn-process-text');
+const fileMetaBar    = document.getElementById('file-meta-bar');
+const globalStatus   = document.getElementById('global-status');
+const tableBody      = document.getElementById('document-table-body');
+const totalDocEl     = document.getElementById('total-documents');
 
-    function loadDocumentTable() {
-        fetch('/api/security/documents/')
-            .then((res) => res.json())
-            .then((data) => {
-                if (!data || data.status !== 'Sukses') return;
-                totalDocuments.textContent = data.total_data;
-                documentTableBody.innerHTML = '';
-                if (!data.data || data.data.length === 0) {
-                    documentTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" class="px-4 py-6 text-center text-muted font-mono">Belum ada dokumen yang disimpan.</td>
-                        </tr>
-                    `;
-                    return;
-                }
-                data.data.forEach((doc, index) => {
-                    const statusClass = doc.status_verifikasi === 'VALID'
-                        ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/15'
-                        : doc.status_verifikasi === 'CORRUPTED'
-                        ? 'bg-red-500/10 text-red-300 border border-red-500/15'
-                        : 'bg-slate-500/10 text-slate-300 border border-slate-500/15';
-                    const row = document.createElement('tr');
-                    row.className = 'border-b border-border/50 hover:bg-background/50 transition-colors';
-                    row.innerHTML = `
-                        <td class="px-4 py-3 font-mono text-[13px]">${index + 1}</td>
-                        <td class="px-4 py-3 font-mono text-[13px]">${doc.file_name}</td>
-                        <td class="px-4 py-3 font-mono text-[13px]">${formatBytes(doc.file_size_bytes)}</td>
-                        <td class="px-4 py-3 font-mono text-[13px]">${doc.block_index}</td>
-                        <td class="px-4 py-3 font-mono text-[13px]"><span class="inline-flex rounded-full px-3 py-1 text-[11px] font-semibold ${statusClass}">${doc.status_verifikasi}</span></td>
-                        <td class="px-4 py-3 font-mono text-[13px]">${doc.uploaded_at}</td>
-                    `;
-                    documentTableBody.appendChild(row);
-                });
-            })
-            .catch(() => {
-                // fallback do nothing
-            });
-    }
+// Pipeline nodes
+const stages = {
+    upload: document.getElementById('s-upload'),
+    sha:    document.getElementById('s-sha'),
+    aes:    document.getElementById('s-aes'),
+    enc:    document.getElementById('s-enc'),
+    merkle: document.getElementById('s-merkle'),
+    store:  document.getElementById('s-store'),
+};
+const connectors = [
+    document.getElementById('c1'),
+    document.getElementById('c2'),
+    document.getElementById('c3'),
+    document.getElementById('c4'),
+    document.getElementById('c5'),
+];
+const stageOrder = ['upload','sha','aes','enc','merkle','store'];
 
-    function setConsoleStage(activeStage) {
-        [stageUpload, stageSha, stageKey, stageMerkle, stageStore].forEach((stage) => {
-            stage.classList.remove('active');
-        });
+// Crypto output fields
+const outHash    = document.getElementById('out-hash');
+const outPrev    = document.getElementById('out-prevhash');
+const outKey     = document.getElementById('out-key');
+const outMerkle  = document.getElementById('out-merkle');
+const outChunks  = document.getElementById('out-chunks');
+const outBlock   = document.getElementById('out-block');
 
-        if (activeStage === 'upload') stageUpload.classList.add('active');
-        if (activeStage === 'sha') stageSha.classList.add('active');
-        if (activeStage === 'key') stageKey.classList.add('active');
-        if (activeStage === 'merkle') stageMerkle.classList.add('active');
-        if (activeStage === 'store') stageStore.classList.add('active');
-    }
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function formatBytes(b) {
+    if (b === 0) return '0 B';
+    const s = ['B','KB','MB','GB','TB'];
+    const i = Math.floor(Math.log(b) / Math.log(1024));
+    return `${(b / Math.pow(1024, i)).toFixed(2)} ${s[i]}`;
+}
 
-    function completeConsoleStage(stage) {
-        const mapping = {
-            upload: stageUpload,
-            sha: stageSha,
-            key: stageKey,
-            merkle: stageMerkle,
-            store: stageStore,
-        };
-        const el = mapping[stage];
-        if (el) {
-            el.classList.add('complete');
-            el.classList.remove('active');
+function calcChunks(fileSize) {
+    // Estimate: original file chunks at 1024 bytes each (merkle_tree.py chunk size)
+    return Math.max(1, Math.ceil(fileSize / MERKLE_CHUNK_SIZE));
+}
+
+function showToast(msg, type = 'info') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `show ${type}`;
+    setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── Pipeline ─────────────────────────────────────────────────────────────────
+function resetPipeline() {
+    stageOrder.forEach(k => {
+        stages[k].classList.remove('active','complete');
+    });
+    connectors.forEach(c => c.classList.remove('done'));
+}
+
+function setActive(stageKey) {
+    const idx = stageOrder.indexOf(stageKey);
+    stageOrder.forEach((k, i) => {
+        stages[k].classList.remove('active');
+        if (i < idx) {
+            stages[k].classList.add('complete');
+            if (connectors[i]) connectors[i].classList.add('done');
         }
-    }
+    });
+    stages[stageKey].classList.add('active');
+}
 
-    function setActionButtons(enabled) {
-        [btnVerify, btnTamper].forEach((btn) => {
-            btn.disabled = !enabled;
-            btn.classList.toggle('opacity-50', !enabled);
-            btn.classList.toggle('cursor-not-allowed', !enabled);
-        });
-    }
+function completeAll() {
+    stageOrder.forEach((k, i) => {
+        stages[k].classList.remove('active');
+        stages[k].classList.add('complete');
+        if (connectors[i]) connectors[i].classList.add('done');
+    });
+}
 
-    function showAuditResult(message, variant = 'info') {
-        const colors = {
-            info: 'text-body/80 bg-background border-border',
-            success: 'text-primary bg-emerald-500/10 border-emerald-500/20',
-            error: 'text-danger bg-red-500/10 border-red-500/20',
-        };
-        auditResult.textContent = message;
-        auditResult.className = `p-4 rounded-lg border font-mono text-sm mt-2 transition-all ${colors[variant] || colors.info}`;
-        auditResult.classList.remove('hidden');
-    }
+// ─── Crypto fields update ─────────────────────────────────────────────────────
+function setCryptoField(el, value, colorClass) {
+    el.textContent = value;
+    el.className = `crypto-field-value ${colorClass}`;
+    el.closest('.crypto-field').classList.add('has-value');
+}
 
-    async function verifyIntegrity() {
-        if (!window.currentDocId) return;
-        showAuditResult('Memeriksa integritas file... Harap tunggu.', 'info');
-        try {
-            const response = await fetch(`/api/security/audit/${window.currentDocId}/`, { method: 'GET' });
-            const result = await response.json();
-            if (!response.ok || result.status !== 'Sukses') {
-                showAuditResult(`Verifikasi gagal: ${result.message || 'Server error.'}`, 'error');
+function resetCryptoFields() {
+    [outHash, outPrev, outKey, outMerkle, outChunks, outBlock].forEach(el => {
+        el.textContent = '—';
+        el.className = 'crypto-field-value';
+        el.closest('.crypto-field').classList.remove('has-value');
+    });
+}
+
+// ─── File handling ────────────────────────────────────────────────────────────
+dropZone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drop-hover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drop-hover'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drop-hover');
+    handleFile(e.dataTransfer.files[0]);
+});
+
+function handleFile(file) {
+    if (!file) return;
+    selectedFile = file;
+    dropText.textContent = `✓ ${file.name}`;
+    document.getElementById('file-name').textContent = file.name;
+    document.getElementById('file-size').textContent = formatBytes(file.size);
+    fileMetaBar.classList.remove('hidden');
+    btnProcess.disabled = false;
+    btnProcess.classList.remove('opacity-40','cursor-not-allowed');
+    resetPipeline();
+    setActive('upload');
+    setTimeout(() => { stages.upload.classList.remove('active'); stages.upload.classList.add('complete'); }, 400);
+}
+
+// ─── Upload & Process ─────────────────────────────────────────────────────────
+btnProcess.addEventListener('click', async () => {
+    if (!selectedFile) return;
+
+    btnProcess.disabled = true;
+    btnProcess.classList.add('opacity-60');
+    btnProcessText.textContent = 'Encrypting...';
+    globalStatus.textContent = 'Processing...';
+    resetCryptoFields();
+    resetPipeline();
+
+    const steps = ['upload','sha','aes','enc','merkle'];
+    let stepIdx = 0;
+    const stepInterval = setInterval(() => {
+        if (stepIdx < steps.length) {
+            setActive(steps[stepIdx]);
+            stepIdx++;
+        } else {
+            clearInterval(stepInterval);
+        }
+    }, 280);
+
+    const formData = new FormData();
+    formData.append('document', selectedFile);
+
+    try {
+        const res = await fetch('/api/security/upload/', { method: 'POST', body: formData });
+        const result = await res.json();
+        clearInterval(stepInterval);
+
+        if (!res.ok) {
+            showToast(result.message || 'Upload gagal.', 'error');
+            globalStatus.textContent = 'Error.';
+            btnProcessText.textContent = 'Process & Encrypt';
+            btnProcess.disabled = false;
+            btnProcess.classList.remove('opacity-60');
+            resetPipeline();
+            return;
+        }
+
+        completeAll();
+        globalStatus.textContent = 'Secured & Stored ✓';
+        btnProcessText.textContent = 'Upload Success ✓';
+
+        const { kriptografi, blockchain, file_size_bytes } = result.data;
+        setCryptoField(outHash,   kriptografi.file_hash,   'primary');
+        setCryptoField(outPrev,   blockchain.prev_hash,    'secondary');
+        setCryptoField(outKey,    `AES-256-GCM key = SHA256(file) ⊕ SHA256(prev) → 32-byte dinamis`, 'amber');
+        setCryptoField(outMerkle, kriptografi.merkle_root, 'emerald');
+        setCryptoField(outChunks, `${calcChunks(file_size_bytes)} chunks × 1 KB`, 'primary');
+        setCryptoField(outBlock,  `#${blockchain.block_index}`, 'primary');
+
+        showToast(`File berhasil dienkripsi → Block #${blockchain.block_index}`, 'success');
+        loadTable();
+
+    } catch (err) {
+        clearInterval(stepInterval);
+        showToast('Koneksi ke server gagal.', 'error');
+        globalStatus.textContent = 'Connection error.';
+        btnProcessText.textContent = 'Process & Encrypt';
+        btnProcess.disabled = false;
+        btnProcess.classList.remove('opacity-60');
+        resetPipeline();
+    }
+});
+
+// ─── Load Table ───────────────────────────────────────────────────────────────
+function loadTable() {
+    fetch('/api/security/documents/')
+        .then(r => r.json())
+        .then(data => {
+            if (data.status !== 'Sukses') return;
+            totalDocEl.textContent = data.total_data;
+
+            if (!data.data || data.data.length === 0) {
+                tableBody.innerHTML = `<tr id="empty-row"><td colspan="7" class="px-4 py-8 text-center text-xs text-muted font-mono">Belum ada dokumen yang disimpan.</td></tr>`;
                 return;
             }
-            const valid = result.audit_detail?.is_valid;
-            if (valid) {
-                showAuditResult('Integritas valid. Ciphertext terverifikasi aman.', 'success');
-            } else {
-                showAuditResult('Integritas rusak! Sistem mendeteksi perubahan pada ciphertext.', 'error');
-            }
-        } catch (err) {
-            showAuditResult('Gagal memeriksa integritas. Cek koneksi atau server.', 'error');
-        }
-    }
 
-    function simulateTampering() {
-        if (!window.currentDocId) return;
-        showAuditResult('Simulasi tampering aktif: sistem akan menandai file sebagai rusak.', 'error');
-    }
+            tableBody.innerHTML = '';
+            data.data.forEach((doc, i) => {
+                const statusCls = doc.status_verifikasi === 'VALID'
+                    ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+                    : doc.status_verifikasi === 'CORRUPTED'
+                    ? 'bg-red-500/10 text-red-300 border border-red-500/20'
+                    : 'bg-slate-500/10 text-slate-400 border border-slate-500/15';
 
-    dropZone.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
-    
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('border-primary', 'bg-primary/5');
-    });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-primary', 'bg-primary/5'));
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('border-primary', 'bg-primary/5');
-        handleFile(e.dataTransfer.files[0]);
-    });
-
-    btnVerify.addEventListener('click', verifyIntegrity);
-    btnTamper.addEventListener('click', simulateTampering);
-    setActionButtons(false);
-
-    function handleFile(file) {
-        if (!file) return;
-        selectedFile = file;
-        dropText.textContent = `✓ ${file.name} terpilih`;
-        fileNameLabel.textContent = file.name;
-        fileSizeLabel.textContent = formatBytes(file.size);
-        uploadMeta.classList.remove('hidden');
-        btnProcess.disabled = false;
-        btnProcess.classList.remove('opacity-50', 'cursor-not-allowed');
-        setConsoleStage('upload');
-        completeConsoleStage('upload');
-    }
-
-    btnProcess.addEventListener('click', async () => {
-        if (!selectedFile) return;
-
-        btnProcess.textContent = "Processing... (Encrypting)";
-        btnProcess.disabled = true;
-        document.getElementById('global-status').textContent = "Executing AES & Merkle Tree...";
-        setConsoleStage('sha');
-        
-        const formData = new FormData();
-        formData.append('document', selectedFile);
-
-        try {
-
-            const response = await fetch('/api/security/upload/', {
-                method: 'POST',
-                body: formData
+                const tr = document.createElement('tr');
+                tr.id = `row-${doc.id}`;
+                tr.className = 'border-b border-border/30 hover:bg-background/40 transition-colors';
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-mono text-xs text-muted">${i + 1}</td>
+                    <td class="px-4 py-3 font-mono text-xs text-body max-w-[180px] truncate" title="${doc.file_name}">${doc.file_name}</td>
+                    <td class="px-4 py-3 font-mono text-xs text-muted">${formatBytes(doc.file_size_bytes)}</td>
+                    <td class="px-4 py-3 font-mono text-xs text-muted">${doc.block_index}</td>
+                    <td class="px-4 py-3 font-mono text-xs">
+                        <span id="badge-${doc.id}" class="inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold ${statusCls}">${doc.status_verifikasi}</span>
+                    </td>
+                    <td class="px-4 py-3 font-mono text-xs text-muted">${doc.uploaded_at}</td>
+                    <td class="px-4 py-3">
+                        <div class="flex gap-1.5">
+                            <button onclick="verifyRow(${doc.id})" class="row-action-btn btn-verify-row">Verify</button>
+                            <button onclick="openTamperModal(${doc.id}, '${doc.file_name.replace(/'/g,"\\'")}' )" class="row-action-btn btn-tamper-row">Tamper</button>
+                        </div>
+                    </td>`;
+                tableBody.appendChild(tr);
             });
-            
-            const result = await response.json();
-            
-            if (response.ok) {
+        })
+        .catch(() => {});
+}
 
-                document.getElementById('out-hash').textContent = result.data.kriptografi.file_hash;
-                document.getElementById('out-key').textContent = "[ DIKUNCI & TIDAK DISIMPAN ]"; // Sengaja disembunyikan backend demi keamanan
-                document.getElementById('out-merkle').textContent = result.data.kriptografi.merkle_root;
+// ─── Verify per-row ───────────────────────────────────────────────────────────
+async function verifyRow(docId) {
+    const badge = document.getElementById(`badge-${docId}`);
+    if (!badge) return;
 
-                completeConsoleStage('sha');
-                setConsoleStage('key');
-                completeConsoleStage('key');
-                setConsoleStage('merkle');
-                completeConsoleStage('merkle');
-                setConsoleStage('store');
-                completeConsoleStage('store');
-                
-                document.getElementById('global-status').textContent = "Secured & Anchored to DB";
-                btnProcess.textContent = "Upload Success ✓";
+    badge.textContent = '…';
+    badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-blue-500/10 text-blue-300 border border-blue-500/20';
+    showToast('Mengunduh & memverifikasi ciphertext...', 'info');
 
-                window.currentDocId = result.data.database_id;
-                loadDocumentTable();
-                setActionButtons(true);
-            } else {
-                alert("Gagal: " + result.message);
-                resetButton();
-            }
-        } catch (error) {
-            alert("Koneksi ke server gagal. Pastikan Django menyala.");
-            resetButton();
+    try {
+        const res = await fetch(`/api/security/audit/${docId}/`);
+        const result = await res.json();
+
+        if (!res.ok || result.status !== 'Sukses') {
+            badge.textContent = 'ERROR';
+            badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-slate-500/10 text-slate-400 border border-slate-500/15';
+            showToast(result.message || 'Gagal verifikasi.', 'error');
+            return;
         }
-    });
 
-    function resetButton() {
-        btnProcess.textContent = "Process Encryption";
-        btnProcess.disabled = false;
-        uploadMeta.classList.add('hidden');
-        document.getElementById('global-status').textContent = "Awaiting Input...";
-        [stageUpload, stageSha, stageKey, stageMerkle, stageStore].forEach((stage) => {
-            stage.classList.remove('active', 'complete');
-        });
-        if (selectedFile) {
-            setConsoleStage('upload');
-            completeConsoleStage('upload');
+        const valid = result.audit_detail?.is_valid;
+        if (valid) {
+            badge.textContent = 'VALID';
+            badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20';
+            showToast('✓ Integritas valid — Merkle root cocok.', 'success');
+        } else {
+            badge.textContent = 'CORRUPTED';
+            badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-red-500/10 text-red-300 border border-red-500/20';
+            showToast('⚠ Integritas rusak — ciphertext telah dimodifikasi!', 'error');
         }
+    } catch {
+        badge.textContent = 'ERROR';
+        showToast('Koneksi gagal saat verifikasi.', 'error');
     }
+}
+
+// ─── Tamper Modal ─────────────────────────────────────────────────────────────
+const tamperModal    = document.getElementById('tamper-modal');
+const tamperFileName = document.getElementById('tamper-file-name');
+
+function openTamperModal(docId, fileName) {
+    pendingTamperId = docId;
+    tamperFileName.textContent = fileName;
+    tamperModal.classList.add('open');
+}
+
+document.getElementById('tamper-cancel-btn').addEventListener('click', () => {
+    tamperModal.classList.remove('open');
+    pendingTamperId = null;
+});
+
+document.getElementById('tamper-confirm-btn').addEventListener('click', async () => {
+    if (!pendingTamperId) return;
+    const docId = pendingTamperId;
+    tamperModal.classList.remove('open');
+    pendingTamperId = null;
+
+    const badge = document.getElementById(`badge-${docId}`);
+    if (badge) {
+        badge.textContent = 'TAMPERED';
+        badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-orange-500/10 text-orange-300 border border-orange-500/20';
+    }
+    showToast('Simulasi tampering aktif — verifikasi akan mendeteksi CORRUPTED.', 'error');
+
+    await fetch(`/api/security/tamper/${docId}/`, { method: 'POST' });
+});
+
+// Click outside modal to close
+tamperModal.addEventListener('click', e => {
+    if (e.target === tamperModal) {
+        tamperModal.classList.remove('open');
+        pendingTamperId = null;
+    }
+});
 </script>
 {% endblock %}

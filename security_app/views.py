@@ -248,7 +248,49 @@ def download_decrypted_file(request, doc_id):
                 "status": "Gagal", 
                 "message": f"Terjadi kesalahan saat dekripsi: {str(e)}"
             }, status=500)
+
+@csrf_exempt
+def tamper_document(request, doc_id):
+    if request.method == 'POST':
+        try:
+            doc = SecureDocument.objects.get(id=doc_id)
             
+            # 1. Download ciphertext dari Supabase
+            temp_path = f"temp_tamper_{doc.file_name}.bin"
+            res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc.ciphertext_path)
+            with open(temp_path, 'wb') as f:
+                f.write(res)
+            
+            # 2. Flip beberapa byte di tengah file (rusak ciphertext)
+            with open(temp_path, 'r+b') as f:
+                f.seek(100)  # lewati nonce (12 byte) + sedikit padding
+                original = f.read(4)
+                f.seek(100)
+                f.write(bytes(b ^ 0xFF for b in original))  # XOR flip
+            
+            # 3. Re-upload file yang sudah dimodifikasi
+            supabase.storage.from_(settings.SUPABASE_BUCKET).update(
+                path=doc.ciphertext_path,
+                file=temp_path,
+                file_options={"content-type": "application/octet-stream"}
+            )
+            
+            # 4. Update status di DB
+            doc.status_verifikasi = "CORRUPTED"
+            doc.save()
+            
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+                
+            return JsonResponse({"status": "Sukses", "message": "File berhasil ditamper."})
+            
+        except SecureDocument.DoesNotExist:
+            return JsonResponse({"status": "Gagal", "message": "Dokumen tidak ditemukan."}, status=404)
+        except Exception as e:
+            return JsonResponse({"status": "Gagal", "message": str(e)}, status=500)
+    
+    return JsonResponse({"error": "POST only"}, status=400)
+
 def home_view(request):
     return render(request, 'home.html')
 
