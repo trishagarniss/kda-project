@@ -555,7 +555,10 @@ function resetCryptoFields() {
 }
 
 // ─── File handling ────────────────────────────────────────────────────────────
-dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('click', (e) => {
+    if (e.target.closest('label') || e.target === fileInput) return;
+    fileInput.click();
+});
 fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drop-hover'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drop-hover'));
@@ -754,7 +757,8 @@ document.getElementById('tamper-confirm-btn').addEventListener('click', async ()
     }
     showToast('Simulasi tampering aktif — verifikasi akan mendeteksi CORRUPTED.', 'error');
 
-    await fetch(`/api/security/tamper/${docId}/`, { method: 'POST' });
+    // Optionally call a real tamper endpoint if you build one, for now simulate locally
+    // await fetch(`/api/security/tamper/${docId}/`, { method: 'POST' });
 });
 
 // Click outside modal to close
