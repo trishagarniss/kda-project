@@ -733,7 +733,7 @@ async function verifyRow(docId) {
 const tamperModal    = document.getElementById('tamper-modal');
 const tamperFileName = document.getElementById('tamper-file-name');
 
-function openTamperModal(docId, fileName) {
+window.openTamperModal = function(docId, fileName) {
     pendingTamperId = docId;
     tamperFileName.textContent = fileName;
     tamperModal.classList.add('open');
@@ -752,16 +752,32 @@ document.getElementById('tamper-confirm-btn').addEventListener('click', async ()
 
     const badge = document.getElementById(`badge-${docId}`);
     if (badge) {
-        badge.textContent = 'TAMPERED';
-        badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-orange-500/10 text-orange-300 border border-orange-500/20';
+        badge.textContent = 'INJECTING...';
+        badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20 animate-pulse';
     }
-    showToast('Simulasi tampering aktif — verifikasi akan mendeteksi CORRUPTED.', 'error');
+    
+    showToast('[ATTACK] Bypassing UI & mengakses Supabase Storage...', 'info');
 
-    // Optionally call a real tamper endpoint if you build one, for now simulate locally
-    // await fetch(`/api/security/tamper/${docId}/`, { method: 'POST' });
+    try {
+        const res = await fetch(`/api/security/tamper/${docId}/`, { method: 'POST' });
+        const result = await res.json();
+
+        if (res.ok) {
+            setTimeout(() => showToast('[INJECT] Melakukan bit-flip pada ciphertext...', 'info'), 1200);
+            setTimeout(() => {
+                showToast('[SUCCESS] Payload berhasil! Data di cloud kini rusak.', 'error');
+                window.loadTable();
+            }, 2500);
+        } else {
+            showToast('Gagal melakukan tamper: ' + result.message, 'error');
+            window.loadTable();
+        }
+    } catch (err) {
+        showToast('Koneksi server terputus.', 'error');
+        window.loadTable();
+    }
 });
 
-// Click outside modal to close
 tamperModal.addEventListener('click', e => {
     if (e.target === tamperModal) {
         tamperModal.classList.remove('open');

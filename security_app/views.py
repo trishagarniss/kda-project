@@ -1,4 +1,5 @@
 import os
+import random
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
@@ -255,25 +256,31 @@ def tamper_document(request, doc_id):
         try:
             doc = SecureDocument.objects.get(id=doc_id)
             
-            # 1. Download ciphertext dari Supabase
-            temp_path = f"temp_tamper_{doc.file_name}.bin"
+            # 1. Download ciphertext dari Supabase (Pakai doc.id biar nama temp file kebal spasi/emoji)
+            temp_path = f"temp_tamper_{doc.id}.bin"
             res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc.ciphertext_path)
             with open(temp_path, 'wb') as f:
                 f.write(res)
             
-            # 2. Flip beberapa byte di tengah file (rusak ciphertext)
+            # 2. Cari ukuran file dan flip 1 byte di posisi ACAK
+            file_size = os.path.getsize(temp_path)
+            
             with open(temp_path, 'r+b') as f:
-                f.seek(100)  # lewati nonce (12 byte) + sedikit padding
-                original = f.read(4)
-                f.seek(100)
-                f.write(bytes(b ^ 0xFF for b in original))  # XOR flip
+                target_pos = random.randint(15, file_size - 1) if file_size > 15 else (file_size - 1)
+                
+                f.seek(target_pos)
+                original = f.read(1)
+                
+                f.seek(target_pos)
+                f.write(bytes([original[0] ^ 0xFF]))  # XOR flip 1 byte saja
             
             # 3. Re-upload file yang sudah dimodifikasi
-            supabase.storage.from_(settings.SUPABASE_BUCKET).update(
-                path=doc.ciphertext_path,
-                file=temp_path,
-                file_options={"content-type": "application/octet-stream"}
-            )
+            with open(temp_path, 'rb') as f:
+                supabase.storage.from_(settings.SUPABASE_BUCKET).update(
+                    path=doc.ciphertext_path,
+                    file=f.read(), # Baca sebagai bytes langsung agar Supabase tidak error
+                    file_options={"content-type": "application/octet-stream"}
+                )
             
             # 4. Update status di DB
             doc.status_verifikasi = "CORRUPTED"
