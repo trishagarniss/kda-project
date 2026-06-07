@@ -15,4 +15,5 @@ urlpatterns = [
     path('audit-network/', views.audit_network_integrity, name='audit_network'),
     path('download/<int:doc_id>/', views.download_decrypted_file, name='download_decrypted_file'),
     path('tamper/<int:doc_id>/', views.tamper_document, name='tamper_document'),
+    path('fix/<int:doc_id>/', views.fix_document, name='fix_document'),
 ]
