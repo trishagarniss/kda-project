@@ -727,9 +727,10 @@ function loadTable() {
                     <td class="px-4 py-3 font-mono text-xs text-muted">${doc.uploaded_at}</td>
                     <td class="px-4 py-3">
                         <div class="flex gap-1.5">
-                            <button onclick="window.verifyRow({{ doc.id }})" class="row-action-btn btn-verify-row">Verify</button>
-                            <button onclick="window.openTamperModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-tamper-row">Tamper</button>
-                            <button onclick="window.openFixModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-fix-row">Fix</button>
+                            <button onclick="window.verifyRow(${doc.id})" class="row-action-btn btn-verify-row">Verify</button>
+                            <button onclick="window.openTamperModal(${doc.id}, '${doc.file_name.replace(/'/g,"\\'")}')" class="row-action-btn btn-tamper-row">Tamper</button>
+                            <button onclick="window.openFixModal(${doc.id}, '${doc.file_name.replace(/'/g,"\\'")}')" class="row-action-btn btn-fix-row">Fix</button>
+                        </div>
                     </td>`;
                 tableBody.appendChild(tr);
             });
@@ -829,57 +830,6 @@ tamperModal.addEventListener('click', e => {
     }
 });
 
-window.openFixModal = function(docId, fileName) {
-    pendingTamperId = docId; 
-    fixFileName.textContent = fileName;
-    fixModal.classList.add('open');
-}
-
-document.getElementById('fix-cancel-btn').addEventListener('click', () => {
-    fixModal.classList.remove('open');
-    pendingTamperId = null;
-});
-
-document.getElementById('fix-confirm-btn').addEventListener('click', async () => {
-    if (!pendingTamperId) return;
-    const docId = pendingTamperId;
-    fixModal.classList.remove('open');
-    pendingTamperId = null;
-
-    const badge = document.getElementById(`badge-${docId}`);
-    if (badge) {
-        badge.textContent = 'FIXING...';
-        badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse';
-    }
-    
-    showToast('[SYSTEM] Memulihkan byte ciphertext yang termanipulasi...', 'info');
-
-    try {
-        const res = await fetch(`/api/security/fix/${docId}/`, { method: 'POST' });
-        
-        if (res.ok) {
-            setTimeout(() => { 
-                showToast('✓ Ciphertext berhasil dipulihkan! Silakan klik Verify.', 'success'); 
-                loadTable(); 
-            }, 2000);
-        } else {
-            showToast('Gagal memulihkan file.', 'error');
-            loadTable();
-        }
-    } catch (err) {
-        showToast('Koneksi server terputus.', 'error');
-        loadTable();
-    }
-});
-
-// Tutup modal jika area luar diklik
-fixModal.addEventListener('click', e => {
-    if (e.target === fixModal) {
-        fixModal.classList.remove('open');
-        pendingTamperId = null;
-    }
-});
-
 // ─── LOGIKA MODAL FIX ───
 const fixModal = document.getElementById('fix-modal');
 let pendingFixId = null;
@@ -928,38 +878,6 @@ fixModal.addEventListener('click', e => {
         fixModal.style.display = 'none';
         pendingFixId = null;
     }
-});
-
-window.openFixModal = function(id, name) { 
-    pendingFixId = id; 
-    document.getElementById('fix-file-name').textContent = name; 
-    fixModal.style.display = 'flex'; 
-}
-
-document.getElementById('fix-cancel-btn').addEventListener('click', () => { 
-    fixModal.style.display = 'none'; 
-    pendingFixId = null; 
-});
-
-document.getElementById('fix-confirm-btn').addEventListener('click', async () => {
-    if (!pendingFixId) return; 
-    const docId = pendingFixId; 
-    fixModal.style.display = 'none'; 
-    pendingFixId = null;
-    
-    const badge = document.getElementById(`badge-${docId}`); 
-    if(badge) badge.textContent = 'FIXING...';
-    
-    showToast('[SYSTEM] Memulihkan byte asli di cloud...', 'info');
-    try {
-        const res = await fetch(`/api/security/fix/${docId}/`, { method: 'POST' });
-        if (res.ok) { 
-            setTimeout(() => { 
-                showToast('✓ Data berhasil dipulihkan! Silakan klik Verify.', 'success'); 
-                window.loadTable(); 
-            }, 1500); 
-        }
-    } catch (err) { window.loadTable(); }
 });
 
 </script>
