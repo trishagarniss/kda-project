@@ -478,25 +478,16 @@
     </div>
 </div>
 
-<!-- Fix Modal -->
-<div id="fix-modal">
-    <div class="modal-box">
+<div id="fix-modal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center;">
+    <div class="modal-box" style="background: #0f172a; border-radius: 16px; padding: 28px; max-width: 420px; width: 90%; border: 1px solid rgba(245,158,11,0.35); box-shadow: 0 0 60px rgba(245,158,11,0.15);">
         <div class="flex items-center gap-3 mb-4">
-            <div class="w-9 h-9 rounded-lg bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-lg">🔧</div>
-            <div>
-                <div class="font-bold text-sm text-body">Pemulihan Dokumen</div>
-                <div class="text-xs text-muted font-mono">Memulihkan byte yang termanipulasi</div>
-            </div>
+            <div class="w-9 h-9 rounded-lg bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-lg">🛠️</div>
+            <div><div class="font-bold text-sm text-body">Pemulihan Ciphertext</div></div>
         </div>
-        <p class="text-xs text-muted font-mono mb-1">File target:</p>
-        <div class="bg-background border border-amber-500/20 rounded-lg px-3 py-2 mb-4 font-mono text-xs text-amber-300" id="fix-file-name">-</div>
-        <p class="text-xs text-muted font-mono mb-5 leading-relaxed">
-            Sistem akan memulihkan data asli di cloud dengan melakukan re-XOR pada byte yang rusak.
-            Setelah pemulihan selesai, Anda dapat memverifikasi kembali berkas ini.
-        </p>
-        <div class="flex gap-3">
-            <button id="fix-cancel-btn" class="flex-1 py-2 rounded-lg border border-border text-muted text-xs font-mono hover:border-slate-500 transition-colors">Batal</button>
-            <button id="fix-confirm-btn" class="flex-1 py-2 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-bold font-mono hover:bg-amber-500/25 transition-colors">Konfirmasi Fix</button>
+        <p class="text-xs text-muted font-mono mb-1">File target: <span class="text-amber-300" id="fix-file-name">-</span></p>
+        <div class="flex gap-3 mt-5">
+            <button id="fix-cancel-btn" class="flex-1 py-2 rounded-lg border border-border text-muted text-xs font-mono">Batal</button>
+            <button id="fix-confirm-btn" class="flex-1 py-2 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-bold font-mono">Pulihkan File</button>
         </div>
     </div>
 </div>
@@ -737,8 +728,8 @@ function loadTable() {
                     <td class="px-4 py-3">
                         <div class="flex gap-1.5">
                             <button onclick="window.verifyRow(${doc.id})" class="row-action-btn btn-verify-row">Verify</button>
-                            <button onclick="window.openTamperModal(${doc.id}, '${doc.file_name.replace(/'/g, "\\'")}')" class="row-action-btn btn-tamper-row">Tamper</button>
-                            <button onclick="window.openFixModal(${doc.id}, '${doc.file_name.replace(/'/g, "\\'")}')" class="row-action-btn btn-fix-row">Fix</button>
+                            <button onclick="window.openTamperModal(${doc.id}, '${doc.file_name.replace(/'/g,"\\'")}')" class="row-action-btn btn-tamper-row">Tamper</button>
+                            <button onclick="window.openFixModal(${doc.id}, '${doc.file_name.replace(/'/g,"\\'")}')" class="row-action-btn btn-fix-row">Fix</button>
                         </div>
                     </td>`;
                 tableBody.appendChild(tr);
@@ -839,58 +830,53 @@ tamperModal.addEventListener('click', e => {
     }
 });
 
-// ─── Fix Modal Logic ──────────────────────────────────────────────────────────
+// ─── LOGIKA MODAL FIX ───
 const fixModal = document.getElementById('fix-modal');
-const fixFileName = document.getElementById('fix-file-name');
+let pendingFixId = null;
 
-window.openFixModal = function(docId, fileName) {
-    pendingTamperId = docId; 
-    fixFileName.textContent = fileName;
-    fixModal.classList.add('open');
+window.openFixModal = function(id, name) { 
+    pendingFixId = id; 
+    document.getElementById('fix-file-name').textContent = name; 
+    fixModal.style.display = 'flex'; 
 }
 
-document.getElementById('fix-cancel-btn').addEventListener('click', () => {
-    fixModal.classList.remove('open');
-    pendingTamperId = null;
+document.getElementById('fix-cancel-btn').addEventListener('click', () => { 
+    fixModal.style.display = 'none'; 
+    pendingFixId = null; 
 });
 
 document.getElementById('fix-confirm-btn').addEventListener('click', async () => {
-    if (!pendingTamperId) return;
-    const docId = pendingTamperId;
-    fixModal.classList.remove('open');
-    pendingTamperId = null;
-
-    const badge = document.getElementById(`badge-${docId}`);
-    if (badge) {
-        badge.textContent = 'FIXING...';
-        badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse';
-    }
+    if (!pendingFixId) return; 
+    const docId = pendingFixId; 
+    fixModal.style.display = 'none'; 
+    pendingFixId = null;
     
-    showToast('[SYSTEM] Memulihkan byte ciphertext yang termanipulasi...', 'info');
-
+    const badge = document.getElementById(`badge-${docId}`); 
+    if(badge) badge.textContent = 'FIXING...';
+    
+    showToast('[SYSTEM] Memulihkan byte asli di cloud...', 'info');
     try {
         const res = await fetch(`/api/security/fix/${docId}/`, { method: 'POST' });
-        
-        if (res.ok) {
+        if (res.ok) { 
             setTimeout(() => { 
-                showToast('✓ Ciphertext berhasil dipulihkan! Silakan klik Verify.', 'success'); 
-                loadTable(); 
-            }, 2000);
+                showToast('✓ Data berhasil dipulihkan! Silakan klik Verify.', 'success'); 
+                window.loadTable(); 
+            }, 1500); 
         } else {
             showToast('Gagal memulihkan file.', 'error');
-            loadTable();
+            window.loadTable();
         }
-    } catch (err) {
+    } catch (err) { 
         showToast('Koneksi server terputus.', 'error');
-        loadTable();
+        window.loadTable(); 
     }
 });
 
 // Tutup modal jika area luar diklik
 fixModal.addEventListener('click', e => {
     if (e.target === fixModal) {
-        fixModal.classList.remove('open');
-        pendingTamperId = null;
+        fixModal.style.display = 'none';
+        pendingFixId = null;
     }
 });
 
