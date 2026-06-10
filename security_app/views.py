@@ -2,6 +2,7 @@ import os
 import random
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 from django.conf import settings
 from supabase import create_client, Client
 from .models import SecureDocument
@@ -115,6 +116,7 @@ def upload_and_secure(request):
     return JsonResponse({"error": "Harap kirimkan file melalui metode POST dengan key 'document'."}, status=400)
 
 @csrf_exempt
+@never_cache
 def audit_document(request, doc_id):
     if request.method == 'GET':
         try:
@@ -158,6 +160,7 @@ def audit_document(request, doc_id):
             }, status=404)
             
 @csrf_exempt
+@never_cache
 def get_all_documents(request):
     if request.method == 'GET':
         documents = SecureDocument.objects.all().order_by('-uploaded_at')

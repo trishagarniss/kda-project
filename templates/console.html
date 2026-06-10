@@ -170,7 +170,7 @@
     #toast.info    { background: rgba(22,78,99,0.95); border: 1px solid rgba(6,182,212,0.6); color: #cffafe; }
 
     /* ── Tamper & Fix Modal ── */
-    #tamper-modal {
+    #tamper-modal, #fix-modal {
         display: none;
         position: fixed;
         inset: 0;
@@ -180,7 +180,7 @@
         align-items: center;
         justify-content: center;
     }
-    #tamper-modal.open { display: flex; }
+    #tamper-modal.open, #fix-modal.open { display: flex; }
     .modal-box {
         background: #0f172a;
         border: 1px solid rgba(239,68,68,0.35);
@@ -478,6 +478,29 @@
     </div>
 </div>
 
+<!-- Fix Modal -->
+<div id="fix-modal">
+    <div class="modal-box">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-lg">🔧</div>
+            <div>
+                <div class="font-bold text-sm text-body">Pemulihan Dokumen</div>
+                <div class="text-xs text-muted font-mono">Memulihkan byte yang termanipulasi</div>
+            </div>
+        </div>
+        <p class="text-xs text-muted font-mono mb-1">File target:</p>
+        <div class="bg-background border border-amber-500/20 rounded-lg px-3 py-2 mb-4 font-mono text-xs text-amber-300" id="fix-file-name">-</div>
+        <p class="text-xs text-muted font-mono mb-5 leading-relaxed">
+            Sistem akan memulihkan data asli di cloud dengan melakukan re-XOR pada byte yang rusak.
+            Setelah pemulihan selesai, Anda dapat memverifikasi kembali berkas ini.
+        </p>
+        <div class="flex gap-3">
+            <button id="fix-cancel-btn" class="flex-1 py-2 rounded-lg border border-border text-muted text-xs font-mono hover:border-slate-500 transition-colors">Batal</button>
+            <button id="fix-confirm-btn" class="flex-1 py-2 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-bold font-mono hover:bg-amber-500/25 transition-colors">Konfirmasi Fix</button>
+        </div>
+    </div>
+</div>
+
 <script>
 // ─── State ────────────────────────────────────────────────────────────────────
 let selectedFile = null;
@@ -680,7 +703,7 @@ btnProcess.addEventListener('click', async () => {
 
 // ─── Load Table ───────────────────────────────────────────────────────────────
 function loadTable() {
-    fetch('/api/security/documents/')
+    fetch('/api/security/documents/?_t=' + Date.now())
         .then(r => r.json())
         .then(data => {
             if (data.status !== 'Sukses') return;
@@ -713,9 +736,10 @@ function loadTable() {
                     <td class="px-4 py-3 font-mono text-xs text-muted">${doc.uploaded_at}</td>
                     <td class="px-4 py-3">
                         <div class="flex gap-1.5">
-                            <button onclick="window.verifyRow({{ doc.id }})" class="row-action-btn btn-verify-row">Verify</button>
-                            <button onclick="window.openTamperModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-tamper-row">Tamper</button>
-                            <button onclick="window.openFixModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-fix-row">Fix</button>
+                            <button onclick="window.verifyRow(${doc.id})" class="row-action-btn btn-verify-row">Verify</button>
+                            <button onclick="window.openTamperModal(${doc.id}, '${doc.file_name.replace(/'/g, "\\'")}')" class="row-action-btn btn-tamper-row">Tamper</button>
+                            <button onclick="window.openFixModal(${doc.id}, '${doc.file_name.replace(/'/g, "\\'")}')" class="row-action-btn btn-fix-row">Fix</button>
+                        </div>
                     </td>`;
                 tableBody.appendChild(tr);
             });
@@ -733,7 +757,7 @@ async function verifyRow(docId) {
     showToast('Mengunduh & memverifikasi ciphertext...', 'info');
 
     try {
-        const res = await fetch(`/api/security/audit/${docId}/`);
+        const res = await fetch(`/api/security/audit/${docId}/?_t=${Date.now()}`);
         const result = await res.json();
 
         if (!res.ok || result.status !== 'Sukses') {
@@ -868,42 +892,6 @@ fixModal.addEventListener('click', e => {
         fixModal.classList.remove('open');
         pendingTamperId = null;
     }
-});
-
-// ─── LOGIKA MODAL FIX ───
-const fixModal = document.getElementById('fix-modal');
-let pendingFixId = null;
-
-window.openFixModal = function(id, name) { 
-    pendingFixId = id; 
-    document.getElementById('fix-file-name').textContent = name; 
-    fixModal.style.display = 'flex'; 
-}
-
-document.getElementById('fix-cancel-btn').addEventListener('click', () => { 
-    fixModal.style.display = 'none'; 
-    pendingFixId = null; 
-});
-
-document.getElementById('fix-confirm-btn').addEventListener('click', async () => {
-    if (!pendingFixId) return; 
-    const docId = pendingFixId; 
-    fixModal.style.display = 'none'; 
-    pendingFixId = null;
-    
-    const badge = document.getElementById(`badge-${docId}`); 
-    if(badge) badge.textContent = 'FIXING...';
-    
-    showToast('[SYSTEM] Memulihkan byte asli di cloud...', 'info');
-    try {
-        const res = await fetch(`/api/security/fix/${docId}/`, { method: 'POST' });
-        if (res.ok) { 
-            setTimeout(() => { 
-                showToast('✓ Data berhasil dipulihkan! Silakan klik Verify.', 'success'); 
-                window.loadTable(); 
-            }, 1500); 
-        }
-    } catch (err) { window.loadTable(); }
 });
 
 </script>
