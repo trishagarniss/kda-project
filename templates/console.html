@@ -3,7 +3,7 @@
 
 {% block content %}
 <style>
-    /* ── Stage Pipeline ─────────────────────────────── */
+    /* ── Stage Pipeline ── */
     .pipeline-wrap {
         display: flex;
         gap: 0;
@@ -60,14 +60,18 @@
         background: rgba(6,182,212,0.15);
         box-shadow: 0 0 16px rgba(6,182,212,0.4);
     }
-    .stage-node.active .stage-label { color: rgba(6,182,212,0.9); }
+    .stage-node.active .stage-label { 
+        color: rgba(6,182,212,0.9); 
+    }
     .stage-node.complete .stage-dot {
         border-color: rgba(16,185,129,0.9);
         background: rgba(16,185,129,0.15);
     }
-    .stage-node.complete .stage-label { color: rgba(16,185,129,0.9); }
+    .stage-node.complete .stage-label { 
+        color: rgba(16,185,129,0.9); 
+    }
 
-    /* ── Crypto Info Grid ───────────────────────────── */
+    /* ── Crypto Info Grid ── */
     .crypto-field {
         background: rgba(15,23,42,0.6);
         border: 1px solid rgba(148,163,184,0.12);
@@ -101,7 +105,7 @@
     .crypto-field-value.emerald { color: rgba(52,211,153,0.9); }
     .crypto-field-value.amber { color: rgba(251,191,36,0.9); }
 
-    /* ── Table Actions ──────────────────────────────── */
+    /* ── Table Actions ── */
     .row-action-btn {
         font-size: 0.65rem;
         font-weight: 700;
@@ -116,39 +120,56 @@
         color: rgba(6,182,212,0.9);
         background: rgba(6,182,212,0.06);
     }
-    .btn-verify-row:hover { background: rgba(6,182,212,0.15); }
+    .btn-verify-row:hover { 
+        background: rgba(6,182,212,0.15); 
+    }
     .btn-tamper-row {
         border: 1px solid rgba(239,68,68,0.4);
         color: rgba(239,68,68,0.9);
         background: rgba(239,68,68,0.06);
     }
-    .btn-tamper-row:hover { background: rgba(239,68,68,0.15); }
+    .btn-tamper-row:hover { 
+        background: rgba(239,68,68,0.15); 
+    }
+    .btn-fix-row { 
+        border: 1px solid rgba(245,158,11,0.4); 
+        color: rgba(245,158,11,0.9); 
+        background: rgba(245,158,11,0.06); 
+    }
+    .btn-fix-row:hover { 
+        background: rgba(245,158,11,0.15); 
+    }
 
-    /* ── Toast Notification ─────────────────────────── */
+
+    /* ── Toast Notification ── */
     #toast {
         position: fixed;
         bottom: 24px;
-        right: 24px;
+        left: 50%;
+        transform: translate(-50%, 80px);
         z-index: 9999;
-        padding: 12px 20px;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        font-family: monospace;
-        max-width: 360px;
-        transform: translateY(80px);
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        font-family: 'JetBrains Mono', monospace;
+        max-width: 450px;
+        width: max-content;
+        text-align: center;
         opacity: 0;
-        transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
         pointer-events: none;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
     }
     #toast.show {
-        transform: translateY(0);
+        transform: translate(-50%, 0);
         opacity: 1;
     }
-    #toast.success { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); color: #6ee7b7; }
-    #toast.error   { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; }
-    #toast.info    { background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3); color: #67e8f9; }
+    #toast.success { background: rgba(6,78,59,0.95); border: 1px solid rgba(16,185,129,0.6); color: #a7f3d0; }
+    #toast.error   { background: rgba(127,29,29,0.95); border: 1px solid rgba(239,68,68,0.6); color: #fecaca; }
+    #toast.info    { background: rgba(22,78,99,0.95); border: 1px solid rgba(6,182,212,0.6); color: #cffafe; }
 
-    /* ── Tamper Modal ───────────────────────────────── */
+    /* ── Tamper & Fix Modal ── */
     #tamper-modal {
         display: none;
         position: fixed;
@@ -168,6 +189,14 @@
         max-width: 420px;
         width: 90%;
         box-shadow: 0 0 60px rgba(239,68,68,0.15);
+    }
+    #tamper-modal .modal-box { 
+        border: 1px solid rgba(239,68,68,0.35); 
+        box-shadow: 0 0 60px rgba(239,68,68,0.15); 
+    }
+    #fix-modal .modal-box { 
+        border: 1px solid rgba(245,158,11,0.35); 
+        box-shadow: 0 0 60px rgba(245,158,11,0.15); 
     }
 
     /* upload zone active */
@@ -406,8 +435,9 @@
                         <td class="px-4 py-3 font-mono text-xs text-muted">{{ doc.uploaded_at|date:'d/m/y H:i' }}</td>
                         <td class="px-4 py-3">
                             <div class="flex gap-1.5">
-                                <button onclick="verifyRow({{ doc.id }})" class="row-action-btn btn-verify-row">Verify</button>
-                                <button onclick="openTamperModal({{ doc.id }}, '{{ doc.file_name }}')" class="row-action-btn btn-tamper-row">Tamper</button>
+                                <button onclick="window.verifyRow({{ doc.id }})" class="row-action-btn btn-verify-row">Verify</button>
+                                <button onclick="window.openTamperModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-tamper-row">Tamper</button>
+                                <button onclick="window.openFixModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-fix-row">Fix</button>
                             </div>
                         </td>
                     </tr>
@@ -508,7 +538,7 @@ function showToast(msg, type = 'info') {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className = `show ${type}`;
-    setTimeout(() => t.classList.remove('show'), 3500);
+    setTimeout(() => t.classList.remove('show'), 4000);
 }
 
 // ─── Pipeline ─────────────────────────────────────────────────────────────────
@@ -683,9 +713,9 @@ function loadTable() {
                     <td class="px-4 py-3 font-mono text-xs text-muted">${doc.uploaded_at}</td>
                     <td class="px-4 py-3">
                         <div class="flex gap-1.5">
-                            <button onclick="verifyRow(${doc.id})" class="row-action-btn btn-verify-row">Verify</button>
-                            <button onclick="openTamperModal(${doc.id}, '${doc.file_name.replace(/'/g,"\\'")}' )" class="row-action-btn btn-tamper-row">Tamper</button>
-                        </div>
+                            <button onclick="window.verifyRow({{ doc.id }})" class="row-action-btn btn-verify-row">Verify</button>
+                            <button onclick="window.openTamperModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-tamper-row">Tamper</button>
+                            <button onclick="window.openFixModal({{ doc.id }}, '{{ doc.file_name|escapejs }}')" class="row-action-btn btn-fix-row">Fix</button>
                     </td>`;
                 tableBody.appendChild(tr);
             });
@@ -693,7 +723,7 @@ function loadTable() {
         .catch(() => {});
 }
 
-// ─── Verify per-row ───────────────────────────────────────────────────────────
+// ─── Verify per-row ───
 async function verifyRow(docId) {
     const badge = document.getElementById(`badge-${docId}`);
     if (!badge) return;
@@ -784,5 +814,97 @@ tamperModal.addEventListener('click', e => {
         pendingTamperId = null;
     }
 });
+
+// ─── Fix Modal Logic ──────────────────────────────────────────────────────────
+const fixModal = document.getElementById('fix-modal');
+const fixFileName = document.getElementById('fix-file-name');
+
+window.openFixModal = function(docId, fileName) {
+    pendingTamperId = docId; 
+    fixFileName.textContent = fileName;
+    fixModal.classList.add('open');
+}
+
+document.getElementById('fix-cancel-btn').addEventListener('click', () => {
+    fixModal.classList.remove('open');
+    pendingTamperId = null;
+});
+
+document.getElementById('fix-confirm-btn').addEventListener('click', async () => {
+    if (!pendingTamperId) return;
+    const docId = pendingTamperId;
+    fixModal.classList.remove('open');
+    pendingTamperId = null;
+
+    const badge = document.getElementById(`badge-${docId}`);
+    if (badge) {
+        badge.textContent = 'FIXING...';
+        badge.className = 'inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse';
+    }
+    
+    showToast('[SYSTEM] Memulihkan byte ciphertext yang termanipulasi...', 'info');
+
+    try {
+        const res = await fetch(`/api/security/fix/${docId}/`, { method: 'POST' });
+        
+        if (res.ok) {
+            setTimeout(() => { 
+                showToast('✓ Ciphertext berhasil dipulihkan! Silakan klik Verify.', 'success'); 
+                loadTable(); 
+            }, 2000);
+        } else {
+            showToast('Gagal memulihkan file.', 'error');
+            loadTable();
+        }
+    } catch (err) {
+        showToast('Koneksi server terputus.', 'error');
+        loadTable();
+    }
+});
+
+// Tutup modal jika area luar diklik
+fixModal.addEventListener('click', e => {
+    if (e.target === fixModal) {
+        fixModal.classList.remove('open');
+        pendingTamperId = null;
+    }
+});
+
+// ─── LOGIKA MODAL FIX ───
+const fixModal = document.getElementById('fix-modal');
+let pendingFixId = null;
+
+window.openFixModal = function(id, name) { 
+    pendingFixId = id; 
+    document.getElementById('fix-file-name').textContent = name; 
+    fixModal.style.display = 'flex'; 
+}
+
+document.getElementById('fix-cancel-btn').addEventListener('click', () => { 
+    fixModal.style.display = 'none'; 
+    pendingFixId = null; 
+});
+
+document.getElementById('fix-confirm-btn').addEventListener('click', async () => {
+    if (!pendingFixId) return; 
+    const docId = pendingFixId; 
+    fixModal.style.display = 'none'; 
+    pendingFixId = null;
+    
+    const badge = document.getElementById(`badge-${docId}`); 
+    if(badge) badge.textContent = 'FIXING...';
+    
+    showToast('[SYSTEM] Memulihkan byte asli di cloud...', 'info');
+    try {
+        const res = await fetch(`/api/security/fix/${docId}/`, { method: 'POST' });
+        if (res.ok) { 
+            setTimeout(() => { 
+                showToast('✓ Data berhasil dipulihkan! Silakan klik Verify.', 'success'); 
+                window.loadTable(); 
+            }, 1500); 
+        }
+    } catch (err) { window.loadTable(); }
+});
+
 </script>
 {% endblock %}
