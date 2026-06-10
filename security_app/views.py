@@ -65,11 +65,11 @@ def upload_and_secure(request):
         # new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
         
         # 5. Upload ke Supabase Storage
-        file_name_supa = f"{file_name}.bin"
+        file_name_supa = f"{file_hash[:8]}_{file_name}.bin" # <-- Ini bikin file unik!
         supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
             path=file_name_supa,
             file=encrypted_temp_path,
-            file_options={"content-type": "application/octet-stream"}
+            file_options={"content-type": "application/octet-stream", "upsert": "true"}
         )
         
         # 6. Simpan Metadata ke DB
@@ -271,8 +271,10 @@ def tamper_document(request, doc_id):
                 f.write(bytes([original[0] ^ 0xFF]))  # XOR flip (Merusak)
             
             with open(temp_path, 'rb') as f:
-                supabase.storage.from_(settings.SUPABASE_BUCKET).update(
-                    path=doc.ciphertext_path, file=f.read(), file_options={"content-type": "application/octet-stream"}
+                supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
+                    path=doc.ciphertext_path, 
+                    file=f.read(), 
+                    file_options={"content-type": "application/octet-stream", "upsert": "true"}
                 )
             doc.status_verifikasi = "CORRUPTED"
             doc.save()

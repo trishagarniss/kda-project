@@ -700,7 +700,7 @@ btnProcess.addEventListener('click', async () => {
 
 // ─── Load Table ───────────────────────────────────────────────────────────────
 function loadTable() {
-    fetch('/documents/')
+    fetch('api/security/documents/')
         .then(r => r.json())
         .then(data => {
             if (data.status !== 'Sukses') return;
@@ -811,8 +811,7 @@ document.getElementById('tamper-confirm-btn').addEventListener('click', async ()
     showToast('[ATTACK] Bypassing UI & mengakses Supabase Storage...', 'info');
 
     try {
-        // PERBAIKAN: Sesuaikan path URL dengan urls.py kamu
-        const res = await fetch(`/tamper/${docId}/`, { method: 'POST' });
+        const res = await fetch(`/api/security/tamper/${docId}/`, { method: 'POST' });
         const result = await res.json();
 
         if (res.ok) {
@@ -872,7 +871,7 @@ document.getElementById('fix-confirm-btn').addEventListener('click', async () =>
     showToast('[SYSTEM] Menjalankan fungsi reverse XOR...', 'info');
     
     try {
-        const res = await fetch(`/fix/${docId}/`, { method: 'POST' }); // Sesuaikan URL dengan urls.py kamu
+        const res = await fetch(`/api/security/fix/${docId}/`, { method: 'POST' }); // Sesuaikan URL dengan urls.py kamu
         if (res.ok) { 
             setTimeout(() => { 
                 showToast('✓ Ciphertext berhasil dipulihkan!', 'success'); 
