@@ -255,47 +255,65 @@ def tamper_document(request, doc_id):
     if request.method == 'POST':
         try:
             doc = SecureDocument.objects.get(id=doc_id)
-            
-            # 1. Download ciphertext dari Supabase (Pakai doc.id biar nama temp file kebal spasi/emoji)
             temp_path = f"temp_tamper_{doc.id}.bin"
             res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc.ciphertext_path)
             with open(temp_path, 'wb') as f:
                 f.write(res)
             
-            # 2. Cari ukuran file dan flip 1 byte di posisi ACAK
             file_size = os.path.getsize(temp_path)
-            
             with open(temp_path, 'r+b') as f:
-                target_pos = random.randint(15, file_size - 1) if file_size > 15 else (file_size - 1)
+                target_pos = 20 if file_size > 20 else (file_size - 1)
                 
                 f.seek(target_pos)
                 original = f.read(1)
                 
                 f.seek(target_pos)
-                f.write(bytes([original[0] ^ 0xFF]))  # XOR flip 1 byte saja
+                f.write(bytes([original[0] ^ 0xFF]))  # XOR flip (Merusak)
             
-            # 3. Re-upload file yang sudah dimodifikasi
             with open(temp_path, 'rb') as f:
                 supabase.storage.from_(settings.SUPABASE_BUCKET).update(
-                    path=doc.ciphertext_path,
-                    file=f.read(), # Baca sebagai bytes langsung agar Supabase tidak error
-                    file_options={"content-type": "application/octet-stream"}
+                    path=doc.ciphertext_path, file=f.read(), file_options={"content-type": "application/octet-stream"}
                 )
-            
-            # 4. Update status di DB
             doc.status_verifikasi = "CORRUPTED"
             doc.save()
             
-            if os.path.exists(temp_path):
-                os.remove(temp_path)
-                
+            if os.path.exists(temp_path): os.remove(temp_path)
             return JsonResponse({"status": "Sukses", "message": "File berhasil ditamper."})
-            
-        except SecureDocument.DoesNotExist:
-            return JsonResponse({"status": "Gagal", "message": "Dokumen tidak ditemukan."}, status=404)
         except Exception as e:
             return JsonResponse({"status": "Gagal", "message": str(e)}, status=500)
-    
+    return JsonResponse({"error": "POST only"}, status=400)
+
+@csrf_exempt
+def fix_document(request, doc_id):
+    if request.method == 'POST':
+        try:
+            doc = SecureDocument.objects.get(id=doc_id)
+            temp_path = f"temp_fix_{doc.id}.bin"
+            res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc.ciphertext_path)
+            with open(temp_path, 'wb') as f:
+                f.write(res)
+            
+            file_size = os.path.getsize(temp_path)
+            with open(temp_path, 'r+b') as f:
+                target_pos = 20 if file_size > 20 else (file_size - 1)
+                
+                f.seek(target_pos)
+                original = f.read(1)
+                
+                f.seek(target_pos)
+                f.write(bytes([original[0] ^ 0xFF]))  # Re-XOR (Mengembalikan ke aslinya)
+                
+            with open(temp_path, 'rb') as f:
+                supabase.storage.from_(settings.SUPABASE_BUCKET).update(
+                    path=doc.ciphertext_path, file=f.read(), file_options={"content-type": "application/octet-stream"}
+                )
+            doc.status_verifikasi = "VALID"
+            doc.save()
+            
+            if os.path.exists(temp_path): os.remove(temp_path)
+            return JsonResponse({"status": "Sukses", "message": "File dipulihkan."})
+        except Exception as e:
+            return JsonResponse({"status": "Gagal", "message": str(e)}, status=500)
     return JsonResponse({"error": "POST only"}, status=400)
 
 def home_view(request):
