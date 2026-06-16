@@ -502,6 +502,7 @@
 // ─── State ───
 let selectedFile = null;
 let pendingTamperId = null;
+let pendingFixId = null;
 const MERKLE_CHUNK_SIZE = 1024; // matches merkle_tree.py
 
 // ─── DOM refs ─────────────────────────────────────────────────────────────────
@@ -700,7 +701,7 @@ btnProcess.addEventListener('click', async () => {
 
 // ─── Load Table ───────────────────────────────────────────────────────────────
 function loadTable() {
-    fetch('api/security/documents/')
+    fetch('/api/security/documents/')
         .then(r => r.json())
         .then(data => {
             if (data.status !== 'Sukses') return;
@@ -783,7 +784,6 @@ async function verifyRow(docId) {
 // ─── Tamper Modal ───
 const tamperModal    = document.getElementById('tamper-modal');
 const tamperFileName = document.getElementById('tamper-file-name');
-let pendingTamperId  = null; // Pastikan variabel ini dideklarasikan di awal
 
 window.openTamperModal = function(docId, fileName) {
     pendingTamperId = docId;

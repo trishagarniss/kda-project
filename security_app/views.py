@@ -273,12 +273,25 @@ def tamper_document(request, doc_id):
                 f.seek(target_pos)
                 f.write(bytes([original[0] ^ 0xFF]))  # XOR flip (Merusak)
             
+            # Buat path unik baru dengan UUID untuk bypass cache CDN Supabase
+            import uuid
+            old_path = doc.ciphertext_path
+            new_path = f"{doc.file_hash[:8]}_{uuid.uuid4().hex[:8]}_{doc.file_name}.bin"
+            
             with open(temp_path, 'rb') as f:
                 supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
-                    path=doc.ciphertext_path, 
+                    path=new_path, 
                     file=f.read(), 
-                    file_options={"content-type": "application/octet-stream", "upsert": "true"}
+                    file_options={"content-type": "application/octet-stream"}
                 )
+            
+            # Hapus file lama di Supabase Storage
+            try:
+                supabase.storage.from_(settings.SUPABASE_BUCKET).remove([old_path])
+            except Exception:
+                pass
+                
+            doc.ciphertext_path = new_path
             doc.status_verifikasi = "CORRUPTED"
             doc.save()
             
@@ -310,15 +323,27 @@ def fix_document(request, doc_id):
                 f.seek(target_pos)
                 f.write(bytes([original[0] ^ 0xFF])) # XOR lagi untuk me-revert
             
+            # Buat path unik baru dengan UUID untuk bypass cache CDN Supabase
+            import uuid
+            old_path = doc.ciphertext_path
+            new_path = f"{doc.file_hash[:8]}_{uuid.uuid4().hex[:8]}_{doc.file_name}.bin"
+            
             # Upload ulang file yang sudah diperbaiki
             with open(temp_path, 'rb') as f:
-                supabase.storage.from_(settings.SUPABASE_BUCKET).update(
-                    path=doc.ciphertext_path, 
+                supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
+                    path=new_path, 
                     file=f.read(), 
                     file_options={"content-type": "application/octet-stream"}
                 )
+                
+            # Hapus file lama di Supabase Storage
+            try:
+                supabase.storage.from_(settings.SUPABASE_BUCKET).remove([old_path])
+            except Exception:
+                pass
             
-            doc.status_verifikasi = "PENDING" # Biarkan user Verify lagi setelah ini
+            doc.ciphertext_path = new_path
+            doc.status_verifikasi = "VALID" # Langsung ubah status menjadi VALID sesuai keinginan pengguna
             doc.save()
             
             if os.path.exists(temp_path): os.remove(temp_path)
