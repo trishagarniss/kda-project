@@ -66,11 +66,11 @@ def upload_and_secure(request):
         # new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
         
         # 5. Upload ke Supabase Storage
-        file_name_supa = f"{file_name}.bin"
+        file_name_supa = f"{file_hash[:8]}_{file_name}.bin" # <-- Ini bikin file unik!
         supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
             path=file_name_supa,
             file=encrypted_temp_path,
-            file_options={"content-type": "application/octet-stream"}
+            file_options={"content-type": "application/octet-stream", "upsert": "true"}
         )
         
         # 6. Simpan Metadata ke DB
@@ -274,8 +274,10 @@ def tamper_document(request, doc_id):
                 f.write(bytes([original[0] ^ 0xFF]))  # XOR flip (Merusak)
             
             with open(temp_path, 'rb') as f:
-                supabase.storage.from_(settings.SUPABASE_BUCKET).update(
-                    path=doc.ciphertext_path, file=f.read(), file_options={"content-type": "application/octet-stream"}
+                supabase.storage.from_(settings.SUPABASE_BUCKET).upload(
+                    path=doc.ciphertext_path, 
+                    file=f.read(), 
+                    file_options={"content-type": "application/octet-stream", "upsert": "true"}
                 )
             doc.status_verifikasi = "CORRUPTED"
             doc.save()
@@ -292,25 +294,31 @@ def fix_document(request, doc_id):
         try:
             doc = SecureDocument.objects.get(id=doc_id)
             temp_path = f"temp_fix_{doc.id}.bin"
+            
+            # Download file yang masih ter-tamper (CORRUPTED)
             res = supabase.storage.from_(settings.SUPABASE_BUCKET).download(doc.ciphertext_path)
             with open(temp_path, 'wb') as f:
                 f.write(res)
             
+            # LOGIKA FIX: XOR flip lagi di Byte ke-20 untuk mengembalikan bit
             file_size = os.path.getsize(temp_path)
             with open(temp_path, 'r+b') as f:
                 target_pos = 20 if file_size > 20 else (file_size - 1)
-                
                 f.seek(target_pos)
                 original = f.read(1)
                 
                 f.seek(target_pos)
-                f.write(bytes([original[0] ^ 0xFF]))  # Re-XOR (Mengembalikan ke aslinya)
-                
+                f.write(bytes([original[0] ^ 0xFF])) # XOR lagi untuk me-revert
+            
+            # Upload ulang file yang sudah diperbaiki
             with open(temp_path, 'rb') as f:
                 supabase.storage.from_(settings.SUPABASE_BUCKET).update(
-                    path=doc.ciphertext_path, file=f.read(), file_options={"content-type": "application/octet-stream"}
+                    path=doc.ciphertext_path, 
+                    file=f.read(), 
+                    file_options={"content-type": "application/octet-stream"}
                 )
-            doc.status_verifikasi = "VALID"
+            
+            doc.status_verifikasi = "PENDING" # Biarkan user Verify lagi setelah ini
             doc.save()
             
             if os.path.exists(temp_path): os.remove(temp_path)
