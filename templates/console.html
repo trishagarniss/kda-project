@@ -302,6 +302,15 @@
                 <span id="file-size" class="text-muted ml-3 flex-shrink-0">-</span>
             </div>
 
+            <!-- Algorithm Selection -->
+            <div class="flex flex-col gap-1.5 bg-background/20 border border-border/60 rounded-xl p-3">
+                <label for="algo-select" class="text-[9px] font-bold text-muted uppercase tracking-widest font-mono">Pilih Hash Algorithm:</label>
+                <select id="algo-select" class="bg-background border border-border rounded-lg px-3 py-1.5 text-xs font-mono text-body focus:border-primary/50 outline-none w-full cursor-pointer">
+                    <option value="SHA256">SHA-2 (SHA-256)</option>
+                    <option value="SHA3_256">SHA-3 (Keccak-256)</option>
+                </select>
+            </div>
+
             <button id="btn-process" class="w-full bg-primary text-background font-bold py-3 rounded-lg text-sm opacity-40 cursor-not-allowed transition-all" disabled>
                 <span id="btn-process-text">Process & Encrypt</span>
             </button>
@@ -386,6 +395,34 @@
                     <div class="crypto-field-value primary" id="out-block">—</div>
                 </div>
             </div>
+
+            <!-- Hashing Benchmark Table -->
+            <div class="border-t border-border/40 pt-4 mt-2">
+                <div class="text-[10px] font-bold text-muted uppercase tracking-widest mb-3 font-mono">Hasil Benchmark Kecepatan Hashing</div>
+                <div class="overflow-hidden rounded-lg border border-border bg-background/25">
+                    <table class="min-w-full text-left text-xs font-mono">
+                        <thead>
+                            <tr class="border-b border-border/50 bg-background/50 text-[9px] font-bold uppercase tracking-wider text-muted">
+                                <th class="px-3 py-2">Algoritma</th>
+                                <th class="px-3 py-2">Waktu Eksekusi</th>
+                                <th class="px-3 py-2">Kecepatan Rata-rata</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-border/20">
+                                <td class="px-3 py-2 font-bold text-blue-400">SHA-2 (SHA-256)</td>
+                                <td class="px-3 py-2" id="bench-sha2-time">—</td>
+                                <td class="px-3 py-2" id="bench-sha2-speed">—</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-purple-400">SHA-3 (Keccak-256)</td>
+                                <td class="px-3 py-2" id="bench-sha3-time">—</td>
+                                <td class="px-3 py-2" id="bench-sha3-speed">—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -404,13 +441,13 @@
             </div>
         </div>
 
-        <div class="overflow-x-auto rounded-xl border border-border">
-            <table class="min-w-full text-left text-sm">
+                     <table class="min-w-full text-left text-sm">
                 <thead>
                     <tr class="border-b border-border/50 bg-background/60">
                         <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">#</th>
                         <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">File</th>
                         <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Ukuran</th>
+                        <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Algorithm</th>
                         <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Block</th>
                         <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Status</th>
                         <th class="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted">Waktu</th>
@@ -423,6 +460,13 @@
                         <td class="px-4 py-3 font-mono text-xs text-muted">{{ forloop.counter }}</td>
                         <td class="px-4 py-3 font-mono text-xs text-body max-w-[180px] truncate">{{ doc.file_name }}</td>
                         <td class="px-4 py-3 font-mono text-xs text-muted">{{ doc.file_size }} B</td>
+                        <td class="px-4 py-3 font-mono text-xs">
+                            {% if doc.hash_algo == 'SHA3_256' %}
+                            <span class="text-purple-400 font-bold">SHA-3</span>
+                            {% else %}
+                            <span class="text-blue-400 font-bold">SHA-2</span>
+                            {% endif %}
+                        </td>
                         <td class="px-4 py-3 font-mono text-xs text-muted">{{ doc.block_index }}</td>
                         <td class="px-4 py-3 font-mono text-xs">
                             <span id="badge-{{ doc.id }}" class="inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold
@@ -443,7 +487,7 @@
                     </tr>
                     {% empty %}
                     <tr id="empty-row">
-                        <td colspan="7" class="px-4 py-8 text-center text-xs text-muted font-mono">Belum ada dokumen yang disimpan.</td>
+                        <td colspan="8" class="px-4 py-8 text-center text-xs text-muted font-mono">Belum ada dokumen yang disimpan.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -503,6 +547,7 @@
 let selectedFile = null;
 let pendingTamperId = null;
 let pendingFixId = null;
+let benchmarkedFileName = null;
 const MERKLE_CHUNK_SIZE = 1024; // matches merkle_tree.py
 
 // ─── DOM refs ─────────────────────────────────────────────────────────────────
@@ -627,11 +672,36 @@ function handleFile(file) {
     document.getElementById('file-size').textContent = formatBytes(file.size);
     fileMetaBar.classList.remove('hidden');
     btnProcess.disabled = false;
-    btnProcess.classList.remove('opacity-40','cursor-not-allowed');
+    btnProcess.classList.remove('opacity-40','cursor-not-allowed','opacity-60');
+    btnProcessText.textContent = 'Process & Encrypt';
     resetPipeline();
     setActive('upload');
     setTimeout(() => { stages.upload.classList.remove('active'); stages.upload.classList.add('complete'); }, 400);
+    
+    // Reset tabel benchmark hanya jika file baru berbeda dengan file sebelumnya
+    if (file.name !== benchmarkedFileName) {
+        document.getElementById('bench-sha2-time').textContent = '—';
+        document.getElementById('bench-sha2-speed').textContent = '—';
+        document.getElementById('bench-sha3-time').textContent = '—';
+        document.getElementById('bench-sha3-speed').textContent = '—';
+        benchmarkedFileName = null;
+    }
+    
+    // Reset value input agar bisa memilih file yang sama lagi
+    fileInput.value = "";
 }
+
+// Re-enable tombol jika user mengganti pilihan algoritma
+document.getElementById('algo-select').addEventListener('change', () => {
+    if (selectedFile) {
+        btnProcess.disabled = false;
+        btnProcess.classList.remove('opacity-60', 'opacity-40', 'cursor-not-allowed');
+        btnProcessText.textContent = 'Process & Encrypt';
+        resetPipeline();
+        setActive('upload');
+        setTimeout(() => { stages.upload.classList.remove('active'); stages.upload.classList.add('complete'); }, 400);
+    }
+});
 
 // ─── Upload & Process ─────────────────────────────────────────────────────────
 btnProcess.addEventListener('click', async () => {
@@ -657,6 +727,10 @@ btnProcess.addEventListener('click', async () => {
 
     const formData = new FormData();
     formData.append('document', selectedFile);
+    formData.append('hash_algo', document.getElementById('algo-select').value);
+
+    // Mulai hitung waktu proses total client-side
+    const startBenchTime = performance.now();
 
     try {
         const res = await fetch('/api/security/upload/', { method: 'POST', body: formData });
@@ -673,6 +747,12 @@ btnProcess.addEventListener('click', async () => {
             return;
         }
 
+        // Selesai hitung waktu proses total
+        const endBenchTime = performance.now();
+        const durationSeconds = (endBenchTime - startBenchTime) / 1000;
+        const file_size_mb = selectedFile.size / (1024 * 1024);
+        const speedMBs = file_size_mb / durationSeconds;
+
         completeAll();
         globalStatus.textContent = 'Secured & Stored ✓';
         btnProcessText.textContent = 'Upload Success ✓';
@@ -684,6 +764,17 @@ btnProcess.addEventListener('click', async () => {
         setCryptoField(outMerkle, kriptografi.merkle_root, 'emerald');
         setCryptoField(outChunks, `${calcChunks(file_size_bytes)} chunks × 1 KB`, 'primary');
         setCryptoField(outBlock,  `#${blockchain.block_index}`, 'primary');
+
+        // Update tabel benchmark berdasarkan durasi nyata client-side
+        const selectedAlgo = document.getElementById('algo-select').value;
+        if (selectedAlgo === 'SHA256') {
+            document.getElementById('bench-sha2-time').textContent = `${durationSeconds.toFixed(4)} detik`;
+            document.getElementById('bench-sha2-speed').textContent = `${speedMBs.toFixed(2)} MB/s`;
+        } else if (selectedAlgo === 'SHA3_256') {
+            document.getElementById('bench-sha3-time').textContent = `${durationSeconds.toFixed(4)} detik`;
+            document.getElementById('bench-sha3-speed').textContent = `${speedMBs.toFixed(2)} MB/s`;
+        }
+        benchmarkedFileName = selectedFile.name; // Simpan nama file aktif yang baru saja di-benchmark
 
         showToast(`File berhasil dienkripsi → Block #${blockchain.block_index}`, 'success');
         loadTable();
@@ -727,6 +818,11 @@ function loadTable() {
                     <td class="px-4 py-3 font-mono text-xs text-muted">${i + 1}</td>
                     <td class="px-4 py-3 font-mono text-xs text-body max-w-[180px] truncate" title="${doc.file_name}">${doc.file_name}</td>
                     <td class="px-4 py-3 font-mono text-xs text-muted">${formatBytes(doc.file_size_bytes)}</td>
+                    <td class="px-4 py-3 font-mono text-xs">
+                        <span class="${doc.hash_algo === 'SHA3_256' ? 'text-purple-400' : 'text-blue-400'} font-bold">
+                            ${doc.hash_algo === 'SHA3_256' ? 'SHA-3' : 'SHA-2'}
+                        </span>
+                    </td>
                     <td class="px-4 py-3 font-mono text-xs text-muted">${doc.block_index}</td>
                     <td class="px-4 py-3 font-mono text-xs">
                         <span id="badge-${doc.id}" class="inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold ${statusCls}">${doc.status_verifikasi}</span>

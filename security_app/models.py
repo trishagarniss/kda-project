@@ -6,7 +6,12 @@ class SecureDocument(models.Model):
     file_size = models.BigIntegerField(null=True, blank=True, help_text="Ukuran file dalam bytes")
     
     # Data Kriptografi & Blockchain
-    file_hash = models.CharField(max_length=64, unique=True, help_text="SHA-256 hash dari file asli")
+    hash_algo = models.CharField(
+        max_length=15, 
+        default="SHA256", 
+        choices=[("SHA256", "SHA-256"), ("SHA3_256", "SHA-3 (Keccak-256)")]
+    )
+    file_hash = models.CharField(max_length=64, unique=True, help_text="Hash dari file asli")
     merkle_root = models.CharField(max_length=64, help_text="Akar Merkle Tree")
     block_index = models.IntegerField(help_text="Posisi blok di dalam rantai Blockchain")
     prev_hash = models.CharField(max_length=64, help_text="Hash dari blok sebelumnya")

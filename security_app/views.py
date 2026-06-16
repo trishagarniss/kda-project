@@ -25,6 +25,7 @@ def upload_and_secure(request):
         uploaded_file = request.FILES['document']
         file_name = uploaded_file.name
         file_size = uploaded_file.size
+        hash_algo = request.POST.get('hash_algo', 'SHA256')
         
         # 1. Simpan sementara
         temp_path = f"temp_{file_name}"
@@ -32,10 +33,16 @@ def upload_and_secure(request):
             for chunk in uploaded_file.chunks():
                 destination.write(chunk)
                 
-        # 2. Proses Kriptografi 
-        file_hash = hash_file(temp_path)
+        # 2. Proses Kriptografi (dengan Timing Benchmark)
+        import time
+        start_time = time.time()
+        file_hash = hash_file(temp_path, algo=hash_algo)
+        hash_duration = time.time() - start_time
         
-        if SecureDocument.objects.filter(file_hash=file_hash).exists():
+        file_size_mb = file_size / (1024 * 1024)
+        hash_speed = file_size_mb / hash_duration if hash_duration > 0 else 0
+        
+        if SecureDocument.objects.filter(hash_algo=hash_algo, file_hash=file_hash).exists():
             if os.path.exists(temp_path):
                 os.remove(temp_path)
             return JsonResponse({
@@ -43,7 +50,7 @@ def upload_and_secure(request):
                 "message": "File ini sudah pernah diamankan di dalam sistem CloudGuard EMT!"
             }, status=400)
             
-        last_doc = SecureDocument.objects.order_by('-block_index').first()
+        last_doc = SecureDocument.objects.filter(hash_algo=hash_algo).order_by('-block_index').first()
 
         if last_doc:
             prev_hash = last_doc.file_hash 
@@ -60,10 +67,7 @@ def upload_and_secure(request):
         encrypt_file(temp_path, key, encrypted_temp_path)
         
         # 4. Hitung Merkle Root
-        merkle_root = build_merkle_tree(encrypted_temp_path)
-        
-        # Catat ke Blockchain
-        # new_block = cloudguard_chain.add_block(file_hash, merkle_root, encrypted_path)
+        merkle_root = build_merkle_tree(encrypted_temp_path, algo=hash_algo)
         
         # 5. Upload ke Supabase Storage
         file_name_supa = f"{file_hash[:8]}_{file_name}.bin" # <-- Ini bikin file unik!
@@ -77,6 +81,7 @@ def upload_and_secure(request):
         doc_record = SecureDocument.objects.create(
             file_name=file_name,
             file_size=file_size,
+            hash_algo=hash_algo,
             file_hash=file_hash,
             merkle_root=merkle_root,
             block_index=next_index,   # Pakai index dari database
@@ -109,6 +114,10 @@ def upload_and_secure(request):
                 "penyimpanan": {
                     "ciphertext_path": file_name_supa,
                     "status_verifikasi": "VALID"
+                },
+                "performance": {
+                    "duration": f"{hash_duration:.4f} detik",
+                    "speed": f"{hash_speed:.2f} MB/s"
                 }
             }
         })
@@ -134,8 +143,8 @@ def audit_document(request, doc_id):
                     "message": "File fisik tidak ditemukan di Cloud Storage."
                 }, status=404)
             
-            # 2. Jalankan mesin audit Merkle Tree
-            audit_result = verify_data_integrity(temp_audit_path, doc_record.merkle_root)
+            # 2. Jalankan mesin audit Merkle Tree (dengan algo yang sesuai)
+            audit_result = verify_data_integrity(temp_audit_path, doc_record.merkle_root, algo=doc_record.hash_algo)
             
             if os.path.exists(temp_audit_path): os.remove(temp_audit_path)
             
@@ -171,6 +180,7 @@ def get_all_documents(request):
                 "id": doc.id,
                 "file_name": doc.file_name,
                 "file_size_bytes": doc.file_size,
+                "hash_algo": doc.hash_algo,
                 "block_index": doc.block_index,
                 "status_verifikasi": doc.status_verifikasi,
                 "uploaded_at": doc.uploaded_at.strftime("%Y-%m-%d %H:%M:%S") 

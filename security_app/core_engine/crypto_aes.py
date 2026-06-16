@@ -8,15 +8,15 @@ CHUNK_SIZE = 65536 # 64KB
 # def sha256_hash(data: bytes) -> str:
 #     return hashlib.sha256(data).hexdigest()
 
-def hash_file(filepath: str) -> str:
+def hash_file(filepath: str, algo: str = "SHA256") -> str:
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"File {filepath} tidak ditemukan.")
         
-    sha256 = hashlib.sha256()
+    hasher = hashlib.sha3_256() if algo == "SHA3_256" else hashlib.sha256()
     with open(filepath, 'rb') as f:
         while chunk := f.read(CHUNK_SIZE):
-            sha256.update(chunk)
-    return sha256.hexdigest()
+            hasher.update(chunk)
+    return hasher.hexdigest()
 
 # DYNAMIC KEY GENERATION (XOR)
 def xor_hex(hex1: str, hex2: str) -> bytes:
