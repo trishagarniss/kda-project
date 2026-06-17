@@ -1,16 +1,29 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.so
 
-# Virtual env
+# Virtual Environment
+.venv/
 venv/
 .env
 
-# Data
-# data/uploads/
-# data/encrypted/
+# Django
+media/
+staticfiles/
+
+# Temporary files
+temp_*.bin
+dummy_benchmark.bin
+*.bin
 
 # OS
 .DS_Store
 Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Other
 .vercel
