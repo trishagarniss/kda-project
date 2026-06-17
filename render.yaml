@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: cloudguard-emt
+    runtime: python
+    repo: https://github.com/trishagarniss/kda-project
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    startCommand: gunicorn cloudguard_prj.wsgi:application --workers 2 --worker-class sync --timeout 120 --access-logfile -
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DJANGO_SETTINGS_MODULE
+        value: cloudguard_prj.settings
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com,localhost,127.0.0.1"
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_HOST
+        value: aws-1-ap-southeast-1.pooler.supabase.com
+      - key: DB_PORT
+        value: "6543"
+      - key: DB_USER
+        value: postgres.vnokqhoitviwmqugutmd
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: SUPABASE_BUCKET
+        value: cloudguard-vault
