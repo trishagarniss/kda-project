@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = ['*']
 
@@ -89,7 +89,7 @@ DATABASES = {
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'PORT': os.getenv('DB_PORT', '6543'),
         'OPTIONS': {
             'sslmode': 'require',
             # 'Encrypt': 'True',
@@ -146,7 +146,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Supabase Configuration
-SUPABASE_URL = "https://vnokqhoitviwmqugutmd.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZub2txaG9pdHZpd21xdWd1dG1kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODA3MzY4NywiZXhwIjoyMDkzNjQ5Njg3fQ.TNNxd9fGMbeMML6Ux7-dzgW-Ydjps8pNeTL7qYOYFrA"
-SUPABASE_BUCKET = "cloudguard-vault"
+# Supabase Configuration (gunakan env vars, fallback ke hardcoded untuk dev)
+SUPABASE_URL = os.getenv('SUPABASE_URL', "https://vnokqhoitviwmqugutmd.supabase.co")
+SUPABASE_KEY = os.getenv('SUPABASE_KEY', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZub2txaG9pdHZpd21xdWd1dG1kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODA3MzY4NywiZXhwIjoyMDkzNjQ5Njg3fQ.TNNxd9fGMbeMML6Ux7-dzgW-Ydjps8pNeTL7qYOYFrA")
+SUPABASE_BUCKET = os.getenv('SUPABASE_BUCKET', "cloudguard-vault")
